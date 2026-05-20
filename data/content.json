@@ -1,6 +1,26 @@
 {
-  "articles": [],
-  "projects": [],
+  "articles": [
+    {
+      "id": "3669d6f8-00b4-8036-bf4f-ecc83c35f805",
+      "title": "",
+      "description": "",
+      "date": "2026-05-22",
+      "tags": [
+        "CV"
+      ],
+      "url": "#"
+    }
+  ],
+  "projects": [
+    {
+      "id": "3669d6f8-00b4-8014-a0b1-f8bc3adfbc2c",
+      "name": "",
+      "description": "",
+      "status": "예정",
+      "stack": [],
+      "url": null
+    }
+  ],
   "bio": {
     "관심 분야": [
       "Game Dev",
@@ -17,5 +37,5 @@
       "여러가지 하고 싶은게 있을때마다 해보는 편입니다."
     ]
   },
-  "updatedAt": "2026-05-20T19:06:49.453Z"
+  "updatedAt": "2026-05-20T19:09:54.360Z"
 }
