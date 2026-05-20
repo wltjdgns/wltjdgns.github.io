@@ -3,48 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>wltjdgns | Developer Portfolio</title>
+    <title>wltjdgns | 익스플로러의 기록</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0a0a0a; --text: #ffffff; --accent: #ff4d4d; --secondary: #1a1a1a; --gray: #888888; }
+        :root { --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666666; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
-        header { height: 100vh; display: flex; flex-direction: column; justify-content: center; }
-        .hero-title { font-size: clamp(3rem, 10vw, 6rem); font-weight: 800; margin-bottom: 2rem; }
-        .hero-title span { color: var(--accent); }
-        .hero-subtitle { font-size: 1.5rem; color: var(--gray); max-width: 600px; margin-bottom: 3rem; }
-        .btn { display: inline-block; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; }
-        .btn-primary { background-color: var(--accent); color: white; }
-        .btn-secondary { border: 1px solid var(--gray); color: var(--text); margin-left: 1rem; }
-        section { padding: 100px 0; }
-        .project-card { background-color: var(--secondary); border-radius: 20px; padding: 3rem; border: 1px solid #333; }
-        .project-info h3 { font-size: 2.5rem; margin-bottom: 1rem; }
-        footer { padding: 50px 0; border-top: 1px solid #222; text-align: center; color: var(--gray); }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.7; word-break: keep-all; }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+        
+        /* Navigation */
+        nav { padding: 2rem 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; margin-bottom: 4rem; }
+        .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; }
+        .nav-links a { color: var(--gray); text-decoration: none; margin-left: 2rem; font-size: 0.9rem; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--text); }
+
+        /* Hero / Bio Section */
+        header { margin-bottom: 6rem; }
+        .bio-label { display: inline-block; padding: 0.2rem 0.8rem; background: #222; border-radius: 4px; font-size: 0.75rem; color: var(--accent); margin-bottom: 1.5rem; }
+        .hero-title { font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 2rem; letter-spacing: -2px; }
+        .hero-title span { background: linear-gradient(90deg, var(--accent), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .bio-text { font-size: 1.2rem; font-weight: 300; color: #aaa; max-width: 700px; margin-bottom: 2rem; }
+        
+        /* Featured Section */
+        .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gray); margin-bottom: 2rem; border-left: 3px solid var(--accent); padding-left: 1rem; }
+        
+        .grid { display: grid; grid-template-columns: 1fr; gap: 4rem; margin-bottom: 6rem; }
+
+        /* Article List Style */
+        .article-item { display: flex; flex-direction: column; gap: 0.5rem; text-decoration: none; color: inherit; padding: 1.5rem; border-radius: 12px; transition: background 0.3s; }
+        .article-item:hover { background: var(--card-bg); }
+        .article-date { font-size: 0.8rem; color: var(--gray); font-family: 'Inter'; }
+        .article-title { font-size: 1.4rem; font-weight: 600; }
+        .article-desc { color: #888; font-size: 1rem; font-weight: 300; }
+
+        /* Project Card (Small) */
+        .project-mini { background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
+        .btn-mini { padding: 0.6rem 1.2rem; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.85rem; }
+
+        footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1 class="hero-title">Building <span>Digital</span><br>Experiences.</h1>
-            <p class="hero-subtitle">안녕하세요, 재미있고 가치 있는 경험을 만드는 개발자 wltjdgns입니다.</p>
-            <div>
-                <a href="https://wltjdgns.github.io/appleapple/" class="btn btn-primary">사과게임 플레이</a>
-                <a href="https://github.com/wltjdgns" class="btn btn-secondary">GitHub</a>
+        <nav>
+            <div class="logo">WLTJDGNS.LOG</div>
+            <div class="nav-links">
+                <a href="#articles">Articles</a>
+                <a href="#projects">Projects</a>
+                <a href="#bio">About</a>
             </div>
+        </nav>
+
+        <header id="bio">
+            <span class="bio-label">Explorer & Developer</span>
+            <h1 class="hero-title">하고 싶은 거 <span>이것저것</span><br>다 해보는 사람.</h1>
+            <p class="bio-text">
+                하나의 분야에 갇히기보다 세상의 수많은 재미있는 일들을 직접 경험하고 기록하는 것을 좋아합니다. 
+                코드로 아이디어를 구현하는 것부터, 새로운 언어를 배우거나, 중독성 있는 게임을 만드는 것까지 
+                흥미가 닿는 곳이라면 어디든 경계 없이 뛰어듭니다.
+            </p>
+            <p class="bio-text" style="font-size: 1rem;">
+                현재는 실시간 멀티플레이 기반의 <strong>사과게임</strong>을 고도화하며 사용자들에게 즐거움을 주는 경험을 설계하고 있습니다.
+            </p>
         </header>
-        <section>
-            <div class="project-card">
-                <div class="project-info">
-                    <h3>Apple Game Online</h3>
-                    <p>실시간 멀티플레이와 채팅을 지원하는 사과게임 프로젝트입니다.</p>
-                    <a href="https://wltjdgns.github.io/appleapple/" class="btn btn-secondary">프로젝트 보기</a>
-                </div>
+
+        <section id="articles">
+            <h2 class="section-label section-title">Recent Articles</h2>
+            <div class="grid">
+                <a href="#" class="article-item">
+                    <span class="article-date">2026. 05. 21</span>
+                    <h3 class="article-title">사과게임 멀티플레이 시스템 구축기</h3>
+                    <p class="article-desc">Firebase Realtime Database를 활용해 실시간 동기화 문제를 해결한 과정에 대하여.</p>
+                </a>
+                <a href="#" class="article-item">
+                    <span class="article-date">2026. 05. 15</span>
+                    <h3 class="article-title">왜 나는 이것저것 다 해보는가?</h3>
+                    <p class="article-desc">다방면에 걸친 호기심이 개발자로서의 성장에 미치는 긍정적인 영향들.</p>
+                </a>
+                <a href="#" class="article-item">
+                    <span class="article-date">2026. 05. 10</span>
+                    <h3 class="article-title">웹 디자인에서 '깔끔함'이란 무엇인가</h3>
+                    <p class="article-desc">최소한의 요소로 최대의 메시지를 전달하는 미니멀리즘 디자인 철학.</p>
+                </a>
             </div>
         </section>
-        <footer><p>&copy; 2026 wltjdgns. All rights reserved.</p></footer>
+
+        <section id="projects">
+            <h2 class="section-label section-title">Featured Project</h2>
+            <div class="project-mini">
+                <div>
+                    <h3 style="margin-bottom: 0.5rem;">Apple Game Online</h3>
+                    <p style="color: #888; font-size: 0.9rem;">실시간 멀티플레이 & 채팅 지원 업그레이드 사과게임</p>
+                </div>
+                <a href="https://wltjdgns.github.io/appleapple/" class="btn-mini">Play Now</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 wltjdgns. Recorded with curiosity.</p>
+            <p><a href="https://github.com/wltjdgns" style="color: inherit; text-decoration: none;">GitHub</a></p>
+        </footer>
     </div>
 </body>
 </html>
