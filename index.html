@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wltjdgns | Developer Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a0a; --text: #ffffff; --accent: #ff4d4d; --secondary: #1a1a1a; --gray: #888888; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
+        header { height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+        .hero-title { font-size: clamp(3rem, 10vw, 6rem); font-weight: 800; margin-bottom: 2rem; }
+        .hero-title span { color: var(--accent); }
+        .hero-subtitle { font-size: 1.5rem; color: var(--gray); max-width: 600px; margin-bottom: 3rem; }
+        .btn { display: inline-block; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; }
+        .btn-primary { background-color: var(--accent); color: white; }
+        .btn-secondary { border: 1px solid var(--gray); color: var(--text); margin-left: 1rem; }
+        section { padding: 100px 0; }
+        .project-card { background-color: var(--secondary); border-radius: 20px; padding: 3rem; border: 1px solid #333; }
+        .project-info h3 { font-size: 2.5rem; margin-bottom: 1rem; }
+        footer { padding: 50px 0; border-top: 1px solid #222; text-align: center; color: var(--gray); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="hero-title">Building <span>Digital</span><br>Experiences.</h1>
+            <p class="hero-subtitle">안녕하세요, 재미있고 가치 있는 경험을 만드는 개발자 wltjdgns입니다.</p>
+            <div>
+                <a href="https://wltjdgns.github.io/appleapple/" class="btn btn-primary">사과게임 플레이</a>
+                <a href="https://github.com/wltjdgns" class="btn btn-secondary">GitHub</a>
+            </div>
+        </header>
+        <section>
+            <div class="project-card">
+                <div class="project-info">
+                    <h3>Apple Game Online</h3>
+                    <p>실시간 멀티플레이와 채팅을 지원하는 사과게임 프로젝트입니다.</p>
+                    <a href="https://wltjdgns.github.io/appleapple/" class="btn btn-secondary">프로젝트 보기</a>
+                </div>
+            </div>
+        </section>
+        <footer><p>&copy; 2026 wltjdgns. All rights reserved.</p></footer>
+    </div>
+</body>
+</html>
