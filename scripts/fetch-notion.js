@@ -34,13 +34,10 @@ async function fetchArticles() {
   const response = await notionRequest(
     `databases/${ARTICLES_DB_ID}/query`,
     'POST',
-    {
-      filter: { property: 'Published', checkbox: { equals: true } },
-      sorts: [{ property: 'Date', direction: 'descending' }]
-    }
+    { filter: { property: 'Published', checkbox: { equals: true } } }
   );
   if (response.object === 'error') { console.error('Articles DB error:', response.message); return []; }
-  return (response.results || []).map(page => {
+  const articles = (response.results || []).map(page => {
     const props = page.properties;
     const getText = (p) => p?.rich_text?.[0]?.plain_text || p?.title?.[0]?.plain_text || '';
     return {
@@ -52,14 +49,11 @@ async function fetchArticles() {
       url: (props.URL || props.링크)?.url || '#'
     };
   });
+  return articles.sort((a, b) => (b.date > a.date ? 1 : -1));
 }
 
 async function fetchProjects() {
-  const response = await notionRequest(
-    `databases/${PROJECTS_DB_ID}/query`,
-    'POST',
-    { sorts: [{ property: 'Name', direction: 'ascending' }] }
-  );
+  const response = await notionRequest(`databases/${PROJECTS_DB_ID}/query`, 'POST', {});
   if (response.object === 'error') { console.error('Projects DB error:', response.message); return []; }
   return (response.results || []).map(page => {
     const props = page.properties;
