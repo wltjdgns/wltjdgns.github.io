@@ -122,39 +122,7 @@
         <!-- ── Projects ── -->
         <section id="projects">
             <h2 class="section-title">Projects</h2>
-            <div class="project-grid">
-                <div class="project-card">
-                    <div class="project-card-header">
-                        <span class="project-name">Apple Game Online</span>
-                        <span class="status-badge status-live">● Live</span>
-                    </div>
-                    <p class="project-desc">실시간 멀티플레이 & 채팅 지원 업그레이드 사과게임. Firebase 기반 동기화.</p>
-                    <div class="project-stack">
-                        <span class="stack-tag">JavaScript</span>
-                        <span class="stack-tag">Firebase</span>
-                        <span class="stack-tag">HTML/CSS</span>
-                    </div>
-                    <a href="https://wltjdgns.github.io/appleapple/" class="btn-mini">Play Now →</a>
-                </div>
-                <div class="project-card">
-                    <div class="project-card-header">
-                        <span class="project-name">다음 프로젝트</span>
-                        <span class="status-badge status-dev">⚙ 개발중</span>
-                    </div>
-                    <p class="project-desc">현재 구상 및 개발 중인 프로젝트. 공개 예정.</p>
-                    <div class="project-stack"><span class="stack-tag">TBD</span></div>
-                    <span class="btn-mini-ghost">Coming Soon</span>
-                </div>
-                <div class="project-card">
-                    <div class="project-card-header">
-                        <span class="project-name">미래 앱 / 게임</span>
-                        <span class="status-badge status-soon">📅 예정</span>
-                    </div>
-                    <p class="project-desc">이것저것 탐험하며 만들고 싶은 것들. 아이디어 구체화 중.</p>
-                    <div class="project-stack"><span class="stack-tag">?</span></div>
-                    <span class="btn-mini-ghost">예정</span>
-                </div>
-            </div>
+            <div class="project-grid" id="projects-grid"></div>
         </section>
 
         <!-- ── About ── -->
@@ -222,6 +190,34 @@
             bindFilters();
         }
 
+        function renderProjects(projects) {
+            const grid = document.getElementById('projects-grid');
+            if (!projects || projects.length === 0) {
+                grid.innerHTML = '<p class="empty-msg">아직 등록된 프로젝트가 없습니다.</p>';
+                return;
+            }
+            const statusMap = {
+                'Live':   { cls: 'status-live', label: '● Live' },
+                '개발중': { cls: 'status-dev',  label: '⚙ 개발중' },
+                '예정':   { cls: 'status-soon', label: '📅 예정' }
+            };
+            grid.innerHTML = projects.map(p => {
+                const s = statusMap[p.status] || statusMap['예정'];
+                const btn = p.url
+                    ? `<a href="${esc(p.url)}" class="btn-mini" target="_blank" rel="noopener">열기 →</a>`
+                    : `<span class="btn-mini-ghost">${esc(p.status)}</span>`;
+                return `<div class="project-card">
+                    <div class="project-card-header">
+                        <span class="project-name">${esc(p.name)}</span>
+                        <span class="status-badge ${s.cls}">${s.label}</span>
+                    </div>
+                    <p class="project-desc">${esc(p.description)}</p>
+                    <div class="project-stack">${p.stack.map(t => `<span class="stack-tag">${esc(t)}</span>`).join('')}</div>
+                    ${btn}
+                </div>`;
+            }).join('');
+        }
+
         function renderBio(bio) {
             if (!bio) return;
 
@@ -259,6 +255,7 @@
                 if (!res.ok) throw new Error('not found');
                 const data = await res.json();
                 renderArticles(data.articles);
+                renderProjects(data.projects);
                 renderBio(data.bio);
             } catch (e) {
                 console.warn('content.json 로드 실패:', e.message);

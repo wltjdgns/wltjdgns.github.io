@@ -23,6 +23,7 @@ jobs:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_ARTICLES_DB_ID: 3669d6f800b480eca917cc15efc250e1
           NOTION_BIO_PAGE_ID: 3669d6f800b480e1be6af3e67e61cded
+          NOTION_PROJECTS_DB_ID: 3669d6f800b480e19dc4fe4996ce1b14
 
       - name: Commit if changed
         run: |
