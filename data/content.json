@@ -2,13 +2,14 @@
   "articles": [
     {
       "id": "3669d6f8-00b4-8036-bf4f-ecc83c35f805",
-      "title": "",
-      "description": "",
+      "slug": "cv-study-epipolar",
+      "title": "[Computer Vision] Epipolar Geometry",
+      "description": "Epipolar Geometry는 왜 필요한걸까?",
       "date": "2026-05-22",
       "tags": [
         "CV"
       ],
-      "url": "#"
+      "url": "/articles/cv-study-epipolar.html"
     }
   ],
   "projects": [
@@ -37,5 +38,5 @@
       "여러가지 하고 싶은게 있을때마다 해보는 편입니다."
     ]
   },
-  "updatedAt": "2026-05-20T19:10:41.508Z"
+  "updatedAt": "2026-05-20T19:18:32.120Z"
 }
