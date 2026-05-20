@@ -73,6 +73,10 @@
         .now-item:last-child { border-bottom: none; }
         .now-item-label { font-size: 0.72rem; color: var(--gray); }
         .now-item-value { font-size: 0.9rem; color: var(--text); font-weight: 300; }
+        .edu-item { padding: 0.7rem 0; border-bottom: 1px solid #1e1e1e; }
+        .edu-item:last-child { border-bottom: none; }
+        .edu-item-title { font-size: 0.9rem; color: var(--text); font-weight: 400; }
+        .edu-item-period { font-size: 0.75rem; color: var(--gray); margin-top: 0.15rem; font-family: 'Inter'; }
         .about-bottom { margin-top: 1rem; background: var(--card-bg); border: 1px solid #222; border-radius: 14px; padding: 1.6rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; }
         .about-principle { font-size: 0.9rem; color: #888; font-weight: 300; max-width: 600px; }
 
@@ -137,6 +141,10 @@
                     <p class="about-card-label">지금 하는 것</p>
                     <div id="now-container"></div>
                 </div>
+            </div>
+            <div class="about-card" id="edu-card" style="margin-top:1rem;display:none;">
+                <p class="about-card-label">Education</p>
+                <div id="edu-container"></div>
             </div>
             <div class="about-bottom">
                 <p class="about-principle" id="about-principle"></p>
@@ -238,6 +246,23 @@
                     return `<div class="now-item">
                         <span class="now-item-label">${esc(label)}</span>
                         <span class="now-item-value">${esc(value)}</span>
+                    </div>`;
+                }).join('');
+            }
+
+            // 학력 — "학력" 또는 "Education" 헤딩 둘 다 지원
+            const edu = bio['학력'] || bio['Education'] || [];
+            if (edu.length) {
+                const card = document.getElementById('edu-card');
+                card.style.display = 'block';
+                document.getElementById('edu-container').innerHTML = edu.map(item => {
+                    // "(2025~)" 또는 "(2019~2024)" 형식의 연도 파싱
+                    const match = item.match(/^(.+?)\s*\((\d{4}[^)]*)\)\s*$/);
+                    const title = match ? match[1].trim() : item;
+                    const period = match ? match[2] : '';
+                    return `<div class="edu-item">
+                        <div class="edu-item-title">${esc(title)}</div>
+                        ${period ? `<div class="edu-item-period">${esc(period)}</div>` : ''}
                     </div>`;
                 }).join('');
             }
