@@ -1,0 +1,32 @@
+name: Sync Notion Content
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch Notion content
+        run: node scripts/fetch-notion.js
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_ARTICLES_DB_ID: 3669d6f800b480eca917cc15efc250e1
+          NOTION_BIO_PAGE_ID: 3669d6f800b480e1be6af3e67e61cded
+
+      - name: Commit if changed
+        run: |
+          git config user.name "notion-sync[bot]"
+          git config user.email "action@github.com"
+          git add data/content.json
+          git diff --staged --quiet || (git commit -m "sync: update content from Notion" && git push)
