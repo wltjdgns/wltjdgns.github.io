@@ -16,6 +16,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -33,12 +35,9 @@ jobs:
         run: |
           git config user.name "notion-sync[bot]"
           git config user.email "action@github.com"
+          git pull --rebase origin main
           git add data/content.json articles/
           if ! git diff --staged --quiet; then
             git commit -m "sync: update content from Notion"
-            for i in 1 2 3; do
-              git pull --rebase origin main && git push origin main && break
-              echo "Push attempt $i failed, retrying..."
-              sleep 3
-            done
+            git push origin main
           fi
