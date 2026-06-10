@@ -30,4 +30,4 @@ jobs:
           git config user.name "notion-sync[bot]"
           git config user.email "action@github.com"
           git add data/content.json articles/
-          git diff --staged --quiet || (git commit -m "sync: update content from Notion" && git push)
+          git diff --staged --quiet || (git commit -m "sync: update content from Notion" && git pull --rebase && git push)
