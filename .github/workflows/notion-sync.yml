@@ -5,6 +5,10 @@ on:
     - cron: '0 */6 * * *'
   workflow_dispatch:
 
+concurrency:
+  group: notion-sync
+  cancel-in-progress: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -30,4 +34,11 @@ jobs:
           git config user.name "notion-sync[bot]"
           git config user.email "action@github.com"
           git add data/content.json articles/
-          git diff --staged --quiet || (git commit -m "sync: update content from Notion" && git pull --rebase && git push)
+          if ! git diff --staged --quiet; then
+            git commit -m "sync: update content from Notion"
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push origin main && break
+              echo "Push attempt $i failed, retrying..."
+              sleep 3
+            done
+          fi
