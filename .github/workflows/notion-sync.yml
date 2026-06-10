@@ -7,7 +7,7 @@ on:
 
 concurrency:
   group: notion-sync
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   sync:
@@ -35,15 +35,7 @@ jobs:
         run: |
           git config user.name "notion-sync[bot]"
           git config user.email "action@github.com"
-          echo "=== BEFORE PULL ==="
-          git log --oneline -2
-          git status --short
-          ls articles/ | grep toto || echo "(toto file not found)"
           git pull --rebase origin main
-          echo "=== AFTER PULL ==="
-          git log --oneline -2
-          git status --short
-          ls articles/ | grep toto || echo "(toto file not found)"
           git add data/content.json articles/
           if ! git diff --staged --quiet; then
             git commit -m "sync: update content from Notion"
