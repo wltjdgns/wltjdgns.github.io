@@ -1,6 +1,17 @@
 {
   "articles": [
     {
+      "id": "3669d6f8-00b4-808a-a342-f5b3af67705f",
+      "slug": "toto-3d-detection-and-tracking",
+      "title": "[TO-DO] 3D detection과 Tracking을 이해 하기 위한 SOTA 모델",
+      "description": "3D detection & tracking SOTA",
+      "date": "2026-06-10",
+      "tags": [
+        "CV"
+      ],
+      "url": "/articles/toto-3d-detection-and-tracking.html"
+    },
+    {
       "id": "3669d6f8-00b4-8036-bf4f-ecc83c35f805",
       "slug": "cv-study-epipolar",
       "title": "[Computer Vision] Epipolar Geometry",
@@ -42,5 +53,5 @@
       "B.E. EE, Kyungpook National University(2019~2024)"
     ]
   },
-  "updatedAt": "2026-06-09T20:15:41.864Z"
+  "updatedAt": "2026-06-10T03:56:19.503Z"
 }
