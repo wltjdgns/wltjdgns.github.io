@@ -60,146 +60,47 @@
     <div class="content">
       <h2>Intro</h2>
 <p>아래 리스트는 sensor(ToF, RGB) 별, task(3D detection, 3D tracking) 별, domain(실내, 실외) 별로 claude OPUS 4.8 심층 리서치를 돌려, 초심자에 적합한 리스트를 만들어봤습니다.  코드가 공개되어 있지 않은 SOTA 논문은 포함하지 않았습니다.</p>
-<h2>개인적으로 정리한 공부 순서</h2>
+<h2>���인적으로 정리한 공부 순서</h2>
 <p><strong>1순위 — 반드시 먼저 읽어야 함</strong></p>
-<ol>
-  <li>CAGroup3D: Class-Aware Grouping for 3D Object Detection on Point Clouds — NeurIPS 2022 / 실내 3D detection의 기초 구조(포인트클라우드 → bounding box) 이해용
-https://arxiv.org/abs/2210.04264</li>
-  <li>TR3D: Towards Real-Time Indoor 3D Object Detection — ICIP 2023 / 포인트 단독에서 RGB+포인트 fusion으로 확장하는 과정을 한 논문에서 볼 수 있음. 목표와 가장 직결
-https://arxiv.org/abs/2302.02858</li>
-</ol>
+<br>
 <hr>
 <p><strong>2순위 — 목표에 직접 연결</strong></p>
-<ol>
-  <li>IS-Fusion: Instance-Scene Collaborative Fusion for Multimodal 3D Object Detection — CVPR 2024 (Highlight) / 실외 RGB+LiDAR fusion detection SOTA. 본격적인 fusion 구조 이해
-https://arxiv.org/abs/2403.15241</li>
-  <li>Poly-MOT: A Polyhedral Framework For 3D Multi-Object Tracking — IROS 2023 / tracking 기초. 구조 단순해서 tracking-by-detection 개념 잡기 좋음
-https://arxiv.org/abs/2307.16675</li>
-  <li>CAMO-MOT: Combined Appearance-Motion Optimization for 3D Multi-Object Tracking with Camera-LiDAR Fusion — IEEE T-ITS 2023 / fusion tracking. 최종 목표와 가장 가까운 논문
-https://arxiv.org/abs/2209.02540</li>
-</ol>
 <hr>
 <p><strong>3순위 — 개념 확장용</strong></p>
-<ol>
-  <li>UniDet3D: Multi-dataset Indoor 3D Object Detection — AAAI 2025 / CAGroup3D 이후 더 최신 실내 detection 흐름 파악용. ScanNet 포함 6개 벤치마크 동시 SOTA
-https://arxiv.org/abs/2409.04234</li>
-  <li>V-DETR: DETR with Vertex Relative Position Encoding for 3D Object Detection — ICLR 2024 / 포인트클라우드 detection 심화
-https://arxiv.org/abs/2308.04409</li>
-  <li>MCTrack: A Unified 3D Multi-Object Tracking Framework for Autonomous Driving — IROS 2025 / Poly-MOT 이후 더 정교한 tracking 구조 이해. nuScenes AMOTA 76.3%로 현재 SOTA
-https://arxiv.org/abs/2409.16149</li>
-  <li>ARKitTrack: A New Diverse Dataset for Tracking Using Mobile RGB-D Data — CVPR 2023 / 실내 RGB-D tracking. fusion tracking으로 넘어가는 다리 역할
-https://arxiv.org/abs/2303.13885 / 프로젝트: https://arkittrack.github.io</li>
-</ol>
 <hr>
 <p><strong>4순위 — 나중에 비교/참고용</strong></p>
-<ol>
-  <li>Exploring Object-Centric Temporal Modeling for Efficient Multi-View 3D Object Detection (StreamPETR) — ICCV 2023 / RGB 카메라 단독 실외 detection. fusion과 비교할 때 baseline으로. 코드 공개 기준 카메라 전용 SOTA
-https://arxiv.org/abs/2303.11926</li>
-  <li>NeRF-Det: Learning Geometry-Aware Volumetric Representation for Multi-View 3D Object Detection — ICCV 2023 / RGB 단독 실내 detection. fusion 대비 성능 차이 확인용
-https://arxiv.org/abs/2307.14620</li>
-  <li>RockTrack: A 3D Robust Multi-Camera-Ken Multi-Object Tracking Framework — arXiv 2024 (미게재) / RGB 단독 실외 tracking. fusion tracking과 비교용
-https://arxiv.org/abs/2409.11749</li>
-  <li>Standing Between Past and Future: Spatio-Temporal Modeling for Multi-Camera 3D Multi-Object Tracking (PF-Track) — CVPR 2023 / RGB tracking end-to-end 구조 이해용
-https://arxiv.org/abs/2302.03802</li>
-  <li>ADA-Track: End-to-End Multi-Camera 3D Multi-Object Tracking with Alternating Detection and Association — CVPR 2024 / PF-Track과 유사, 참고 수준
-https://arxiv.org/abs/2405.08909</li>
-  <li>Towards Intrinsic-Aware Monocular 3D Object Detection (MonoIA) — CVPR 2026 / 단안 RGB detection 현재 KITTI SOTA. MonoLSS를 추월한 최신 방법. LLM/VLM으로 카메라 파라미터를 semantic embedding으로 모델링
-https://arxiv.org/abs/2603.27059</li>
-  <li>S3MOT: Monocular 3D Object Tracking with Selective State Space Model — arXiv 2025 (미게재) / KITTI 단안 tracking. 참고 수준
-https://arxiv.org/abs/2504.18068</li>
-</ol>
 <br>
 <h2>벤치마크 별 SOTA(코드 미공개 미포함)</h2>
 <hr>
 <h2>ScanNet V2</h2>
-<p>실내 RGB-D 스캔 데이터셋. Microsoft Kinect 계열 깊이 센서로 수집한 1,513개 실�� 장면. 18개 객체 클래스에 대해 3D bounding box를 추정하며, mAP@0.25와 mAP@0.5로 평가. 실내 3D detection의 가장 표준적인 벤치마크.</p>
-<ol>
-  <li>CAGroup3D: Class-Aware Grouping for 3D Object Detection on Point Clouds — NeurIPS 2022
-https://arxiv.org/abs/2210.04264</li>
-  <li>TR3D: Towards Real-Time Indoor 3D Object Detection — ICIP 2023
-https://arxiv.org/abs/2302.02858</li>
-  <li>V-DETR: DETR with Vertex Relative Position Encoding for 3D Object Detection — ICLR 2024
-https://arxiv.org/abs/2308.04409</li>
-  <li>UniDet3D: Multi-dataset Indoor 3D Object Detection — AAAI 2025 / ScanNet 포함 6개 벤치마크 동시 SOTA
-https://arxiv.org/abs/2409.04234</li>
-  <li>NeRF-Det: Learning Geometry-Aware Volumetric Representation for Multi-View 3D Object Detection — ICCV 2023 / RGB 단독 입력 기준
-https://arxiv.org/abs/2307.14620</li>
-</ol>
+<p>실내 RGB-D 스캔 데이터셋. Microsoft Kinect 계열 깊이 센서로 수집한 1,513개 실내 장면. 18개 객체 클래스에 대해 3D bounding box를 추정하며, mAP@0.25와 mAP@0.5로 평가. 실내 3D detection의 가장 표준적인 벤치마크.</p>
 <hr>
 <h2>SUN RGB-D</h2>
 <p>단일 뷰 RGB-D 이미지 10,335장으로 구성된 실내 데이터셋. Kinect v1/v2, Xtion, RealSense 등 여러 RGB-D 센서로 수집. 10개 클래스 대상으로 mAP@0.25와 mAP@0.5로 평가. ScanNet보다 단순하지만 다양한 센서 특성을 포함.</p>
-<ol>
-  <li>CAGroup3D: Class-Aware Grouping for 3D Object Detection on Point Clouds — NeurIPS 2022
-https://arxiv.org/abs/2210.04264</li>
-  <li>TR3D: Towards Real-Time Indoor 3D Object Detection — ICIP 2023 / TR3D+FF 버전이 SUN RGB-D 멀티모달 SOTA
-https://arxiv.org/abs/2302.02858</li>
-  <li>V-DETR: DETR with Vertex Relative Position Encoding for 3D Object Detection — ICLR 2024
-https://arxiv.org/abs/2308.04409</li>
-</ol>
 <hr>
 <h2>ARKitTrack / DepthTrack</h2>
 <p>ARKitTrack: iPhone/iPad의 모바일 LiDAR(ToF)로 촬영한 실내외 RGB-D 추적 데이터셋. 300시퀀스, 229.7K 프레임. DepthTrack: RGB-D 단일 객체 추적 전용 벤치마크로 깊이 채널 활용 능력을 집중 평가. 평가지표는 F-score(Precision/Recall 조화평균).</p>
-<ol>
-  <li>ARKitTrack: A New Diverse Dataset for Tracking Using Mobile RGB-D Data — CVPR 2023
-https://arxiv.org/abs/2303.13885 / 프로젝트: https://arkittrack.github.io</li>
-</ol>
 <hr>
 <h2>nuScenes Detection (camera-only)</h2>
 <p>자율주행용 멀티모달 데이터셋. 6개 카메라로 360° 뷰 제공. 카메라 전용 트랙은 RGB 이미지만으로 10개 클래스 3D bounding box를 추정. NDS(nuScenes Detection Score)와 mAP로 평가. 깊이 없이 이미지만으로 3D를 추정해야 해서 난이도가 높음.</p>
-<ol>
-  <li>Exploring Object-Centric Temporal Modeling for Efficient Multi-View 3D Object Detection (StreamPETR) — ICCV 2023 / 코드 공개 기준 카메라 전용 SOTA
-https://arxiv.org/abs/2303.11926</li>
-</ol>
 <hr>
 <h2>nuScenes Detection (camera + LiDAR fusion)</h2>
 <p>nuScenes에서 카메라와 LiDAR를 동시에 사용하는 멀티모달 fusion 트랙. BEV(Bird's Eye View) 공간에서 두 모달리티를 융합하는 방식이 주류. NDS와 mAP로 평가. RGB+ToF fusion 연구의 실외 버전에 해당.</p>
-<ol>
-  <li>IS-Fusion: Instance-Scene Collaborative Fusion for Multimodal 3D Object Detection — CVPR 2024 (Highlight) / 코드 공개 기준 현재 SOTA
-https://arxiv.org/abs/2403.15241</li>
-</ol>
 <hr>
 <h2>nuScenes Tracking (LiDAR)</h2>
 <p>nuScenes의 LiDAR 기반 3D 다중 객체 추적 트랙. AMOTA(Average Multi-Object Tracking Accuracy)를 주요 지표로 사용. 7개 클래스(차량류 + 보행자)를 동시에 추적. Tracking-by-detection 방식이 주류.</p>
-<ol>
-  <li>Poly-MOT: A Polyhedral Framework For 3D Multi-Object Tracking — IROS 2023 / 구조 단순, 개념 이해용
-https://arxiv.org/abs/2307.16675</li>
-  <li>MCTrack: A Unified 3D Multi-Object Tracking Framework for Autonomous Driving — IROS 2025 / 현재 SOTA AMOTA 76.3%
-https://arxiv.org/abs/2409.16149</li>
-</ol>
 <hr>
 <h2>nuScenes Tracking (camera-only)</h2>
 <p>nuScenes에서 카메라만 사용하는 3D 추적 트랙. AMOTA로 평가. LiDAR 트랙보다 성능이 낮지만 저비용 센서 구성을 전제로 하는 연구에서 중요.</p>
-<ol>
-  <li>Standing Between Past and Future: Spatio-Temporal Modeling for Multi-Camera 3D Multi-Object Tracking (PF-Track) — CVPR 2023
-https://arxiv.org/abs/2302.03802</li>
-  <li>ADA-Track: End-to-End Multi-Camera 3D Multi-Object Tracking with Alternating Detection and Association — CVPR 2024
-https://arxiv.org/abs/2405.08909</li>
-  <li>RockTrack: A 3D Robust Multi-Camera-Ken Multi-Object Tracking Framework — arXiv 2024 (미게재) / 코드 공개 기준 카메라 전용 추적 최고 성능 AMOTA 0.591
-https://arxiv.org/abs/2409.11749</li>
-</ol>
 <hr>
 <h2>nuScenes Tracking (camera + LiDAR fusion)</h2>
 <p>카메라와 LiDAR를 함께 사용하는 fusion 추적 트랙. appearance(이미지)와 motion(LiDAR) 정보를 결합해 ID 유지율을 높이는 방식이 주류.</p>
-<ol>
-  <li>CAMO-MOT: Combined Appearance-Motion Optimization for 3D Multi-Object Tracking with Camera-LiDAR Fusion — IEEE T-ITS 2023
-https://arxiv.org/abs/2209.02540</li>
-</ol>
 <hr>
 <h2>KITTI 3D Detection (monocular)</h2>
 <p>자율주행 표준 벤치마크. 단안 RGB 이미지 하나로 3D bounding box를 추정. Car/Pedestrian/Cyclist 3개 클래스에 대해 Easy/Moderate/Hard 난이도별 AP로 평가. Moderate Car AP가 주요 비교 기준. 깊이 정보 없이 2D→3D 추정이 핵심 난관.</p>
-<ol>
-  <li>MonoLSS: Learnable Sample Selection For Monocular 3D Detection — 3DV 2024 / 이전 SOTA
-https://arxiv.org/abs/2312.14474</li>
-  <li>Towards Intrinsic-Aware Monocular 3D Object Detection (MonoIA) — CVPR 2026 / 현재 SOTA, MonoLSS 추월. 코드 공개
-https://arxiv.org/abs/2603.27059</li>
-</ol>
 <hr>
 <h2>KITTI Tracking (monocular)</h2>
 <p>KITTI 데이터셋 기반 단안 카메라 3D 추적. HOTA(Higher Order Tracking Accuracy)를 주요 지표로 사용. nuScenes보다 작은 규모지만 단안 tracking 알고리즘 검증의 표준.</p>
-<ol>
-  <li>S3MOT: Monocular 3D Object Tracking with Selective State Space Model — arXiv 2025 (미게재) / HOTA 76.86
-https://arxiv.org/abs/2504.18068</li>
-</ol>
 
     </div>
     <footer>
