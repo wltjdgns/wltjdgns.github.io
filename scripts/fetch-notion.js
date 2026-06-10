@@ -94,6 +94,12 @@ function blocksToHtml(blocks) {
         html += `<div class="callout">${icon} ${richTextToHtml(block.callout.rich_text)}</div>\n`;
         break;
       }
+      case 'toggle': {
+        const summary = richTextToHtml(block.toggle.rich_text);
+        const childHtml = block._children ? blocksToHtml(block._children) : '';
+        html += `<details><summary>${summary}</summary><div class="toggle-content">${childHtml}</div></details>\n`;
+        break;
+      }
       case 'divider':
         html += '<hr>\n';
         break;
@@ -165,6 +171,12 @@ function generateArticlePage(article, contentHtml) {
     .content strong { font-weight: 700; color: var(--text); }
     .content .callout { background: #111; border: 1px solid #2a2a2a; border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: #ccc; }
     .content s { color: var(--gray); }
+    .content details { border: 1px solid #2a2a2a; border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
+    .content details summary { padding: 0.8rem 1rem; cursor: pointer; font-weight: 500; color: #ddd; list-style: none; display: flex; align-items: center; gap: 0.5rem; }
+    .content details summary::before { content: '▶'; font-size: 0.65rem; color: var(--accent); transition: transform 0.2s; flex-shrink: 0; }
+    .content details[open] summary::before { transform: rotate(90deg); }
+    .content details summary:hover { background: #111; }
+    .content .toggle-content { padding: 0.2rem 1rem 0.8rem 2rem; border-top: 1px solid #1e1e1e; }
     footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; margin-top: 4rem; }
   </style>
 </head>
@@ -192,10 +204,20 @@ function generateArticlePage(article, contentHtml) {
 </html>`;
 }
 
-async function fetchArticleBlocks(pageId) {
-  const response = await notionRequest(`blocks/${pageId}/children`);
+async function fetchBlocksRecursively(blockId) {
+  const response = await notionRequest(`blocks/${blockId}/children`);
   if (response.object === 'error') return [];
-  return response.results || [];
+  const blocks = response.results || [];
+  for (const block of blocks) {
+    if (block.has_children) {
+      block._children = await fetchBlocksRecursively(block.id);
+    }
+  }
+  return blocks;
+}
+
+async function fetchArticleBlocks(pageId) {
+  return fetchBlocksRecursively(pageId);
 }
 
 async function fetchArticles() {
