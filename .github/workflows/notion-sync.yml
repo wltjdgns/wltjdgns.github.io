@@ -19,6 +19,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Pull latest
+        run: git pull --rebase origin main
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -35,7 +38,6 @@ jobs:
         run: |
           git config user.name "notion-sync[bot]"
           git config user.email "action@github.com"
-          git pull --rebase origin main
           git add data/content.json articles/
           if ! git diff --staged --quiet; then
             git commit -m "sync: update content from Notion"
