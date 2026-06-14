@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>실험일지 | wltjdgns</title>
+  <title>연구기록 | wltjdgns</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -129,7 +129,7 @@
     <!-- ── 잠금 화면 ── -->
     <div id="lock-screen">
       <div class="lock-icon">🔒</div>
-      <h1 class="lock-title">실험일지</h1>
+      <h1 class="lock-title">연구기록</h1>
       <p class="lock-sub">비공개 영역입니다. 비밀번호를 입력하세요.</p>
       <div class="pw-form">
         <input type="password" id="pw-input" placeholder="비밀번호" autocomplete="current-password">
@@ -138,11 +138,11 @@
       <p id="lock-error"></p>
     </div>
 
-    <!-- ── 실험일지 본문 (복호화 후 표시) ── -->
+    <!-- ── 연구기록 본문 (복호화 후 표시) ── -->
     <div id="lab-content">
       <div class="lab-header">
         <span class="lab-label">Private Lab</span>
-        <h1 class="lab-title">실험일지</h1>
+        <h1 class="lab-title">연구기록</h1>
         <p class="lab-count" id="entry-count"></p>
       </div>
       <h2 class="section-title">All Entries</h2>
@@ -198,7 +198,7 @@
       const list = document.getElementById('entries-list');
       document.getElementById('entry-count').textContent = `총 ${entries.length}개의 기록`;
       if (!entries.length) {
-        list.innerHTML = '<p class="empty-msg">아직 작성된 실험일지가 없습니다.</p>';
+        list.innerHTML = '<p class="empty-msg">아직 작성된 연구기록가 없습니다.</p>';
         return;
       }
       list.innerHTML = entries.map((e, i) => {
@@ -242,7 +242,7 @@
       try {
         const res = await fetch('/data/lab-encrypted.json?t=' + Date.now());
         if (!res.ok) {
-          errEl.textContent = '아직 실험일지가 설정되지 않았습니다. (GitHub Action 미실행)';
+          errEl.textContent = '아직 연구기록가 설정되지 않았습니다. (GitHub Action 미실행)';
           btn.disabled = false;
           btn.textContent = '열기';
           return;
