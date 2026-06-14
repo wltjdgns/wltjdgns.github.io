@@ -8,6 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}]})"></script>
   <style>
     :root { --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -54,6 +57,20 @@
     .content a:hover { text-decoration: underline; }
     .content strong { font-weight: 700; color: var(--text); }
     .content .callout { background: #111; border: 1px solid #2a2a2a; border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: #ccc; }
+    .content table { width: 100%; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
+    .content th, .content td { border: 1px solid #2a2a2a; padding: 0.6rem 0.8rem; text-align: left; }
+    .content th { background: #1a1a1a; font-weight: 600; color: var(--text); }
+    .content td { color: #ccc; }
+    .content details.child-page { border: 1px solid #2a2a2a; border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
+    .content details.child-page summary { padding: 0.8rem 1rem; cursor: pointer; font-weight: 500; color: #ddd; list-style: none; display: flex; align-items: center; gap: 0.5rem; }
+    .content details.child-page summary::before { content: '▶'; font-size: 0.65rem; color: var(--accent); transition: transform 0.2s; flex-shrink: 0; }
+    .content details.child-page[open] summary::before { transform: rotate(90deg); }
+    .content details.child-page summary:hover { background: #111; }
+    .content .child-page-content { padding: 0.2rem 1rem 0.8rem 2rem; border-top: 1px solid #1e1e1e; }
+    .content .column-list { display: flex; gap: 1.5rem; margin-bottom: 1.4rem; }
+    .content .column { flex: 1; min-width: 0; }
+    .content .math-block { overflow-x: auto; margin-bottom: 1.4rem; }
+    @media (max-width: 600px) { .content .column-list { flex-direction: column; } }
     footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; margin-top: 4rem; }
   </style>
 </head>
@@ -91,7 +108,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"19ddef22b5da358191b5d67fb3f742ff2507e26e060cd920ea27dd009adb214b","iv":"b326ccfd7460e0190572913b","data":"b12a6955a1d04a2e3f61ad6c143f0f041f4cb6ff780e0068ee170d86a9191b2d46378aea3bc263ce0145424f0a3162a926a6ddf5667953f09b03c798b7d5cb7ddbdc734ab634ab8d2420afe45188e8945c553179671703a127d94c542b904ad5a841aa1500fa9ca9beeeb9b9126a0ecca0c7e8365ca04b810b76025dc577376173af66aec88b10f2b25b52decf26cadb158bb6f52ad0aebcac85cfcb92fb26b8d9b78e5ab39c05c8d196c937c6c4a630e1736d606d78b042baec0258dc87928716a24ddf3a3dc8afa96ef1fce13bc4641f4c2edac1af6e7536b71b88a4","tag":"b72b27c014155ea54bbe751452e44cec"};
+    var ENCRYPTED = {"salt":"887472e69ba03c3a39b00c52b59c0c58496df0ec37d3b1306f1857759ab777c1","iv":"f9a54c88426ee05052c97574","data":"8b058c33f65f893c37768b30a3efea1314fcdd0c281a87c26a74f0e725be7d63fb757e0f42e7a47940cc69ff660af1ee9c5a2cb1160d0cd9c83d6666672e03f49f800fb022797d8b9cc7fc2d71e2578f9d54d94751ca2c829756d66456f363229653394fff712b7e5caa44a7e2a5d4ad93bf42ca730e688ca543e8a8909c72a83ae06ef247074f51b39c23887aeea093950e0de5b6e581b6a4d6be3d04d44b6c0fc853eae1860a4452c58ab8f60c884ed08f0e98fff4d1dd8466b5893230e679a440621936369edd379f6405287953fd88da0d6dd76048c6b66e7af3ce","tag":"a9fe9d0be891e063e9ec2f4443114dc0"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
