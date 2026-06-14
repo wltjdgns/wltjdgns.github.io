@@ -141,12 +141,11 @@ function blocksToHtml(blocks) {
       case 'child_page': {
         const title = block.child_page.title || '';
         const childBlocks = block._children || [];
-        html += `<div class="child-page">`;
-        html += `<div class="child-page-title">📄 ${esc(title)}</div>`;
+        html += `<details class="child-page"><summary>📄 ${esc(title)}</summary>`;
         if (childBlocks.length) {
           html += `<div class="child-page-content">${blocksToHtml(childBlocks)}</div>`;
         }
-        html += `</div>\n`;
+        html += `</details>\n`;
         break;
       }
       case 'column_list': {
@@ -231,9 +230,12 @@ function generateArticlePage(article, contentHtml) {
     .content th, .content td { border: 1px solid #2a2a2a; padding: 0.6rem 0.8rem; text-align: left; }
     .content th { background: #1a1a1a; font-weight: 600; color: var(--text); }
     .content td { color: #ccc; }
-    .content .child-page { border: 1px solid #2a2a2a; border-radius: 10px; margin-bottom: 1.4rem; overflow: hidden; }
-    .content .child-page-title { background: #1a1a1a; padding: 0.8rem 1.2rem; font-weight: 600; font-size: 0.9rem; }
-    .content .child-page-content { padding: 0.8rem 1.2rem; border-top: 1px solid #1e1e1e; }
+    .content details.child-page { border: 1px solid #2a2a2a; border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
+    .content details.child-page summary { padding: 0.8rem 1rem; cursor: pointer; font-weight: 500; color: #ddd; list-style: none; display: flex; align-items: center; gap: 0.5rem; }
+    .content details.child-page summary::before { content: '▶'; font-size: 0.65rem; color: var(--accent); transition: transform 0.2s; flex-shrink: 0; }
+    .content details.child-page[open] summary::before { transform: rotate(90deg); }
+    .content details.child-page summary:hover { background: #111; }
+    .content .child-page-content { padding: 0.2rem 1rem 0.8rem 2rem; border-top: 1px solid #1e1e1e; }
     .content .column-list { display: flex; gap: 1.5rem; margin-bottom: 1.4rem; }
     .content .column { flex: 1; min-width: 0; }
     .content .math-block { overflow-x: auto; margin-bottom: 1.4rem; }
