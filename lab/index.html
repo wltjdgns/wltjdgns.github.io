@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>실험일지 | wltjdgns</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.7; word-break: keep-all; min-height: 100vh; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+
+    nav { padding: 2rem 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; margin-bottom: 4rem; }
+    .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; text-decoration: none; color: var(--text); }
+    .nav-links a { color: var(--gray); text-decoration: none; margin-left: 2rem; font-size: 0.9rem; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--accent); }
+
+    /* ── Lock Screen ── */
+    #lock-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 1.5rem; text-align: center; }
+    .lock-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+    .lock-title { font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; }
+    .lock-sub { color: var(--gray); font-size: 0.9rem; }
+    .pw-form { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+    #pw-input {
+      background: var(--card-bg); border: 1px solid #333; border-radius: 8px;
+      color: var(--text); font-family: inherit; font-size: 1rem;
+      padding: 0.75rem 1.2rem; outline: none; transition: border-color 0.2s;
+      width: 260px;
+    }
+    #pw-input:focus { border-color: var(--accent); }
+    #pw-input.error { border-color: var(--secondary); animation: shake 0.3s ease; }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+    .btn-unlock {
+      background: var(--accent); color: var(--bg); border: none;
+      padding: 0.75rem 1.4rem; border-radius: 8px; font-weight: 700;
+      font-size: 0.95rem; cursor: pointer; transition: opacity 0.2s; font-family: inherit;
+    }
+    .btn-unlock:hover { opacity: 0.85; }
+    .btn-unlock:disabled { opacity: 0.5; cursor: not-allowed; }
+    #lock-error { color: var(--secondary); font-size: 0.85rem; min-height: 1.2em; }
+
+    /* ── Lab Content ── */
+    #lab-content { display: none; }
+    .lab-header { margin-bottom: 3rem; }
+    .lab-label { display: inline-block; padding: 0.2rem 0.8rem; background: #222; border-radius: 4px; font-size: 0.75rem; color: var(--accent); margin-bottom: 1rem; }
+    .lab-title { font-size: clamp(2rem, 6vw, 3rem); font-weight: 800; letter-spacing: -2px; margin-bottom: 0.5rem; }
+    .lab-count { color: var(--gray); font-size: 0.85rem; }
+
+    .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gray); margin-bottom: 1.5rem; border-left: 3px solid var(--accent); padding-left: 1rem; }
+
+    /* ── Entry List ── */
+    #entries-list { margin-bottom: 6rem; }
+    .entry-card {
+      border: 1px solid #1e1e1e; border-radius: 12px; margin-bottom: 0.75rem;
+      overflow: hidden; transition: border-color 0.2s;
+    }
+    .entry-card:hover { border-color: #333; }
+    .entry-card.open { border-color: #2a2a2a; }
+    .entry-header {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.4rem 1.6rem; cursor: pointer; background: none; width: 100%;
+      border: none; color: inherit; text-align: left; font-family: inherit;
+    }
+    .entry-header:hover { background: var(--card-bg); }
+    .entry-card.open .entry-header { background: var(--card-bg); }
+    .entry-meta { display: flex; flex-direction: column; gap: 0.3rem; flex: 1; min-width: 0; }
+    .entry-date { font-size: 0.78rem; color: var(--gray); font-family: 'Inter'; }
+    .entry-title { font-size: 1.1rem; font-weight: 600; }
+    .entry-summary { font-size: 0.88rem; color: #888; font-weight: 300; margin-top: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .entry-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+    .entry-tag { font-size: 0.7rem; padding: 0.12rem 0.55rem; border-radius: 10px; background: #1a1a1a; color: #888; border: 1px solid #2a2a2a; white-space: nowrap; }
+    .entry-chevron { color: var(--gray); font-size: 0.85rem; flex-shrink: 0; transition: transform 0.2s; }
+    .entry-card.open .entry-chevron { transform: rotate(90deg); }
+    .entry-body {
+      display: none; padding: 0 1.6rem 1.8rem;
+      border-top: 1px solid #1a1a1a; background: var(--card-bg);
+    }
+    .entry-card.open .entry-body { display: block; }
+
+    /* ── Entry Content Styles ── */
+    .entry-body p { margin-bottom: 1.2rem; color: #ccc; font-weight: 300; }
+    .entry-body h1 { font-size: 1.5rem; font-weight: 700; margin: 2rem 0 0.8rem; letter-spacing: -0.5px; }
+    .entry-body h2 { font-size: 1.2rem; font-weight: 700; margin: 1.6rem 0 0.6rem; border-left: 3px solid var(--accent); padding-left: 0.7rem; }
+    .entry-body h3 { font-size: 1rem; font-weight: 600; margin: 1.2rem 0 0.5rem; color: #ddd; }
+    .entry-body ul, .entry-body ol { margin: 0 0 1.2rem 1.5rem; color: #ccc; }
+    .entry-body li { margin-bottom: 0.35rem; font-weight: 300; }
+    .entry-body pre { background: #0e0e0e; border: 1px solid #222; border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin-bottom: 1.2rem; }
+    .entry-body code { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--accent); }
+    .entry-body pre code { color: #e0e0e0; }
+    .entry-body blockquote { border-left: 3px solid #333; padding-left: 1rem; color: #888; font-style: italic; margin-bottom: 1.2rem; }
+    .entry-body hr { border: none; border-top: 1px solid #1e1e1e; margin: 1.5rem 0; }
+    .entry-body figure { margin-bottom: 1.2rem; }
+    .entry-body img { max-width: 100%; border-radius: 8px; }
+    .entry-body figcaption { font-size: 0.78rem; color: var(--gray); text-align: center; margin-top: 0.4rem; }
+    .entry-body a { color: var(--accent); text-decoration: none; }
+    .entry-body a:hover { text-decoration: underline; }
+    .entry-body strong { font-weight: 700; color: var(--text); }
+    .entry-body .callout { background: #111; border: 1px solid #2a2a2a; border-radius: 8px; padding: 0.9rem 1.1rem; margin-bottom: 1.2rem; color: #ccc; }
+    .divider-top { height: 1px; background: #1a1a1a; margin-bottom: 1.5rem; }
+
+    .empty-msg { color: #444; text-align: center; padding: 4rem 0; font-size: 0.9rem; }
+
+    footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; display: flex; justify-content: space-between; }
+
+    @media (max-width: 600px) {
+      .pw-form { flex-direction: column; align-items: stretch; }
+      #pw-input { width: 100%; }
+      .entry-tags { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a href="/" class="logo">WLTJDGNS.LOG</a>
+      <div class="nav-links">
+        <a href="/#articles">Articles</a>
+        <a href="/#projects">Projects</a>
+        <a href="/#about">About</a>
+        <a href="/lab/" class="active">Lab</a>
+      </div>
+    </nav>
+
+    <!-- ── 잠금 화면 ── -->
+    <div id="lock-screen">
+      <div class="lock-icon">🔒</div>
+      <h1 class="lock-title">실험일지</h1>
+      <p class="lock-sub">비공개 영역입니다. 비밀번호를 입력하세요.</p>
+      <div class="pw-form">
+        <input type="password" id="pw-input" placeholder="비밀번호" autocomplete="current-password">
+        <button class="btn-unlock" id="btn-unlock" onclick="unlock()">열기</button>
+      </div>
+      <p id="lock-error"></p>
+    </div>
+
+    <!-- ── 실험일지 본문 (복호화 후 표시) ── -->
+    <div id="lab-content">
+      <div class="lab-header">
+        <span class="lab-label">Private Lab</span>
+        <h1 class="lab-title">실험일지</h1>
+        <p class="lab-count" id="entry-count"></p>
+      </div>
+      <h2 class="section-title">All Entries</h2>
+      <div id="entries-list"></div>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 wltjdgns. Recorded with curiosity.</p>
+      <p><a href="https://github.com/wltjdgns" style="color:inherit;text-decoration:none;">GitHub</a></p>
+    </footer>
+  </div>
+
+  <script>
+    function hexToBytes(hex) {
+      const arr = new Uint8Array(hex.length / 2);
+      for (let i = 0; i < hex.length; i += 2) arr[i / 2] = parseInt(hex.slice(i, i + 2), 16);
+      return arr;
+    }
+
+    async function deriveKey(password, salt) {
+      const enc = new TextEncoder();
+      const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+      return crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+        keyMaterial,
+        { name: 'AES-GCM', length: 256 },
+        false,
+        ['decrypt']
+      );
+    }
+
+    async function decryptData(encObj, password) {
+      const salt = hexToBytes(encObj.salt);
+      const iv = hexToBytes(encObj.iv);
+      const data = hexToBytes(encObj.data);
+      const tag = hexToBytes(encObj.tag);
+      // Web Crypto의 AES-GCM은 data + tag를 이어붙여서 전달
+      const combined = new Uint8Array(data.length + tag.length);
+      combined.set(data);
+      combined.set(tag, data.length);
+      const key = await deriveKey(password, salt);
+      const decrypted = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, combined);
+      return new TextDecoder().decode(decrypted);
+    }
+
+    function formatDate(d) {
+      if (!d) return '';
+      const [y, m, day] = d.split('-');
+      return `${y}. ${parseInt(m)}. ${parseInt(day)}`;
+    }
+
+    function renderEntries(entries) {
+      const list = document.getElementById('entries-list');
+      document.getElementById('entry-count').textContent = `총 ${entries.length}개의 기록`;
+      if (!entries.length) {
+        list.innerHTML = '<p class="empty-msg">아직 작성된 실험일지가 없습니다.</p>';
+        return;
+      }
+      list.innerHTML = entries.map((e, i) => {
+        const tags = e.tags.map(t => `<span class="entry-tag">#${t}</span>`).join('');
+        return `
+          <div class="entry-card" id="card-${i}">
+            <button class="entry-header" onclick="toggleEntry(${i})">
+              <div class="entry-meta">
+                <span class="entry-date">${formatDate(e.date)}</span>
+                <span class="entry-title">${e.title}</span>
+                ${e.summary ? `<span class="entry-summary">${e.summary}</span>` : ''}
+                ${tags ? `<div class="entry-tags">${tags}</div>` : ''}
+              </div>
+              <span class="entry-chevron">▶</span>
+            </button>
+            <div class="entry-body">
+              <div class="divider-top"></div>
+              ${e.contentHtml || '<p style="color:#555">내용이 없습니다.</p>'}
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function toggleEntry(i) {
+      const card = document.getElementById(`card-${i}`);
+      card.classList.toggle('open');
+    }
+
+    async function unlock() {
+      const pw = document.getElementById('pw-input').value;
+      const errEl = document.getElementById('lock-error');
+      const btn = document.getElementById('btn-unlock');
+      const input = document.getElementById('pw-input');
+      if (!pw) return;
+
+      btn.disabled = true;
+      btn.textContent = '복호화 중...';
+      errEl.textContent = '';
+      input.classList.remove('error');
+
+      try {
+        const res = await fetch('/data/lab-encrypted.json?t=' + Date.now());
+        if (!res.ok) {
+          errEl.textContent = '아직 실험일지가 설정되지 않았습니다. (GitHub Action 미실행)';
+          btn.disabled = false;
+          btn.textContent = '열기';
+          return;
+        }
+        const encObj = await res.json();
+        const plaintext = await decryptData(encObj, pw);
+        const entries = JSON.parse(plaintext);
+
+        // 성공 — 잠금 화면 숨기고 본문 표시
+        document.getElementById('lock-screen').style.display = 'none';
+        document.getElementById('lab-content').style.display = 'block';
+        renderEntries(entries);
+
+        // 세션 동안 유지 (새로고침 시 재입력 필요)
+        sessionStorage.setItem('lab_pw', pw);
+      } catch {
+        input.classList.add('error');
+        errEl.textContent = '비밀번호가 올바르지 않습니다.';
+        btn.disabled = false;
+        btn.textContent = '열기';
+        input.value = '';
+        input.focus();
+      }
+    }
+
+    // 엔터 키 지원
+    document.getElementById('pw-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') unlock();
+    });
+
+    // 세션에 저장된 비밀번호로 자동 복호화 시도
+    (async () => {
+      const saved = sessionStorage.getItem('lab_pw');
+      if (saved) {
+        document.getElementById('pw-input').value = saved;
+        await unlock();
+      }
+    })();
+  </script>
+</body>
+</html>

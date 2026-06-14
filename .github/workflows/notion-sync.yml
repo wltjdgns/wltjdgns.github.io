@@ -34,11 +34,18 @@ jobs:
           NOTION_BIO_PAGE_ID: 3669d6f800b480e1be6af3e67e61cded
           NOTION_PROJECTS_DB_ID: 3669d6f800b480e19dc4fe4996ce1b14
 
+      - name: Encrypt lab journal
+        run: node scripts/encrypt-lab.js
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_LAB_DB_ID: ${{ secrets.NOTION_LAB_DB_ID }}
+          LAB_PASSWORD: ${{ secrets.LAB_PASSWORD }}
+
       - name: Commit if changed
         run: |
           git config user.name "notion-sync[bot]"
           git config user.email "action@github.com"
-          git add data/content.json articles/
+          git add data/content.json data/lab-encrypted.json articles/
           if ! git diff --staged --quiet; then
             git commit -m "sync: update content from Notion"
             git push origin main
