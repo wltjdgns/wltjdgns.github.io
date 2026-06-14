@@ -29,8 +29,7 @@
     #pw-input {
       background: var(--card-bg); border: 1px solid #333; border-radius: 8px;
       color: var(--text); font-family: inherit; font-size: 1rem;
-      padding: 0.75rem 1.2rem; outline: none; transition: border-color 0.2s;
-      width: 260px;
+      padding: 0.75rem 1.2rem; outline: none; transition: border-color 0.2s; width: 260px;
     }
     #pw-input:focus { border-color: var(--accent); }
     #pw-input.error { border-color: var(--secondary); animation: shake 0.3s ease; }
@@ -50,67 +49,24 @@
     .lab-label { display: inline-block; padding: 0.2rem 0.8rem; background: #222; border-radius: 4px; font-size: 0.75rem; color: var(--accent); margin-bottom: 1rem; }
     .lab-title { font-size: clamp(2rem, 6vw, 3rem); font-weight: 800; letter-spacing: -2px; margin-bottom: 0.5rem; }
     .lab-count { color: var(--gray); font-size: 0.85rem; }
+    .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gray); margin-bottom: 2rem; border-left: 3px solid var(--accent); padding-left: 1rem; }
 
-    .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gray); margin-bottom: 1.5rem; border-left: 3px solid var(--accent); padding-left: 1rem; }
-
-    /* ── Entry List ── */
-    #entries-list { margin-bottom: 6rem; }
-    .entry-card {
-      border: 1px solid #1e1e1e; border-radius: 12px; margin-bottom: 0.75rem;
-      overflow: hidden; transition: border-color 0.2s;
-    }
-    .entry-card:hover { border-color: #333; }
-    .entry-card.open { border-color: #2a2a2a; }
-    .entry-header {
-      display: flex; align-items: center; gap: 1rem;
-      padding: 1.4rem 1.6rem; cursor: pointer; background: none; width: 100%;
-      border: none; color: inherit; text-align: left; font-family: inherit;
-    }
-    .entry-header:hover { background: var(--card-bg); }
-    .entry-card.open .entry-header { background: var(--card-bg); }
-    .entry-meta { display: flex; flex-direction: column; gap: 0.3rem; flex: 1; min-width: 0; }
-    .entry-date { font-size: 0.78rem; color: var(--gray); font-family: 'Inter'; }
-    .entry-title { font-size: 1.1rem; font-weight: 600; }
-    .entry-summary { font-size: 0.88rem; color: #888; font-weight: 300; margin-top: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .entry-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
-    .entry-tag { font-size: 0.7rem; padding: 0.12rem 0.55rem; border-radius: 10px; background: #1a1a1a; color: #888; border: 1px solid #2a2a2a; white-space: nowrap; }
-    .entry-chevron { color: var(--gray); font-size: 0.85rem; flex-shrink: 0; transition: transform 0.2s; }
-    .entry-card.open .entry-chevron { transform: rotate(90deg); }
-    .entry-body {
-      display: none; padding: 0 1.6rem 1.8rem;
-      border-top: 1px solid #1a1a1a; background: var(--card-bg);
-    }
-    .entry-card.open .entry-body { display: block; }
-
-    /* ── Entry Content Styles ── */
-    .entry-body p { margin-bottom: 1.2rem; color: #ccc; font-weight: 300; }
-    .entry-body h1 { font-size: 1.5rem; font-weight: 700; margin: 2rem 0 0.8rem; letter-spacing: -0.5px; }
-    .entry-body h2 { font-size: 1.2rem; font-weight: 700; margin: 1.6rem 0 0.6rem; border-left: 3px solid var(--accent); padding-left: 0.7rem; }
-    .entry-body h3 { font-size: 1rem; font-weight: 600; margin: 1.2rem 0 0.5rem; color: #ddd; }
-    .entry-body ul, .entry-body ol { margin: 0 0 1.2rem 1.5rem; color: #ccc; }
-    .entry-body li { margin-bottom: 0.35rem; font-weight: 300; }
-    .entry-body pre { background: #0e0e0e; border: 1px solid #222; border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin-bottom: 1.2rem; }
-    .entry-body code { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--accent); }
-    .entry-body pre code { color: #e0e0e0; }
-    .entry-body blockquote { border-left: 3px solid #333; padding-left: 1rem; color: #888; font-style: italic; margin-bottom: 1.2rem; }
-    .entry-body hr { border: none; border-top: 1px solid #1e1e1e; margin: 1.5rem 0; }
-    .entry-body figure { margin-bottom: 1.2rem; }
-    .entry-body img { max-width: 100%; border-radius: 8px; }
-    .entry-body figcaption { font-size: 0.78rem; color: var(--gray); text-align: center; margin-top: 0.4rem; }
-    .entry-body a { color: var(--accent); text-decoration: none; }
-    .entry-body a:hover { text-decoration: underline; }
-    .entry-body strong { font-weight: 700; color: var(--text); }
-    .entry-body .callout { background: #111; border: 1px solid #2a2a2a; border-radius: 8px; padding: 0.9rem 1.1rem; margin-bottom: 1.2rem; color: #ccc; }
-    .divider-top { height: 1px; background: #1a1a1a; margin-bottom: 1.5rem; }
-
-    .empty-msg { color: #444; text-align: center; padding: 4rem 0; font-size: 0.9rem; }
+    /* ── Entry List (articles 방식) ── */
+    .grid { display: grid; grid-template-columns: 1fr; gap: 0.5rem; margin-bottom: 6rem; }
+    .entry-item { display: flex; flex-direction: column; gap: 0.4rem; text-decoration: none; color: inherit; padding: 1.5rem; border-radius: 12px; transition: background 0.3s; }
+    .entry-item:hover { background: var(--card-bg); }
+    .entry-date { font-size: 0.8rem; color: var(--gray); font-family: 'Inter'; }
+    .entry-title { font-size: 1.3rem; font-weight: 600; }
+    .entry-desc { color: #888; font-size: 0.95rem; font-weight: 300; }
+    .entry-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.4rem; }
+    .entry-tag { font-size: 0.72rem; padding: 0.15rem 0.6rem; border-radius: 10px; background: #1a1a1a; color: #888; border: 1px solid #2a2a2a; }
+    .empty-msg { color: #444; font-size: 0.9rem; padding: 1.5rem; }
 
     footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; display: flex; justify-content: space-between; }
 
     @media (max-width: 600px) {
       .pw-form { flex-direction: column; align-items: stretch; }
       #pw-input { width: 100%; }
-      .entry-tags { display: none; }
     }
   </style>
 </head>
@@ -122,7 +78,7 @@
         <a href="/#articles">Articles</a>
         <a href="/#projects">Projects</a>
         <a href="/#about">About</a>
-        <a href="/lab/" class="active">Lab</a>
+        <a href="/lab/" class="active">Lab 🔒</a>
       </div>
     </nav>
 
@@ -138,7 +94,7 @@
       <p id="lock-error"></p>
     </div>
 
-    <!-- ── 연구기록 본문 (복호화 후 표시) ── -->
+    <!-- ── 목록 (복호화 후 표시) ── -->
     <div id="lab-content">
       <div class="lab-header">
         <span class="lab-label">Private Lab</span>
@@ -146,7 +102,7 @@
         <p class="lab-count" id="entry-count"></p>
       </div>
       <h2 class="section-title">All Entries</h2>
-      <div id="entries-list"></div>
+      <div class="grid" id="entries-grid"></div>
     </div>
 
     <footer>
@@ -157,81 +113,67 @@
 
   <script>
     function hexToBytes(hex) {
-      const arr = new Uint8Array(hex.length / 2);
-      for (let i = 0; i < hex.length; i += 2) arr[i / 2] = parseInt(hex.slice(i, i + 2), 16);
+      var arr = new Uint8Array(hex.length / 2);
+      for (var i = 0; i < hex.length; i += 2) arr[i / 2] = parseInt(hex.slice(i, i + 2), 16);
       return arr;
     }
 
-    async function deriveKey(password, salt) {
-      const enc = new TextEncoder();
-      const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
-      return crypto.subtle.deriveKey(
-        { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
-        keyMaterial,
-        { name: 'AES-GCM', length: 256 },
-        false,
-        ['decrypt']
-      );
+    function deriveKey(password, salt) {
+      var enc = new TextEncoder();
+      return crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey'])
+        .then(function(km) {
+          return crypto.subtle.deriveKey(
+            { name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256' },
+            km,
+            { name: 'AES-GCM', length: 256 },
+            false, ['decrypt']
+          );
+        });
     }
 
-    async function decryptData(encObj, password) {
-      const salt = hexToBytes(encObj.salt);
-      const iv = hexToBytes(encObj.iv);
-      const data = hexToBytes(encObj.data);
-      const tag = hexToBytes(encObj.tag);
-      // Web Crypto의 AES-GCM은 data + tag를 이어붙여서 전달
-      const combined = new Uint8Array(data.length + tag.length);
-      combined.set(data);
-      combined.set(tag, data.length);
-      const key = await deriveKey(password, salt);
-      const decrypted = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, combined);
-      return new TextDecoder().decode(decrypted);
+    function decryptData(encObj, password) {
+      var salt = hexToBytes(encObj.salt);
+      var iv = hexToBytes(encObj.iv);
+      var data = hexToBytes(encObj.data);
+      var tag = hexToBytes(encObj.tag);
+      var combined = new Uint8Array(data.length + tag.length);
+      combined.set(data); combined.set(tag, data.length);
+      return deriveKey(password, salt).then(function(key) {
+        return crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, combined);
+      }).then(function(dec) {
+        return new TextDecoder().decode(dec);
+      });
     }
 
     function formatDate(d) {
       if (!d) return '';
-      const [y, m, day] = d.split('-');
-      return `${y}. ${parseInt(m)}. ${parseInt(day)}`;
+      var p = d.split('-');
+      return p[0] + '. ' + parseInt(p[1]) + '. ' + parseInt(p[2]);
     }
 
     function renderEntries(entries) {
-      const list = document.getElementById('entries-list');
-      document.getElementById('entry-count').textContent = `총 ${entries.length}개의 기록`;
+      var grid = document.getElementById('entries-grid');
+      document.getElementById('entry-count').textContent = '총 ' + entries.length + '개의 기록';
       if (!entries.length) {
-        list.innerHTML = '<p class="empty-msg">아직 작성된 연구기록가 없습니다.</p>';
+        grid.innerHTML = '<p class="empty-msg">아직 작성된 연구기록이 없습니다.</p>';
         return;
       }
-      list.innerHTML = entries.map((e, i) => {
-        const tags = e.tags.map(t => `<span class="entry-tag">#${t}</span>`).join('');
-        return `
-          <div class="entry-card" id="card-${i}">
-            <button class="entry-header" onclick="toggleEntry(${i})">
-              <div class="entry-meta">
-                <span class="entry-date">${formatDate(e.date)}</span>
-                <span class="entry-title">${e.title}</span>
-                ${e.description ? `<span class="entry-summary">${e.description}</span>` : ''}
-                ${tags ? `<div class="entry-tags">${tags}</div>` : ''}
-              </div>
-              <span class="entry-chevron">▶</span>
-            </button>
-            <div class="entry-body">
-              <div class="divider-top"></div>
-              ${e.contentHtml || '<p style="color:#555">내용이 없습니다.</p>'}
-            </div>
-          </div>`;
+      grid.innerHTML = entries.map(function(e) {
+        var tags = e.tags.map(function(t) { return '<span class="entry-tag">#' + t + '</span>'; }).join('');
+        return '<a href="' + e.url + '" class="entry-item">' +
+          '<span class="entry-date">' + formatDate(e.date) + '</span>' +
+          '<h3 class="entry-title">' + e.title + '</h3>' +
+          (e.description ? '<p class="entry-desc">' + e.description + '</p>' : '') +
+          (tags ? '<div class="entry-tags">' + tags + '</div>' : '') +
+          '</a>';
       }).join('');
     }
 
-    function toggleEntry(i) {
-      const card = document.getElementById(`card-${i}`);
-      card.classList.toggle('open');
-    }
-
-    async function unlock() {
-      const pw = document.getElementById('pw-input').value;
-      const errEl = document.getElementById('lock-error');
-      const btn = document.getElementById('btn-unlock');
-      const input = document.getElementById('pw-input');
+    function unlock() {
+      var pw = document.getElementById('pw-input').value;
+      var errEl = document.getElementById('lock-error');
+      var btn = document.getElementById('btn-unlock');
+      var input = document.getElementById('pw-input');
       if (!pw) return;
 
       btn.disabled = true;
@@ -239,48 +181,41 @@
       errEl.textContent = '';
       input.classList.remove('error');
 
-      try {
-        const res = await fetch('/data/lab-encrypted.json?t=' + Date.now());
-        if (!res.ok) {
-          errEl.textContent = '아직 연구기록가 설정되지 않았습니다. (GitHub Action 미실행)';
+      fetch('/data/lab-encrypted.json?t=' + Date.now())
+        .then(function(res) {
+          if (!res.ok) {
+            errEl.textContent = '아직 연구기록이 설정되지 않았습니다. (GitHub Action 미실행)';
+            btn.disabled = false;
+            btn.textContent = '열기';
+            throw new Error('skip');
+          }
+          return res.json();
+        })
+        .then(function(encObj) { return decryptData(encObj, pw); })
+        .then(function(plaintext) {
+          var entries = JSON.parse(plaintext);
+          document.getElementById('lock-screen').style.display = 'none';
+          document.getElementById('lab-content').style.display = 'block';
+          renderEntries(entries);
+          sessionStorage.setItem('lab_pw', pw);
+        })
+        .catch(function(e) {
+          if (e && e.message === 'skip') return;
+          input.classList.add('error');
+          errEl.textContent = '비밀번호가 올바르지 않습니다.';
           btn.disabled = false;
           btn.textContent = '열기';
-          return;
-        }
-        const encObj = await res.json();
-        const plaintext = await decryptData(encObj, pw);
-        const entries = JSON.parse(plaintext);
-
-        // 성공 — 잠금 화면 숨기고 본문 표시
-        document.getElementById('lock-screen').style.display = 'none';
-        document.getElementById('lab-content').style.display = 'block';
-        renderEntries(entries);
-
-        // 세션 동안 유지 (새로고침 시 재입력 필요)
-        sessionStorage.setItem('lab_pw', pw);
-      } catch {
-        input.classList.add('error');
-        errEl.textContent = '비밀번호가 올바르지 않습니다.';
-        btn.disabled = false;
-        btn.textContent = '열기';
-        input.value = '';
-        input.focus();
-      }
+          input.value = '';
+          input.focus();
+        });
     }
 
-    // 엔터 키 지원
-    document.getElementById('pw-input').addEventListener('keydown', e => {
+    document.getElementById('pw-input').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') unlock();
     });
 
-    // 세션에 저장된 비밀번호로 자동 복호화 시도
-    (async () => {
-      const saved = sessionStorage.getItem('lab_pw');
-      if (saved) {
-        document.getElementById('pw-input').value = saved;
-        await unlock();
-      }
-    })();
+    var saved = sessionStorage.getItem('lab_pw');
+    if (saved) { document.getElementById('pw-input').value = saved; unlock(); }
   </script>
 </body>
 </html>
