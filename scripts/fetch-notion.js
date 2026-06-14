@@ -36,6 +36,9 @@ function notionRequest(endpoint, method = 'GET', body = null) {
 
 function richTextToHtml(richText) {
   return (richText || []).map(span => {
+    if (span.type === 'equation') {
+      return `<span class="math-inline">\\(${span.equation.expression}\\)</span>`;
+    }
     let text = esc(span.plain_text);
     if (!text) return '';
     if (span.annotations.bold) text = `<strong>${text}</strong>`;
@@ -113,6 +116,50 @@ function blocksToHtml(blocks) {
         html += '</figure>\n';
         break;
       }
+      case 'equation': {
+        const expr = block.equation.expression || '';
+        html += `<div class="math-block">\\[${expr}\\]</div>\n`;
+        break;
+      }
+      case 'table': {
+        const hasColHeader = block.table.has_column_header;
+        const rows = block._children || [];
+        html += '<table>\n';
+        rows.forEach((row, rowIdx) => {
+          html += '<tr>';
+          (row.table_row.cells || []).forEach(cell => {
+            const tag = (hasColHeader && rowIdx === 0) ? 'th' : 'td';
+            html += `<${tag}>${richTextToHtml(cell)}</${tag}>`;
+          });
+          html += '</tr>\n';
+        });
+        html += '</table>\n';
+        break;
+      }
+      case 'table_row':
+        break;
+      case 'child_page': {
+        const title = block.child_page.title || '';
+        const childBlocks = block._children || [];
+        html += `<div class="child-page">`;
+        html += `<div class="child-page-title">📄 ${esc(title)}</div>`;
+        if (childBlocks.length) {
+          html += `<div class="child-page-content">${blocksToHtml(childBlocks)}</div>`;
+        }
+        html += `</div>\n`;
+        break;
+      }
+      case 'column_list': {
+        const columns = block._children || [];
+        html += '<div class="column-list">';
+        columns.forEach(col => {
+          html += `<div class="column">${blocksToHtml(col._children || [])}</div>`;
+        });
+        html += '</div>\n';
+        break;
+      }
+      case 'column':
+        break;
       default:
         break;
     }
@@ -137,6 +184,9 @@ function generateArticlePage(article, contentHtml) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'\\\\[',right:'\\\\]',display:true},{left:'\\\\(',right:'\\\\)',display:false}]})"></script>
   <style>
     :root { --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -177,6 +227,17 @@ function generateArticlePage(article, contentHtml) {
     .content details[open] summary::before { transform: rotate(90deg); }
     .content details summary:hover { background: #111; }
     .content .toggle-content { padding: 0.2rem 1rem 0.8rem 2rem; border-top: 1px solid #1e1e1e; }
+    .content table { width: 100%; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
+    .content th, .content td { border: 1px solid #2a2a2a; padding: 0.6rem 0.8rem; text-align: left; }
+    .content th { background: #1a1a1a; font-weight: 600; color: var(--text); }
+    .content td { color: #ccc; }
+    .content .child-page { border: 1px solid #2a2a2a; border-radius: 10px; margin-bottom: 1.4rem; overflow: hidden; }
+    .content .child-page-title { background: #1a1a1a; padding: 0.8rem 1.2rem; font-weight: 600; font-size: 0.9rem; }
+    .content .child-page-content { padding: 0.8rem 1.2rem; border-top: 1px solid #1e1e1e; }
+    .content .column-list { display: flex; gap: 1.5rem; margin-bottom: 1.4rem; }
+    .content .column { flex: 1; min-width: 0; }
+    .content .math-block { overflow-x: auto; margin-bottom: 1.4rem; }
+    @media (max-width: 600px) { .content .column-list { flex-direction: column; } }
     footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; margin-top: 4rem; }
   </style>
 </head>

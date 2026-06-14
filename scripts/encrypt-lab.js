@@ -36,6 +36,9 @@ const esc = s => String(s)
 
 function richTextToHtml(richText) {
   return (richText || []).map(span => {
+    if (span.type === 'equation') {
+      return '<span class="math-inline">\\(' + span.equation.expression + '\\)</span>';
+    }
     let text = esc(span.plain_text);
     if (!text) return '';
     if (span.annotations.bold) text = '<strong>' + text + '</strong>';
@@ -94,6 +97,48 @@ function blocksToHtml(blocks) {
         html += '</figure>\n';
         break;
       }
+      case 'equation': {
+        const expr = block.equation.expression || '';
+        html += '<div class="math-block">\\[' + expr + '\\]</div>\n';
+        break;
+      }
+      case 'table': {
+        const hasColHeader = block.table.has_column_header;
+        const rows = block._children || [];
+        html += '<table>\n';
+        rows.forEach((row, rowIdx) => {
+          html += '<tr>';
+          (row.table_row.cells || []).forEach(cell => {
+            const tag = (hasColHeader && rowIdx === 0) ? 'th' : 'td';
+            html += '<' + tag + '>' + richTextToHtml(cell) + '</' + tag + '>';
+          });
+          html += '</tr>\n';
+        });
+        html += '</table>\n';
+        break;
+      }
+      case 'table_row': break;
+      case 'child_page': {
+        const title = block.child_page.title || '';
+        const childBlocks = block._children || [];
+        html += '<div class="child-page">';
+        html += '<div class="child-page-title">📄 ' + esc(title) + '</div>';
+        if (childBlocks.length) {
+          html += '<div class="child-page-content">' + blocksToHtml(childBlocks) + '</div>';
+        }
+        html += '</div>\n';
+        break;
+      }
+      case 'column_list': {
+        const columns = block._children || [];
+        html += '<div class="column-list">';
+        columns.forEach(col => {
+          html += '<div class="column">' + blocksToHtml(col._children || []) + '</div>';
+        });
+        html += '</div>\n';
+        break;
+      }
+      case 'column': break;
       default: break;
     }
   }
@@ -171,6 +216,9 @@ function generateLabEntryPage(entryEncrypted) {
 '  <link rel="preconnect" href="https://fonts.googleapis.com">\n' +
 '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
 '  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&display=swap" rel="stylesheet">\n' +
+'  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">\n' +
+'  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>\n' +
+'  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:\'\\\\[\',right:\'\\\\]\',display:true},{left:\'\\\\(\',right:\'\\\\)\',display:false}]})"></script>\n' +
 '  <style>\n' +
 '    :root { --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666; }\n' +
 '    * { margin: 0; padding: 0; box-sizing: border-box; }\n' +
@@ -217,6 +265,17 @@ function generateLabEntryPage(entryEncrypted) {
 '    .content a:hover { text-decoration: underline; }\n' +
 '    .content strong { font-weight: 700; color: var(--text); }\n' +
 '    .content .callout { background: #111; border: 1px solid #2a2a2a; border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: #ccc; }\n' +
+'    .content table { width: 100%; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }\n' +
+'    .content th, .content td { border: 1px solid #2a2a2a; padding: 0.6rem 0.8rem; text-align: left; }\n' +
+'    .content th { background: #1a1a1a; font-weight: 600; color: var(--text); }\n' +
+'    .content td { color: #ccc; }\n' +
+'    .content .child-page { border: 1px solid #2a2a2a; border-radius: 10px; margin-bottom: 1.4rem; overflow: hidden; }\n' +
+'    .content .child-page-title { background: #1a1a1a; padding: 0.8rem 1.2rem; font-weight: 600; font-size: 0.9rem; }\n' +
+'    .content .child-page-content { padding: 0.8rem 1.2rem; border-top: 1px solid #1e1e1e; }\n' +
+'    .content .column-list { display: flex; gap: 1.5rem; margin-bottom: 1.4rem; }\n' +
+'    .content .column { flex: 1; min-width: 0; }\n' +
+'    .content .math-block { overflow-x: auto; margin-bottom: 1.4rem; }\n' +
+'    @media (max-width: 600px) { .content .column-list { flex-direction: column; } }\n' +
 '    footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; margin-top: 4rem; }\n' +
 '  </style>\n' +
 '</head>\n' +
