@@ -117,6 +117,7 @@ async function fetchBlocksRecursively(blockId) {
 async function fetchLabEntries() {
   if (!LAB_DB_ID) { console.error('NOTION_LAB_DB_ID 환경변수가 없습니다.'); return []; }
   const response = await notionRequest(`databases/${LAB_DB_ID}/query`, 'POST', {
+    filter: { property: 'Published', checkbox: { equals: true } },
     sorts: [{ property: 'Date', direction: 'descending' }]
   });
   if (response.object === 'error') { console.error('Lab DB error:', response.message); return []; }
@@ -126,14 +127,15 @@ async function fetchLabEntries() {
     const props = page.properties;
     const getText = p => p?.rich_text?.[0]?.plain_text || p?.title?.[0]?.plain_text || '';
     const title = getText(props.Name || props.제목);
+    const description = getText(props.Description || props.설명);
     const date = (props.Date || props.날짜)?.date?.start || '';
-    const summary = getText(props.Summary || props.요약);
     const tags = ((props.Tags || props.태그)?.multi_select || []).map(t => t.name);
+    const slug = getText(props.Slug || props.slug) || null;
 
     const blocks = await fetchBlocksRecursively(page.id);
     const contentHtml = blocksToHtml(blocks);
 
-    entries.push({ id: page.id, title, date, summary, tags, contentHtml });
+    entries.push({ id: page.id, slug, title, description, date, tags, contentHtml });
     console.log(`  📓 처리: ${title}`);
   }
   return entries;
