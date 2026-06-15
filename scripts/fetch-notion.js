@@ -239,7 +239,15 @@ function generateArticlePage(article, contentHtml) {
     .content .column-list { display: flex; gap: 1.5rem; margin-bottom: 1.4rem; }
     .content .column { flex: 1; min-width: 0; }
     .content .math-block { overflow-x: auto; margin-bottom: 1.4rem; }
-    @media (max-width: 600px) { .content .column-list { flex-direction: column; } }
+    @media (max-width: 640px) {
+        .container { padding: 0 1.2rem; }
+        .content .column-list { flex-direction: column; }
+        footer { flex-direction: column; gap: 0.5rem; }
+    }
+    @media (max-width: 480px) {
+        .pw-form { flex-direction: column; align-items: stretch; }
+        #pw-input { width: 100%; }
+    }
     footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; margin-top: 4rem; }
   </style>
 </head>

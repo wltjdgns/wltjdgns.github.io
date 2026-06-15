@@ -12,10 +12,11 @@
     :root { --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.7; word-break: keep-all; min-height: 100vh; }
-    .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 3rem; }
 
-    nav { padding: 2rem 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; margin-bottom: 4rem; }
+    nav { padding: 2rem 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; margin-bottom: 4rem; position: relative; }
     .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; text-decoration: none; color: var(--text); }
+    .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; padding: 0.2rem 0.4rem; line-height: 1; }
     .nav-links a { color: var(--gray); text-decoration: none; margin-left: 2rem; font-size: 0.9rem; transition: color 0.3s; }
     .nav-links a:hover { color: var(--text); }
     .nav-links a.active { color: var(--accent); }
@@ -64,9 +65,32 @@
 
     footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; display: flex; justify-content: space-between; }
 
-    @media (max-width: 600px) {
+    /* 모바일: 햄버거 메뉴 */
+    @media (max-width: 767px) {
+      .nav-toggle { display: block; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--card-bg);
+        border-bottom: 1px solid #222;
+        padding: 0.5rem 0;
+        z-index: 100;
+      }
+      .nav-links.open { display: flex; flex-direction: column; }
+      .nav-links a { margin-left: 0; padding: 0.9rem 1.5rem; border-bottom: 1px solid #1a1a1a; }
+      .nav-links a:last-child { border-bottom: none; }
+    }
+    @media (max-width: 640px) {
+      .container { padding: 0 1.2rem; }
       .pw-form { flex-direction: column; align-items: stretch; }
       #pw-input { width: 100%; }
+      footer { flex-direction: column; gap: 0.5rem; }
+    }
+    @media (min-width: 1600px) {
+      .container { max-width: 1400px; padding: 0 4rem; }
     }
   </style>
 </head>
@@ -74,6 +98,7 @@
   <div class="container">
     <nav>
       <a href="/" class="logo">WLTJDGNS.LOG</a>
+      <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false">☰</button>
       <div class="nav-links">
         <a href="/#articles">Articles</a>
         <a href="/#projects">Projects</a>
@@ -112,7 +137,25 @@
   </div>
 
   <script>
-    function hexToBytes(hex) {
+    // ── 햄버거 메뉴 ──
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinksEl = document.querySelector('.nav-links');
+    if (navToggle && navLinksEl) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = navLinksEl.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', isOpen);
+        navToggle.textContent = isOpen ? '✕' : '☰';
+      });
+      navLinksEl.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          navLinksEl.classList.remove('open');
+          navToggle.setAttribute('aria-expanded', 'false');
+          navToggle.textContent = '☰';
+        });
+      });
+    }
+
+        function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
       for (var i = 0; i < hex.length; i += 2) arr[i / 2] = parseInt(hex.slice(i, i + 2), 16);
       return arr;
