@@ -80,7 +80,15 @@
     .content .db-table td { color: #ccc; }
     .content .db-table td:first-child { white-space: normal; }
     .content .n-select, .content .n-status { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 0.78em; font-weight: 500; white-space: nowrap; line-height: 1.6; }
-    @media (max-width: 600px) { .content .column-list { flex-direction: column; } }
+    @media (max-width: 640px) {
+        .container { padding: 0 1.2rem; }
+        .content .column-list { flex-direction: column; }
+        footer { flex-direction: column; gap: 0.5rem; }
+    }
+    @media (max-width: 480px) {
+        .pw-form { flex-direction: column; align-items: stretch; }
+        #pw-input { width: 100%; }
+    }
     footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; margin-top: 4rem; }
   </style>
 </head>
@@ -118,7 +126,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"5bcab0ca77c46e1b76de4411402554828b186c0a7b8cddaaf6c846c98b9df441","iv":"74049b427994b9f37521d884","data":"b202a4d63de542d01ea1097638c69ff6ccbefe631e4a94cf72a4dd4219e5cd1345c614e9ab250d297d13e79c39aceb9d8c47c1a1e42f74061e0cab9796fc8154d87b20964252bb0ebc8b5db52309906e11fcbf83e0c1ff3f232c6892bbcdccb56dcf49f69e8bf7f21c47e087d5c4510465e6cdbd2a3d9832","tag":"a43e3ba427d344201ec13cbe5cfec3a1"};
+    var ENCRYPTED = {"salt":"83c410291b4d4f6374c49be5a6f9a54326703c7089cc479d1f813d22f9591711","iv":"d1ff6c08d71c30711a496cf1","data":"8141319b16b6fc68f8d52d6a22a19cc2bf448952b158c517850f7c9b72894458a26ed34a41f67043edc88d3657b7025a810854ee7df2586508b6f15d18ec7ab4c69c1e8dccb6225c038b232f3c6ae12aeb96f5364f9fc6074ed50f5b3a2c8fe8f29abed5aa04ffca84d753a86bbda421b52e21330e36cb0c","tag":"3309fbae72738564b295fad0ac4c98ce"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);

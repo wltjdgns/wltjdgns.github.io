@@ -80,7 +80,15 @@
     .content .db-table td { color: #ccc; }
     .content .db-table td:first-child { white-space: normal; }
     .content .n-select, .content .n-status { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 0.78em; font-weight: 500; white-space: nowrap; line-height: 1.6; }
-    @media (max-width: 600px) { .content .column-list { flex-direction: column; } }
+    @media (max-width: 640px) {
+        .container { padding: 0 1.2rem; }
+        .content .column-list { flex-direction: column; }
+        footer { flex-direction: column; gap: 0.5rem; }
+    }
+    @media (max-width: 480px) {
+        .pw-form { flex-direction: column; align-items: stretch; }
+        #pw-input { width: 100%; }
+    }
     footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; margin-top: 4rem; }
   </style>
 </head>
@@ -118,7 +126,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"230e5587fd1067247a0a13743647431e4b8f4cc0e94329b2850d38a20887b846","iv":"d46499b0a02ac7cb41642d44","data":"26a02423b7696b5708b1f5f218219867e71cf12b61b97802a461f2404c452706254d9cfa245056a5cef340350ebaa8294a386a2d3a2e2df01866a0ec86016603c1e27182aa4523bc21b1c96b27487117fe1e02ed51991680772bb74babb5a09e5325a0792c33425a721732b41c02df127e72ee074a008ae3c916ed98a3da","tag":"1e90230d6574bbacdbebafc09405ff49"};
+    var ENCRYPTED = {"salt":"dd513c1aaec569b877b979d49fdc867c206e323b88bc685524f2d8c50683bce4","iv":"57431a43058c620443c22477","data":"4f478d8d0412851c5d6b002434ec49d22b68d0faa4aad5787f468dfac81c022b4449e95a344b8f3672b50ea79d9526dbfa1e476d9a084a09da6c0e043d3aafe0e2ab618228484e68a7ecf86e513daba06311bde10b4a7b66e9e1dfd1e6e5762cba24f9c3ef979bb2b616c9a954c2588157a610217fc72c9152d87389bc0a624720e4c1eb5f919361a49d3c68100f105e5008ccdfd87acd363accf1adf23a6b2df516e8401f884ef4f0bcda7038725a1b2601af066027648ebf8321796661a41a8c780d21b35b6b0e3269bb7e2610b24ac57d130183515ddda5a0448d3d8dcf2d4c382a124a4cb3694b00465b9e724a9e2d9b4cd742dbb1f88e0eca701d2dd00402820f1804bc5304275d4796cfdd0435dfca251dc7cf9f6325c8299efa5342f1333c57d9bd3496cd2751f5e79ac87c45de4335db2a7f17bb8277e46e38a301f45d688855ef3cc2e4be457cbdb798125febbad7d2236af580d751444ff1c7b3e8ed80e7c0ff97a3363cdcbf3cab4be8e2559904f1051b8dafabf3fb0f654266ff7326e1a823d66d2a9ee3c21a13c8bfda9e5d6e7034d840daa40af492e38b51464916ef0272d254651c5d001cf1acc714844a5cfbe4a5d9cf61ca8f2739db9a2d157de1255f3bcc8fce171c8af0fd2a385a31b171c54aea259b46a3e26da19f2817cb9962c62e8c17e9b8460acfd862c3afeaed7a61b62ba9310e4e11607d40","tag":"acdc1fe003d110c1820b0423c10073cb"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
