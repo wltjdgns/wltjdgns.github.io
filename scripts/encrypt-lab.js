@@ -147,7 +147,51 @@ function blocksToHtml(blocks) {
       case 'column': break;
       case 'child_database': {
         const dbTitle = (block.child_database && block.child_database.title) || 'Database';
-        html += '<div class="callout">📊 ' + esc(dbTitle) + '</div>\n';
+        const dbRows = block._dbRows || [];
+        const dbSchema = block._dbSchema;
+        if (!dbRows.length) {
+          html += '<div class="callout">📊 ' + esc(dbTitle) + '</div>\n';
+          break;
+        }
+        // 컬럼 순서: title 타입 먼저, 나머지는 스키마 순
+        const schema = dbSchema ? dbSchema.properties : {};
+        const cols = Object.keys(schema).sort((a, b) => {
+          if (schema[a].type === 'title') return -1;
+          if (schema[b].type === 'title') return 1;
+          return 0;
+        });
+        const getPropText = (prop) => {
+          if (!prop) return '';
+          const t = prop.type;
+          if (t === 'title') return (prop.title || []).map(r => r.plain_text).join('');
+          if (t === 'rich_text') return (prop.rich_text || []).map(r => r.plain_text).join('');
+          if (t === 'number') return prop.number !== null ? String(prop.number) : '';
+          if (t === 'select') return prop.select ? prop.select.name : '';
+          if (t === 'multi_select') return (prop.multi_select || []).map(s => s.name).join(', ');
+          if (t === 'checkbox') return prop.checkbox ? '✅' : '❌';
+          if (t === 'date') return prop.date ? prop.date.start : '';
+          if (t === 'url') return prop.url || '';
+          if (t === 'email') return prop.email || '';
+          if (t === 'phone_number') return prop.phone_number || '';
+          if (t === 'formula') return prop.formula ? String(prop.formula.string || prop.formula.number || '') : '';
+          return '';
+        };
+        html += '<div class="db-title">📊 ' + esc(dbTitle) + '</div>\n';
+        html += '<table>\n';
+        if (cols.length) {
+          html += '<thead><tr>';
+          cols.forEach(c => { html += '<th>' + esc(c) + '</th>'; });
+          html += '</tr></thead>\n';
+        }
+        html += '<tbody>\n';
+        dbRows.forEach(row => {
+          html += '<tr>';
+          cols.forEach(c => {
+            html += '<td>' + esc(getPropText(row.properties[c])) + '</td>';
+          });
+          html += '</tr>\n';
+        });
+        html += '</tbody></table>\n';
         break;
       }
       default: break;
@@ -170,7 +214,12 @@ async function fetchBlocksRecursively(blockId) {
     cursor = response.has_more ? response.next_cursor : null;
   } while (cursor);
   for (const block of allBlocks) {
-    if (block.has_children) {
+    if (block.type === 'child_database') {
+      const schema = await notionRequest('databases/' + block.id);
+      if (schema.object !== 'error') block._dbSchema = schema;
+      const rows = await notionRequest('databases/' + block.id + '/query', 'POST', {});
+      if (rows.object !== 'error') block._dbRows = rows.results || [];
+    } else if (block.has_children) {
       block._children = await fetchBlocksRecursively(block.id);
     }
   }
@@ -283,6 +332,7 @@ function generateLabEntryPage(entryEncrypted) {
 '    .content a:hover { text-decoration: underline; }\n' +
 '    .content strong { font-weight: 700; color: var(--text); }\n' +
 '    .content .callout { background: #111; border: 1px solid #2a2a2a; border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: #ccc; }\n' +
+'    .content .db-title { font-weight: 600; color: #ddd; margin-bottom: 0.5rem; font-size: 0.95rem; }\n' +
 '    .content table { width: 100%; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }\n' +
 '    .content th, .content td { border: 1px solid #2a2a2a; padding: 0.6rem 0.8rem; text-align: left; }\n' +
 '    .content th { background: #1a1a1a; font-weight: 600; color: var(--text); }\n' +
