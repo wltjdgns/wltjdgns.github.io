@@ -204,6 +204,9 @@ function blocksToHtml(blocks) {
           if (t === 'email') return prop.email || '';
           if (t === 'phone_number') return prop.phone_number || '';
           if (t === 'formula') return prop.formula ? String(prop.formula.string || prop.formula.number || '') : '';
+          if (t === 'files') return (prop.files || []).map(function(f) { return f.type === 'external' ? f.external.url : (f.file ? f.file.url : ''); }).filter(Boolean).join(', ');
+          if (t === 'relation') return '';
+          if (t === 'rollup') return prop.rollup ? String(prop.rollup.number || '') : '';
           return '';
         };
         html += '<div class="db-title">📊 ' + esc(dbTitle) + '</div>\n';
@@ -218,8 +221,8 @@ function blocksToHtml(blocks) {
           html += '<tr>';
           cols.forEach(c => {
             const cellText = esc(getPropText(row.properties[c]));
-            if (schema[c] && schema[c].type === 'title' && row.url && cellText) {
-              html += '<td><a href="' + esc(row.url) + '" target="_blank" rel="noopener">' + cellText + '</a></td>';
+            if (schema[c] && schema[c].type === 'title' && row._pagePath && cellText) {
+              html += '<td><a href="' + esc(row._pagePath) + '">' + cellText + '</a></td>';
             } else {
               html += '<td>' + cellText + '</td>';
             }
@@ -253,7 +256,12 @@ async function fetchBlocksRecursively(blockId) {
       const schema = await notionRequest('databases/' + block.id);
       if (schema.object !== 'error') block._dbSchema = schema;
       const rows = await notionRequest('databases/' + block.id + '/query', 'POST', {});
-      if (rows.object !== 'error') block._dbRows = rows.results || [];
+      if (rows.object !== 'error') {
+        block._dbRows = rows.results || [];
+        for (const row of block._dbRows) {
+          row._pageBlocks = await fetchBlocksRecursively(row.id);
+        }
+      }
     } else if (block.has_children) {
       block._children = await fetchBlocksRecursively(block.id);
     }
@@ -282,9 +290,8 @@ async function fetchLabEntries() {
     const slug = getText(props.Slug || props['slug']) || null;
 
     const blocks = await fetchBlocksRecursively(page.id);
-    const contentHtml = blocksToHtml(blocks);
 
-    entries.push({ id: page.id, slug, title, description, date, tags, contentHtml });
+    entries.push({ id: page.id, slug, title, description, date, tags, blocks });
     console.log('  📓 처리: ' + title);
   }
   return entries;
@@ -521,23 +528,59 @@ async function main() {
   if (!fs.existsSync(labDir)) fs.mkdirSync(labDir, { recursive: true });
 
   const metaList = [];
+  // DB 행 title 추출 헬퍼
+  function getRowTitle(properties) {
+    for (const prop of Object.values(properties || {})) {
+      if (prop.type === 'title') return (prop.title || []).map(r => r.plain_text).join('');
+    }
+    return 'Untitled';
+  }
+  // child_database 블록 내 모든 DB 행 수집 (재귀)
+  function collectDbRows(blocks) {
+    const rows = [];
+    for (const b of (blocks || [])) {
+      if (b.type === 'child_database' && b._dbRows) rows.push(...b._dbRows);
+      if (b._children) rows.push(...collectDbRows(b._children));
+    }
+    return rows;
+  }
+
   for (const entry of entries) {
     if (!entry.slug) {
       console.log('  ⚠️  Slug 없음, 스킵: ' + entry.title);
       continue;
     }
+    // DB 행마다 _pagePath 먼저 설정 → blocksToHtml 호출 전에
+    const allDbRows = collectDbRows(entry.blocks);
+    for (const row of allDbRows) {
+      const rowId = row.id.replace(/-/g, '');
+      row._pagePath = '/lab/' + rowId + '.html';
+    }
+    // contentHtml 생성 (이제 _pagePath 사용)
+    const contentHtml = blocksToHtml(entry.blocks);
     // 개별 페이지용 암호화 (전체 내용 포함)
     const entryData = {
       title: entry.title,
       description: entry.description,
       date: entry.date,
       tags: entry.tags,
-      contentHtml: entry.contentHtml
+      contentHtml: contentHtml
     };
     const entryEncrypted = encryptData(JSON.stringify(entryData), LAB_PASSWORD);
     const html = generateLabEntryPage(entryEncrypted);
     fs.writeFileSync(path.join(labDir, entry.slug + '.html'), html, 'utf8');
     console.log('  📄 생성: lab/' + entry.slug + '.html');
+    // DB 행 세부 페이지 생성
+    for (const row of allDbRows) {
+      const rowTitle = getRowTitle(row.properties);
+      const rowContentHtml = blocksToHtml(row._pageBlocks || []);
+      const rowData = { title: rowTitle, description: '', date: '', tags: [], contentHtml: rowContentHtml };
+      const rowEncrypted = encryptData(JSON.stringify(rowData), LAB_PASSWORD);
+      const rowHtmlPage = generateLabEntryPage(rowEncrypted);
+      const rowId = row.id.replace(/-/g, '');
+      fs.writeFileSync(path.join(labDir, rowId + '.html'), rowHtmlPage, 'utf8');
+      console.log('    🗂️  DB행: ' + rowTitle);
+    }
 
     // 인덱스용 메타데이터 (내용 제외)
     metaList.push({
