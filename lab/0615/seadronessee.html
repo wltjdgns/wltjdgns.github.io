@@ -15,7 +15,7 @@
     :root { --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; }
-    .container { max-width: 720px; margin: 0 auto; padding: 0 2rem; }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 3rem; }
     nav { padding: 2rem 0; border-bottom: 1px solid #222; margin-bottom: 4rem; display: flex; gap: 2rem; align-items: center; }
     nav a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
     nav a:hover { color: var(--text); }
@@ -89,6 +89,9 @@
         .pw-form { flex-direction: column; align-items: stretch; }
         #pw-input { width: 100%; }
     }
+    @media (min-width: 1600px) {
+        .container { max-width: 1000px; padding: 0 4rem; }
+    }
     footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; margin-top: 4rem; }
   </style>
 </head>
@@ -126,7 +129,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"aa9371b4e9b72815fd298d33c3d82f79b93531acac940ea6a52d57a494bfa8ca","iv":"b13a2c9ab704a2d884996877","data":"46ecb14d850c5feb84c1496713dd5eb3ad0c757bf9d8dab136d853906f3ee18347d9ca778c41223877b059fe61abec10616505c25ba902ade333693018b2578a0a0dedd1e8b53e6804fdc8a8fb41256ce9cf537c14ef9fb96cfb40883711f63abaaf2ecbf7f33f23ce5600b504dbd64b6da65611e6d1718b0d47565d4768","tag":"f534ce71a9c517b4d12f316077d394bc"};
+    var ENCRYPTED = {"salt":"3528be12a3e8a9e7ed612401a7007adf25b9e66f43cd319a05c3a817109719f5","iv":"05463d4ef2dd73fa4f517330","data":"c4288ad406e3a6ffcc09222ef6f26aa59662c34330d167135e6ce9e31df2a04008adda8c4898f03a2c8bd8f026a71b670d9a74d7d43dffa221a3d8d64a01ad81065269e9d7678c2fd56a4ab49ead89678547c4543fb91028b904a3b6dbe3e3c5a3e617a14bc8e80f4b528aba208187eda6ce44a707291ec2dc23f4b48a0d","tag":"fe62cf877ac3f7b6ef4490f27fcea4fe"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
