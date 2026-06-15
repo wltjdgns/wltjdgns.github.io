@@ -34,6 +34,68 @@ const esc = s => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;')
   .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+function slugify(str) {
+  return String(str).toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-가-힣]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '') || 'untitled';
+}
+
+// Notion color → [bg, fg] dark-theme palette
+const NOTION_COLORS = {
+  default: ['#2d2d2d', '#aaa'],
+  gray:    ['#3a3a3a', '#9b9a97'],
+  brown:   ['#3d2b1f', '#c4a882'],
+  orange:  ['#4a2500', '#e8850a'],
+  yellow:  ['#3d3000', '#dfab01'],
+  green:   ['#0d2e1e', '#3dba8a'],
+  blue:    ['#0a2233', '#4db8d9'],
+  purple:  ['#281a4a', '#a882d9'],
+  pink:    ['#3d0d2a', '#e05caa'],
+  red:     ['#3d1010', '#e06060']
+};
+
+function mkBadge(name, color, cls) {
+  const pair = NOTION_COLORS[color] || NOTION_COLORS.default;
+  return '<span class="' + cls + '" style="background:' + pair[0] + ';color:' + pair[1] +
+    ';border-radius:3px;padding:1px 6px;font-size:0.78em;font-weight:500;white-space:nowrap;display:inline-block;line-height:1.6">' +
+    esc(name) + '</span>';
+}
+
+function getPropText(prop) {
+  if (!prop) return '';
+  const t = prop.type;
+  if (t === 'title') return (prop.title || []).map(r => r.plain_text).join('');
+  if (t === 'rich_text') return (prop.rich_text || []).map(r => r.plain_text).join('');
+  if (t === 'number') return prop.number !== null && prop.number !== undefined ? String(prop.number) : '';
+  if (t === 'select') return prop.select ? prop.select.name : '';
+  if (t === 'multi_select') return (prop.multi_select || []).map(s => s.name).join(', ');
+  if (t === 'checkbox') return prop.checkbox ? '✅' : '❌';
+  if (t === 'date') return prop.date ? prop.date.start : '';
+  if (t === 'url') return prop.url || '';
+  if (t === 'email') return prop.email || '';
+  if (t === 'phone_number') return prop.phone_number || '';
+  if (t === 'formula') return prop.formula ? String(prop.formula.string || prop.formula.number || '') : '';
+  if (t === 'files') return (prop.files || []).map(f => f.type === 'external' ? f.external.url : (f.file ? f.file.url : '')).filter(Boolean).join(', ');
+  if (t === 'relation') return '';
+  if (t === 'rollup') return prop.rollup ? String(prop.rollup.number || '') : '';
+  if (t === 'status') return prop.status ? prop.status.name : '';
+  return '';
+}
+
+function getPropHtml(prop) {
+  if (!prop) return '';
+  const t = prop.type;
+  if (t === 'select' && prop.select)
+    return mkBadge(prop.select.name, prop.select.color || 'default', 'n-select');
+  if (t === 'multi_select')
+    return (prop.multi_select || []).map(s => mkBadge(s.name, s.color || 'default', 'n-select')).join(' ');
+  if (t === 'status' && prop.status)
+    return mkBadge(prop.status.name, prop.status.color || 'default', 'n-status');
+  return esc(getPropText(prop));
+}
+
 function richTextToHtml(richText) {
   return (richText || []).map(span => {
     if (span.type === 'equation') {
@@ -65,45 +127,39 @@ function blocksToHtml(blocks) {
         break;
       }
       case 'heading_1': {
-        const hText = richTextToHtml(block.heading_1.rich_text);
         if (block.heading_1.is_toggleable) {
           const childHtml = block._children ? blocksToHtml(block._children) : '';
-          html += '<details class="toggle-heading"><summary><h1>' + hText + '</h1></summary>' +
-            '<div class="toggle-content">' + childHtml + '</div></details>\n';
+          html += '<details class="toggle-heading"><summary><h1>' + richTextToHtml(block.heading_1.rich_text) + '</h1></summary><div class="toggle-content">' + childHtml + '</div></details>\n';
         } else {
-          html += '<h1>' + hText + '</h1>\n';
+          html += '<h1>' + richTextToHtml(block.heading_1.rich_text) + '</h1>\n';
         }
         break;
       }
       case 'heading_2': {
-        const hText = richTextToHtml(block.heading_2.rich_text);
         if (block.heading_2.is_toggleable) {
           const childHtml = block._children ? blocksToHtml(block._children) : '';
-          html += '<details class="toggle-heading"><summary><h2>' + hText + '</h2></summary>' +
-            '<div class="toggle-content">' + childHtml + '</div></details>\n';
+          html += '<details class="toggle-heading"><summary><h2>' + richTextToHtml(block.heading_2.rich_text) + '</h2></summary><div class="toggle-content">' + childHtml + '</div></details>\n';
         } else {
-          html += '<h2>' + hText + '</h2>\n';
+          html += '<h2>' + richTextToHtml(block.heading_2.rich_text) + '</h2>\n';
         }
         break;
       }
       case 'heading_3': {
-        const hText = richTextToHtml(block.heading_3.rich_text);
         if (block.heading_3.is_toggleable) {
           const childHtml = block._children ? blocksToHtml(block._children) : '';
-          html += '<details class="toggle-heading"><summary><h3>' + hText + '</h3></summary>' +
-            '<div class="toggle-content">' + childHtml + '</div></details>\n';
+          html += '<details class="toggle-heading"><summary><h3>' + richTextToHtml(block.heading_3.rich_text) + '</h3></summary><div class="toggle-content">' + childHtml + '</div></details>\n';
         } else {
-          html += '<h3>' + hText + '</h3>\n';
+          html += '<h3>' + richTextToHtml(block.heading_3.rich_text) + '</h3>\n';
         }
         break;
       }
       case 'bulleted_list_item':
         if (!inUl) { html += '<ul>\n'; inUl = true; }
-        html += '  <li>' + richTextToHtml(block.bulleted_list_item.rich_text) + '</li>\n';
+        html += '  <li>' + richTextToHtml(block.bulleted_list_item.rich_text) + (block._children ? blocksToHtml(block._children) : '') + '</li>\n';
         break;
       case 'numbered_list_item':
         if (!inOl) { html += '<ol>\n'; inOl = true; }
-        html += '  <li>' + richTextToHtml(block.numbered_list_item.rich_text) + '</li>\n';
+        html += '  <li>' + richTextToHtml(block.numbered_list_item.rich_text) + (block._children ? blocksToHtml(block._children) : '') + '</li>\n';
         break;
       case 'code': {
         const lang = block.code.language || '';
@@ -120,8 +176,7 @@ function blocksToHtml(blocks) {
       case 'toggle': {
         const summary = richTextToHtml(block.toggle.rich_text);
         const childHtml = block._children ? blocksToHtml(block._children) : '';
-        html += '<details><summary>' + summary + '</summary>' +
-          '<div class="toggle-content">' + childHtml + '</div></details>\n';
+        html += '<details><summary>' + summary + '</summary><div class="toggle-content">' + childHtml + '</div></details>\n';
         break;
       }
       case 'divider': html += '<hr>\n'; break;
@@ -156,83 +211,62 @@ function blocksToHtml(blocks) {
       }
       case 'table_row': break;
       case 'child_page': {
-        const title = block.child_page.title || '';
-        const childBlocks = block._children || [];
-        html += '<details class="child-page"><summary>📄 ' + esc(title) + '</summary>';
-        if (childBlocks.length) {
-          html += '<div class="child-page-content">' + blocksToHtml(childBlocks) + '</div>';
+        const cpTitle = block.child_page.title || '';
+        const cpBlocks = block._children || [];
+        html += '<details class="child-page"><summary>📄 ' + esc(cpTitle) + '</summary>';
+        if (cpBlocks.length) {
+          html += '<div class="child-page-content">' + blocksToHtml(cpBlocks) + '</div>';
         }
         html += '</details>\n';
         break;
       }
+      case 'child_database': {
+        const dbTitle = (block.child_database && block.child_database.title) || 'Database';
+        const schema = block._dbSchema || {};
+        const rows = block._dbRows || [];
+        // Determine column order: title first, skip formula/rollup/relation
+        const SKIP_TYPES = ['formula', 'rollup', 'relation', 'files'];
+        let columns = Object.keys(schema).filter(c => !SKIP_TYPES.includes(schema[c].type));
+        columns.sort((a, b) => {
+          if (schema[a].type === 'title') return -1;
+          if (schema[b].type === 'title') return 1;
+          return 0;
+        });
+        html += '<div class="db-title">📊 ' + esc(dbTitle) + '</div>\n';
+        if (columns.length && rows.length) {
+          html += '<div class="db-table-wrap"><table class="db-table">\n<thead><tr>';
+          columns.forEach(c => { html += '<th>' + esc(c) + '</th>'; });
+          html += '</tr></thead>\n<tbody>';
+          rows.forEach(row => {
+            html += '<tr>';
+            columns.forEach(c => {
+              if (schema[c] && schema[c].type === 'title') {
+                const cellText = esc(getPropText(row.properties[c]));
+                html += '<td>' + (row._pagePath && cellText
+                  ? '<a href="' + esc(row._pagePath) + '">' + cellText + '</a>'
+                  : cellText) + '</td>';
+              } else {
+                html += '<td>' + getPropHtml(row.properties[c]) + '</td>';
+              }
+            });
+            html += '</tr>\n';
+          });
+          html += '</tbody>\n</table></div>\n';
+        } else {
+          html += '<p><em>데이터 없음</em></p>\n';
+        }
+        break;
+      }
       case 'column_list': {
-        const columns = block._children || [];
+        const cols = block._children || [];
         html += '<div class="column-list">';
-        columns.forEach(col => {
+        cols.forEach(col => {
           html += '<div class="column">' + blocksToHtml(col._children || []) + '</div>';
         });
         html += '</div>\n';
         break;
       }
       case 'column': break;
-      case 'child_database': {
-        const dbTitle = (block.child_database && block.child_database.title) || 'Database';
-        const dbRows = block._dbRows || [];
-        const dbSchema = block._dbSchema;
-        if (!dbRows.length) {
-          html += '<div class="callout">📊 ' + esc(dbTitle) + '</div>\n';
-          break;
-        }
-        // 컬럼 순서: title 타입 먼저, 나머지는 스키마 순
-        const schema = dbSchema ? dbSchema.properties : {};
-        const cols = Object.keys(schema).sort((a, b) => {
-          if (schema[a].type === 'title') return -1;
-          if (schema[b].type === 'title') return 1;
-          return 0;
-        });
-        const getPropText = (prop) => {
-          if (!prop) return '';
-          const t = prop.type;
-          if (t === 'title') return (prop.title || []).map(r => r.plain_text).join('');
-          if (t === 'rich_text') return (prop.rich_text || []).map(r => r.plain_text).join('');
-          if (t === 'number') return prop.number !== null ? String(prop.number) : '';
-          if (t === 'select') return prop.select ? prop.select.name : '';
-          if (t === 'multi_select') return (prop.multi_select || []).map(s => s.name).join(', ');
-          if (t === 'checkbox') return prop.checkbox ? '✅' : '❌';
-          if (t === 'date') return prop.date ? prop.date.start : '';
-          if (t === 'url') return prop.url || '';
-          if (t === 'email') return prop.email || '';
-          if (t === 'phone_number') return prop.phone_number || '';
-          if (t === 'formula') return prop.formula ? String(prop.formula.string || prop.formula.number || '') : '';
-          if (t === 'files') return (prop.files || []).map(function(f) { return f.type === 'external' ? f.external.url : (f.file ? f.file.url : ''); }).filter(Boolean).join(', ');
-          if (t === 'relation') return '';
-          if (t === 'rollup') return prop.rollup ? String(prop.rollup.number || '') : '';
-          if (t === 'status') return prop.status ? prop.status.name : '';
-          return '';
-        };
-        html += '<div class="db-title">📊 ' + esc(dbTitle) + '</div>\n';
-        html += '<table>\n';
-        if (cols.length) {
-          html += '<thead><tr>';
-          cols.forEach(c => { html += '<th>' + esc(c) + '</th>'; });
-          html += '</tr></thead>\n';
-        }
-        html += '<tbody>\n';
-        dbRows.forEach(row => {
-          html += '<tr>';
-          cols.forEach(c => {
-            const cellText = esc(getPropText(row.properties[c]));
-            if (schema[c] && schema[c].type === 'title' && row._pagePath && cellText) {
-              html += '<td><a href="' + esc(row._pagePath) + '">' + cellText + '</a></td>';
-            } else {
-              html += '<td>' + cellText + '</td>';
-            }
-          });
-          html += '</tr>\n';
-        });
-        html += '</tbody></table>\n';
-        break;
-      }
       default: break;
     }
   }
@@ -241,6 +275,7 @@ function blocksToHtml(blocks) {
   return html;
 }
 
+// 페이지네이션 지원 — Notion API는 블록을 최대 100개씩 반환
 async function fetchBlocksRecursively(blockId) {
   let allBlocks = [];
   let cursor = null;
@@ -252,22 +287,62 @@ async function fetchBlocksRecursively(blockId) {
     allBlocks = allBlocks.concat(response.results || []);
     cursor = response.has_more ? response.next_cursor : null;
   } while (cursor);
+
   for (const block of allBlocks) {
     if (block.type === 'child_database') {
-      const schema = await notionRequest('databases/' + block.id);
-      if (schema.object !== 'error') block._dbSchema = schema;
-      const rows = await notionRequest('databases/' + block.id + '/query', 'POST', {});
-      if (rows.object !== 'error') {
-        block._dbRows = rows.results || [];
-        for (const row of block._dbRows) {
-          row._pageBlocks = await fetchBlocksRecursively(row.id);
-        }
+      // Fetch schema
+      const dbResp = await notionRequest('databases/' + block.id);
+      block._dbSchema = (dbResp.object === 'error') ? {} : (dbResp.properties || {});
+      // Fetch rows
+      let rowCursor = null;
+      block._dbRows = [];
+      do {
+        const rowBody = rowCursor ? { start_cursor: rowCursor } : {};
+        const rowsResp = await notionRequest('databases/' + block.id + '/query', 'POST', rowBody);
+        if (rowsResp.object === 'error') break;
+        block._dbRows = block._dbRows.concat(rowsResp.results || []);
+        rowCursor = rowsResp.has_more ? rowsResp.next_cursor : null;
+      } while (rowCursor);
+      // Fetch children for each row page
+      for (const row of block._dbRows) {
+        row._children = await fetchBlocksRecursively(row.id);
       }
     } else if (block.has_children) {
       block._children = await fetchBlocksRecursively(block.id);
     }
   }
   return allBlocks;
+}
+
+// DB 행에서 제목(title 타입 property) 추출
+function getRowTitle(row) {
+  for (const key of Object.keys(row.properties || {})) {
+    const prop = row.properties[key];
+    if (prop.type === 'title') {
+      return (prop.title || []).map(r => r.plain_text).join('').trim();
+    }
+  }
+  return '';
+}
+
+// 블록 트리에서 child_database 행들을 찾아 _pagePath 할당
+function collectDbRows(blocks, entrySlug) {
+  const rows = [];
+  for (const block of blocks) {
+    if (block.type === 'child_database') {
+      for (const row of (block._dbRows || [])) {
+        const title = getRowTitle(row);
+        const titleSlug = slugify(title) || row.id;
+        row._pagePath = '/lab/' + entrySlug + '/' + titleSlug + '.html';
+        rows.push(row);
+      }
+    }
+    // Recurse into block children (not DB rows)
+    if (block._children && block.type !== 'child_database') {
+      rows.push(...collectDbRows(block._children, entrySlug));
+    }
+  }
+  return rows;
 }
 
 async function fetchLabEntries() {
@@ -283,17 +358,16 @@ async function fetchLabEntries() {
     const props = page.properties;
     const getText = p => p && p.rich_text && p.rich_text[0] ? p.rich_text[0].plain_text
       : (p && p.title && p.title[0] ? p.title[0].plain_text : '');
-    const title = getText(props.Name || props['제목']);
-    const description = getText(props.Description || props['설명']);
-    const date = (props.Date || props['날짜']) && (props.Date || props['날짜']).date
-      ? (props.Date || props['날짜']).date.start : '';
-    const tags = ((props.Tags || props['태그']) && (props.Tags || props['태그']).multi_select || []).map(t => t.name);
+    const title = getText(props.Name || props['\uc81c\ubaa9']);
+    const description = getText(props.Description || props['\uc124\uba85']);
+    const date = (props.Date || props['\ub0a0\uc9dc']) && (props.Date || props['\ub0a0\uc9dc']).date
+      ? (props.Date || props['\ub0a0\uc9dc']).date.start : '';
+    const tags = ((props.Tags || props['\ud0dc\uadf8']) && (props.Tags || props['\ud0dc\uadf8']).multi_select || []).map(t => t.name);
     const slug = getText(props.Slug || props['slug']) || null;
 
     const blocks = await fetchBlocksRecursively(page.id);
-
     entries.push({ id: page.id, slug, title, description, date, tags, blocks });
-    console.log('  📓 처리: ' + title);
+    console.log('  \ud83d\udcd3 \ucc98\ub9ac: ' + title + ' (' + blocks.length + '\uac1c \ube14\ub85d)');
   }
   return entries;
 }
@@ -313,7 +387,6 @@ function encryptData(plaintext, password) {
   };
 }
 
-// 개별 연구기록 페이지 HTML 생성 (암호화된 내용 인라인 삽입)
 function generateLabEntryPage(entryEncrypted) {
   const encStr = JSON.stringify(entryEncrypted);
   return '<!DOCTYPE html>\n' +
@@ -321,14 +394,14 @@ function generateLabEntryPage(entryEncrypted) {
 '<head>\n' +
 '  <meta charset="UTF-8">\n' +
 '  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
-'  <title>연구기록 | wltjdgns</title>\n' +
+'  <title>\uc5f0\uad6c\uae30\ub85d | wltjdgns</title>\n' +
 '  <meta name="robots" content="noindex, nofollow">\n' +
 '  <link rel="preconnect" href="https://fonts.googleapis.com">\n' +
 '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
 '  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&display=swap" rel="stylesheet">\n' +
 '  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">\n' +
 '  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>\n' +
-'  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:\'\\\\[\',right:\'\\\\]\',display:true},{left:\'\\\\(\',right:\'\\\\)\',display:false}]})"></script>\n' +
+'  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>\n' +
 '  <style>\n' +
 '    :root { --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666; }\n' +
 '    * { margin: 0; padding: 0; box-sizing: border-box; }\n' +
@@ -375,29 +448,29 @@ function generateLabEntryPage(entryEncrypted) {
 '    .content a:hover { text-decoration: underline; }\n' +
 '    .content strong { font-weight: 700; color: var(--text); }\n' +
 '    .content .callout { background: #111; border: 1px solid #2a2a2a; border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: #ccc; }\n' +
-'    .content .db-title { font-weight: 600; color: #ddd; margin-bottom: 0.5rem; font-size: 0.95rem; }\n' +
-'    .content .n-select, .content .n-status { display:inline-block; border-radius:3px; padding:1px 6px; font-size:0.78em; font-weight:500; white-space:nowrap; line-height:1.6; }\n' +
 '    .content table { width: 100%; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }\n' +
-'    .content th, .content td { border: 1px solid #2a2a2a; padding: 0.6rem 0.8rem; text-align: left; }\n' +
+'    .content th, .content td { border: 1px solid #2a2a2a; padding: 0.6rem 0.8rem; text-align: left; vertical-align: middle; }\n' +
 '    .content th { background: #1a1a1a; font-weight: 600; color: var(--text); }\n' +
 '    .content td { color: #ccc; }\n' +
-'    .content details.toggle-heading { margin-bottom: 1rem; }\n' +
-'    .content details.toggle-heading summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 0.5rem; }\n' +
-'    .content details.toggle-heading summary::before { content: \'▶\'; font-size: 0.65rem; color: var(--accent); transition: transform 0.2s; flex-shrink: 0; }\n' +
-'    .content details.toggle-heading[open] summary::before { transform: rotate(90deg); }\n' +
-'    .content details.toggle-heading summary h1,\n' +
-'    .content details.toggle-heading summary h2,\n' +
-'    .content details.toggle-heading summary h3 { margin: 0; display: inline; }\n' +
-'    .content details.toggle-heading .toggle-content { padding-left: 1.2rem; border-left: 2px solid #2a2a2a; margin-top: 0.5rem; }\n' +
-'    .content details.child-page { border: 1px solid #2a2a2a; border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }\n' +
-'    .content details.child-page summary { padding: 0.8rem 1rem; cursor: pointer; font-weight: 500; color: #ddd; list-style: none; display: flex; align-items: center; gap: 0.5rem; }\n' +
-'    .content details.child-page summary::before { content: \'▶\'; font-size: 0.65rem; color: var(--accent); transition: transform 0.2s; flex-shrink: 0; }\n' +
-'    .content details.child-page[open] summary::before { transform: rotate(90deg); }\n' +
-'    .content details.child-page summary:hover { background: #111; }\n' +
-'    .content .child-page-content { padding: 0.2rem 1rem 0.8rem 2rem; border-top: 1px solid #1e1e1e; }\n' +
+'    .content details { border: 1px solid #2a2a2a; border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }\n' +
+'    .content details summary { padding: 0.8rem 1rem; cursor: pointer; font-weight: 500; color: #ddd; list-style: none; display: flex; align-items: center; gap: 0.5rem; }\n' +
+'    .content details summary::-webkit-details-marker { display: none; }\n' +
+'    .content details summary::before { content: "\\25B6"; font-size: 0.65rem; color: var(--accent); transition: transform 0.2s; flex-shrink: 0; }\n' +
+'    .content details[open] summary::before { transform: rotate(90deg); }\n' +
+'    .content details summary:hover { background: #111; }\n' +
+'    .content .toggle-content { padding: 0.2rem 1rem 0.8rem 2rem; border-top: 1px solid #1e1e1e; }\n' +
+'    .content details.toggle-heading summary h1, .content details.toggle-heading summary h2, .content details.toggle-heading summary h3 { margin: 0; display: inline; }\n' +
 '    .content .column-list { display: flex; gap: 1.5rem; margin-bottom: 1.4rem; }\n' +
 '    .content .column { flex: 1; min-width: 0; }\n' +
 '    .content .math-block { overflow-x: auto; margin-bottom: 1.4rem; }\n' +
+'    .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }\n' +
+'    .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }\n' +
+'    .content .db-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }\n' +
+'    .content .db-table th, .content .db-table td { border: 1px solid #2a2a2a; padding: 0.5rem 0.8rem; text-align: left; vertical-align: middle; white-space: nowrap; }\n' +
+'    .content .db-table th { background: #161616; font-weight: 600; color: #aaa; font-size: 0.78rem; letter-spacing: 0.03em; }\n' +
+'    .content .db-table td { color: #ccc; }\n' +
+'    .content .db-table td:first-child { white-space: normal; }\n' +
+'    .content .n-select, .content .n-status { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 0.78em; font-weight: 500; white-space: nowrap; line-height: 1.6; }\n' +
 '    @media (max-width: 600px) { .content .column-list { flex-direction: column; } }\n' +
 '    footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; margin-top: 4rem; }\n' +
 '  </style>\n' +
@@ -405,17 +478,17 @@ function generateLabEntryPage(entryEncrypted) {
 '<body>\n' +
 '  <div class="container">\n' +
 '    <nav>\n' +
-'      <a href="/">← WLTJDGNS.LOG</a>\n' +
-'      <a href="/lab/">연구기록</a>\n' +
+'      <a href="/">\u2190 WLTJDGNS.LOG</a>\n' +
+'      <a href="/lab/">\uc5f0\uad6c\uae30\ub85d</a>\n' +
 '    </nav>\n' +
 '\n' +
 '    <div id="lock-screen">\n' +
-'      <div class="lock-icon">🔒</div>\n' +
-'      <h1 class="lock-title">연구기록</h1>\n' +
-'      <p class="lock-sub">비공개 영역입니다. 비밀번호를 입력하세요.</p>\n' +
+'      <div class="lock-icon">\ud83d\udd12</div>\n' +
+'      <h1 class="lock-title">\uc5f0\uad6c\uae30\ub85d</h1>\n' +
+'      <p class="lock-sub">\ube44\uacf5\uac1c \uc601\uc5ed\uc785\ub2c8\ub2e4. \ube44\ubc00\ubc88\ud638\ub97c \uc785\ub825\ud558\uc138\uc694.</p>\n' +
 '      <div class="pw-form">\n' +
-'        <input type="password" id="pw-input" placeholder="비밀번호" autocomplete="current-password">\n' +
-'        <button class="btn-unlock" id="btn-unlock" onclick="unlock()">열기</button>\n' +
+'        <input type="password" id="pw-input" placeholder="\ube44\ubc00\ubc88\ud638" autocomplete="current-password">\n' +
+'        <button class="btn-unlock" id="btn-unlock" onclick="unlock()">\uc5f4\uae30</button>\n' +
 '      </div>\n' +
 '      <p id="lock-error"></p>\n' +
 '    </div>\n' +
@@ -479,11 +552,16 @@ function generateLabEntryPage(entryEncrypted) {
 '\n' +
 '    function renderEntry(entry) {\n' +
 '      document.getElementById("entry-date").textContent = formatDate(entry.date);\n' +
-'      document.getElementById("entry-tags").innerHTML = entry.tags.map(function(t) { return \'<span class="tag">#\' + t + "</span>"; }).join("");\n' +
-'      document.getElementById("entry-title").textContent = entry.title;\n' +
-'      document.getElementById("entry-body").innerHTML = entry.contentHtml || \'<p style="color:#555">내용이 없습니다.</p>\';\n' +
+'      document.getElementById("entry-tags").innerHTML = (entry.tags || []).map(function(t) { return \'<span class="tag">#\' + t + "</span>"; }).join("");\n' +
+'      document.getElementById("entry-title").textContent = entry.title || "";\n' +
+'      document.getElementById("entry-body").innerHTML = entry.contentHtml || \'<p style="color:#555">\ub0b4\uc6a9\uc774 \uc5c6\uc2b5\ub2c8\ub2e4.</p>\';\n' +
 '      document.getElementById("lock-screen").style.display = "none";\n' +
 '      document.getElementById("article-content").style.display = "block";\n' +
+'      if (window.renderMathInElement) {\n' +
+'        renderMathInElement(document.getElementById("entry-body"), {\n' +
+'          delimiters: [{left:"\\\\[",right:"\\\\]",display:true},{left:"\\\\(",right:"\\\\)",display:false}]\n' +
+'        });\n' +
+'      }\n' +
 '    }\n' +
 '\n' +
 '    function unlock() {\n' +
@@ -493,7 +571,7 @@ function generateLabEntryPage(entryEncrypted) {
 '      var input = document.getElementById("pw-input");\n' +
 '      if (!pw) return;\n' +
 '      btn.disabled = true;\n' +
-'      btn.textContent = "복호화 중...";\n' +
+'      btn.textContent = "\ubcf5\ud638\ud654 \uc911...";\n' +
 '      errEl.textContent = "";\n' +
 '      input.classList.remove("error");\n' +
 '      decryptData(ENCRYPTED, pw).then(function(plaintext) {\n' +
@@ -502,9 +580,9 @@ function generateLabEntryPage(entryEncrypted) {
 '        sessionStorage.setItem("lab_pw", pw);\n' +
 '      }).catch(function() {\n' +
 '        input.classList.add("error");\n' +
-'        errEl.textContent = "비밀번호가 올바르지 않습니다.";\n' +
+'        errEl.textContent = "\ube44\ubc00\ubc88\ud638\uac00 \uc62c\ubc14\ub974\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.";\n' +
 '        btn.disabled = false;\n' +
-'        btn.textContent = "열기";\n' +
+'        btn.textContent = "\uc5f4\uae30";\n' +
 '        input.value = "";\n' +
 '        input.focus();\n' +
 '      });\n' +
@@ -522,69 +600,61 @@ function generateLabEntryPage(entryEncrypted) {
 }
 
 async function main() {
-  if (!LAB_PASSWORD) { console.error('LAB_PASSWORD 환경변수가 없습니다.'); process.exit(1); }
-  console.log('연구기록 데이터 가져오는 중...');
+  if (!LAB_PASSWORD) { console.error('LAB_PASSWORD \ud658\uacbd\ubcc0\uc218\uac00 \uc5c6\uc2b5\ub2c8\ub2e4.'); process.exit(1); }
+  console.log('\uc5f0\uad6c\uae30\ub85d \ub370\uc774\ud130 \uac00\uc838\uc624\ub294 \uc911...');
   const entries = await fetchLabEntries();
 
   const labDir = path.join(__dirname, '..', 'lab');
   if (!fs.existsSync(labDir)) fs.mkdirSync(labDir, { recursive: true });
 
   const metaList = [];
-  // DB 행 title 추출 헬퍼
-  function getRowTitle(properties) {
-    for (const prop of Object.values(properties || {})) {
-      if (prop.type === 'title') return (prop.title || []).map(r => r.plain_text).join('');
-    }
-    return 'Untitled';
-  }
-  // child_database 블록 내 모든 DB 행 수집 (재귀)
-  function collectDbRows(blocks) {
-    const rows = [];
-    for (const b of (blocks || [])) {
-      if (b.type === 'child_database' && b._dbRows) rows.push(...b._dbRows);
-      if (b._children) rows.push(...collectDbRows(b._children));
-    }
-    return rows;
-  }
-
   for (const entry of entries) {
     if (!entry.slug) {
-      console.log('  ⚠️  Slug 없음, 스킵: ' + entry.title);
+      console.log('  \u26a0\ufe0f  Slug \uc5c6\uc74c, \uc2a4\ud82b: ' + entry.title);
       continue;
     }
-    // DB 행마다 _pagePath 먼저 설정 → blocksToHtml 호출 전에
-    const allDbRows = collectDbRows(entry.blocks);
-    for (const row of allDbRows) {
-      const rowId = row.id.replace(/-/g, '');
-      row._pagePath = '/lab/' + rowId + '.html';
-    }
-    // contentHtml 생성 (이제 _pagePath 사용)
+
+    // Assign _pagePath to all DB rows: /lab/{entrySLug}/{rowTitleSlug}.html
+    const dbRows = collectDbRows(entry.blocks, entry.slug);
+
+    // Convert blocks to HTML (after _pagePath is assigned)
     const contentHtml = blocksToHtml(entry.blocks);
-    // 개별 페이지용 암호화 (전체 내용 포함)
+
+    // Generate sub-pages for each DB row
+    const entrySubDir = path.join(labDir, entry.slug);
+    if (dbRows.length && !fs.existsSync(entrySubDir)) {
+      fs.mkdirSync(entrySubDir, { recursive: true });
+    }
+    for (const row of dbRows) {
+      const rowTitle = getRowTitle(row);
+      const rowContentHtml = blocksToHtml(row._children || []);
+      const rowData = {
+        title: rowTitle || entry.title,
+        description: '',
+        date: entry.date,
+        tags: entry.tags,
+        contentHtml: rowContentHtml
+      };
+      const rowEncrypted = encryptData(JSON.stringify(rowData), LAB_PASSWORD);
+      const rowHtml = generateLabEntryPage(rowEncrypted);
+      const rowTitleSlug = slugify(rowTitle) || row.id;
+      fs.writeFileSync(path.join(entrySubDir, rowTitleSlug + '.html'), rowHtml, 'utf8');
+      console.log('    \ud83d\udcc4 \uc11c\ube0c\ud398\uc774\uc9c0: lab/' + entry.slug + '/' + rowTitleSlug + '.html');
+    }
+
+    // Generate main entry page
     const entryData = {
       title: entry.title,
       description: entry.description,
       date: entry.date,
       tags: entry.tags,
-      contentHtml: contentHtml
+      contentHtml
     };
     const entryEncrypted = encryptData(JSON.stringify(entryData), LAB_PASSWORD);
     const html = generateLabEntryPage(entryEncrypted);
     fs.writeFileSync(path.join(labDir, entry.slug + '.html'), html, 'utf8');
-    console.log('  📄 생성: lab/' + entry.slug + '.html');
-    // DB 행 세부 페이지 생성
-    for (const row of allDbRows) {
-      const rowTitle = getRowTitle(row.properties);
-      const rowContentHtml = blocksToHtml(row._pageBlocks || []);
-      const rowData = { title: rowTitle, description: '', date: '', tags: [], contentHtml: rowContentHtml };
-      const rowEncrypted = encryptData(JSON.stringify(rowData), LAB_PASSWORD);
-      const rowHtmlPage = generateLabEntryPage(rowEncrypted);
-      const rowId = row.id.replace(/-/g, '');
-      fs.writeFileSync(path.join(labDir, rowId + '.html'), rowHtmlPage, 'utf8');
-      console.log('    🗂️  DB행: ' + rowTitle);
-    }
+    console.log('  \ud83d\udcd4 \uc0dd\uc131: lab/' + entry.slug + '.html');
 
-    // 인덱스용 메타데이터 (내용 제외)
     metaList.push({
       slug: entry.slug,
       title: entry.title,
@@ -601,7 +671,7 @@ async function main() {
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
   fs.writeFileSync(path.join(dataDir, 'lab-encrypted.json'), JSON.stringify(indexEncrypted), 'utf8');
 
-  console.log('✅ 연구기록 완료 — ' + metaList.length + '개 페이지 생성');
+  console.log('\u2705 \uc5f0\uad6c\uae30\ub85d \uc644\ub8cc \u2014 ' + metaList.length + '\uac1c \ud398\uc774\uc9c0 \uc0dd\uc131');
 }
 
 main().catch(err => { console.error(err); process.exit(1); });
