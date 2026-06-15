@@ -226,12 +226,7 @@ function blocksToHtml(blocks) {
         const rows = block._dbRows || [];
         // Determine column order: title first, skip formula/rollup/relation
         const SKIP_TYPES = ['formula', 'rollup', 'relation', 'files'];
-        let columns = Object.keys(schema).filter(c => !SKIP_TYPES.includes(schema[c].type));
-        columns.sort((a, b) => {
-          if (schema[a].type === 'title') return -1;
-          if (schema[b].type === 'title') return 1;
-          return 0;
-        });
+        const columns = Object.keys(schema).filter(c => !SKIP_TYPES.includes(schema[c].type));
         html += '<div class="db-title">📊 ' + esc(dbTitle) + '</div>\n';
         if (columns.length && rows.length) {
           html += '<div class="db-table-wrap"><table class="db-table">\n<thead><tr>';
