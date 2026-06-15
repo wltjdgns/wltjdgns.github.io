@@ -207,6 +207,7 @@ function blocksToHtml(blocks) {
           if (t === 'files') return (prop.files || []).map(function(f) { return f.type === 'external' ? f.external.url : (f.file ? f.file.url : ''); }).filter(Boolean).join(', ');
           if (t === 'relation') return '';
           if (t === 'rollup') return prop.rollup ? String(prop.rollup.number || '') : '';
+          if (t === 'status') return prop.status ? prop.status.name : '';
           return '';
         };
         html += '<div class="db-title">📊 ' + esc(dbTitle) + '</div>\n';
