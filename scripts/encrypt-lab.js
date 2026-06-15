@@ -89,8 +89,12 @@ function getPropHtml(prop) {
   const t = prop.type;
   if (t === 'select' && prop.select)
     return mkBadge(prop.select.name, prop.select.color || 'default', 'n-select');
-  if (t === 'multi_select')
-    return (prop.multi_select || []).map(s => mkBadge(s.name, s.color || 'default', 'n-select')).join(' ');
+  if (t === 'multi_select') {
+    const bs = (prop.multi_select || []).map(s => mkBadge(s.name, s.color || 'default', 'n-select'));
+    const rows = [];
+    for (let i = 0; i < bs.length; i += 2) rows.push(bs.slice(i, i+2).join(' '));
+    return rows.join('<br>');
+  }
   if (t === 'status' && prop.status)
     return mkBadge(prop.status.name, prop.status.color || 'default', 'n-status');
   return esc(getPropText(prop));
@@ -461,7 +465,7 @@ function generateLabEntryPage(entryEncrypted) {
 '    .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }\n' +
 '    .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }\n' +
 '    .content .db-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }\n' +
-'    .content .db-table th, .content .db-table td { border: 1px solid #2a2a2a; padding: 0.5rem 0.8rem; text-align: left; vertical-align: middle; white-space: nowrap; }\n' +
+'    .content .db-table th, .content .db-table td { border: 1px solid #2a2a2a; padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }\n' +
 '    .content .db-table th { background: #161616; font-weight: 600; color: #aaa; font-size: 0.78rem; letter-spacing: 0.03em; }\n' +
 '    .content .db-table td { color: #ccc; }\n' +
 '    .content .db-table td:first-child { white-space: normal; }\n' +
