@@ -470,7 +470,15 @@ function generateLabEntryPage(entryEncrypted) {
 '    .content .db-table td { color: #ccc; }\n' +
 '    .content .db-table td:first-child { white-space: normal; }\n' +
 '    .content .n-select, .content .n-status { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 0.78em; font-weight: 500; white-space: nowrap; line-height: 1.6; }\n' +
-'    @media (max-width: 600px) { .content .column-list { flex-direction: column; } }\n' +
+'    @media (max-width: 640px) {\n' +
+'        .container { padding: 0 1.2rem; }\n' +
+'        .content .column-list { flex-direction: column; }\n' +
+'        footer { flex-direction: column; gap: 0.5rem; }\n' +
+'    }\n' +
+'    @media (max-width: 480px) {\n' +
+'        .pw-form { flex-direction: column; align-items: stretch; }\n' +
+'        #pw-input { width: 100%; }\n' +
+'    }\n' +
 '    footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; margin-top: 4rem; }\n' +
 '  </style>\n' +
 '</head>\n' +
