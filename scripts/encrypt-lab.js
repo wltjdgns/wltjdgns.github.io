@@ -247,6 +247,7 @@ async function fetchLabEntries() {
     const slug = getText(props.Slug || props['slug']) || null;
 
     const blocks = await fetchBlocksRecursively(page.id);
+    console.log('  [DEBUG blocks]', blocks.map(b => b.type + (b.type.startsWith('heading') ? '(toggleable='+b[b.type].is_toggleable+')' : '')).join(', '));
     const contentHtml = blocksToHtml(blocks);
 
     entries.push({ id: page.id, slug, title, description, date, tags, contentHtml });
