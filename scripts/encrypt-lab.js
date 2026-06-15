@@ -376,6 +376,7 @@ function generateLabEntryPage(entryEncrypted) {
 '    .content strong { font-weight: 700; color: var(--text); }\n' +
 '    .content .callout { background: #111; border: 1px solid #2a2a2a; border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: #ccc; }\n' +
 '    .content .db-title { font-weight: 600; color: #ddd; margin-bottom: 0.5rem; font-size: 0.95rem; }\n' +
+'    .content .n-select, .content .n-status { display:inline-block; border-radius:3px; padding:1px 6px; font-size:0.78em; font-weight:500; white-space:nowrap; line-height:1.6; }\n' +
 '    .content table { width: 100%; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }\n' +
 '    .content th, .content td { border: 1px solid #2a2a2a; padding: 0.6rem 0.8rem; text-align: left; }\n' +
 '    .content th { background: #1a1a1a; font-weight: 600; color: var(--text); }\n' +
