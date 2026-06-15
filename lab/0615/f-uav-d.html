@@ -75,7 +75,7 @@
     .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
     .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }
     .content .db-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-    .content .db-table th, .content .db-table td { border: 1px solid #2a2a2a; padding: 0.5rem 0.8rem; text-align: left; vertical-align: middle; white-space: nowrap; }
+    .content .db-table th, .content .db-table td { border: 1px solid #2a2a2a; padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
     .content .db-table th { background: #161616; font-weight: 600; color: #aaa; font-size: 0.78rem; letter-spacing: 0.03em; }
     .content .db-table td { color: #ccc; }
     .content .db-table td:first-child { white-space: normal; }
@@ -118,7 +118,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"0d04b68adf9ee1083d6342444ec9221213b3355b31690e59f04e22818090e3f4","iv":"321079f7405cd822cfc23640","data":"e8bb404333135f06e3c48bb64e0806cb1098d57c97d7c2af1381816273ac5d81c967df4e412bfec5cd2eb4c8670800dcd019437314aa82a699eaf9bfb02046634bfa9d3292f3449fab2fcea83f1247bbbf5bb9237140d1b2b35e76e540bfe1adccf7db318bf8463237fb8261bc06fb20a5bd29f838d46f9bf5","tag":"2a621a1c1a538eaad4fa8144c449c15d"};
+    var ENCRYPTED = {"salt":"9edf671d7b7a638b1bdcfd84dae502e88be9908c059abbdefe06296f65a86e30","iv":"c64ea331456d8108bc9923e9","data":"532689182919e0b3e8522a9dc975ff332463e80f47f9c2e9c6eb3e4b36307e4bb338388a1f045bf4a67688d304b946d11a0ba1740d332ee1c0b422da4743c991adc03a270ec49b4bc91d698a53773f2b13e4dcb7a08f37231010b927378743e1473372790c94b1d51254238f13edffcbc3f95b729cafbcec76","tag":"17778aa5ae22e4d72726ee116a84d476"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);

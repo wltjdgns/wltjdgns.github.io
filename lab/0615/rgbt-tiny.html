@@ -75,7 +75,7 @@
     .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
     .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }
     .content .db-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-    .content .db-table th, .content .db-table td { border: 1px solid #2a2a2a; padding: 0.5rem 0.8rem; text-align: left; vertical-align: middle; white-space: nowrap; }
+    .content .db-table th, .content .db-table td { border: 1px solid #2a2a2a; padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
     .content .db-table th { background: #161616; font-weight: 600; color: #aaa; font-size: 0.78rem; letter-spacing: 0.03em; }
     .content .db-table td { color: #ccc; }
     .content .db-table td:first-child { white-space: normal; }
@@ -118,7 +118,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"d0509265d6dab582f6227109a4b8551ddfd4ee55fdaf7a6097e1244740d23aa1","iv":"c666c6e25e0ecffbe146f3d9","data":"5394d08a1defdc56521266054a47fcd64bbd7888ae63758f4ba85ab4a5f6e770df3eb074731983d5d607e131b43fe990e98bea11533dfbfe5f27f98d2da50aa3d1cb8dc60f0c9b0d223114ec60dea733f4ef1bd34c01c5ae05cc2dcd4f72eb48da06c5d1bd61ef04efbe48033543247e9f97644fae873f38a8ff38","tag":"84155d376feefeabca7b0e5ad559d1ef"};
+    var ENCRYPTED = {"salt":"3cb2d92221517bc505ceabd0e89f755c2bfead1ace3225d524182e10f3824b16","iv":"d0f00b82109d0c3a9288c9d6","data":"3f34f104f77aba0979ade3694b502941a42da8e14365c1a6f40caffe9343ad96339789be8d0db30ac5c667a09b2cf3a74803478fac17a64ce7143deb6e452a8f52f9c4c3205f502ca51646af0514308551cd527e2a7f8f2ff9f4d0c9a7cfa2af0118f1a607b7c68df41de00cf05f677ef299ad434a8209ad2ef641","tag":"9d9f56795ba089aa1c7c14ac3489d9d2"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
