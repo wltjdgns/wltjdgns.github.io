@@ -64,9 +64,39 @@ function blocksToHtml(blocks) {
         html += inner ? '<p>' + inner + '</p>\n' : '<br>\n';
         break;
       }
-      case 'heading_1': html += '<h1>' + richTextToHtml(block.heading_1.rich_text) + '</h1>\n'; break;
-      case 'heading_2': html += '<h2>' + richTextToHtml(block.heading_2.rich_text) + '</h2>\n'; break;
-      case 'heading_3': html += '<h3>' + richTextToHtml(block.heading_3.rich_text) + '</h3>\n'; break;
+      case 'heading_1': {
+        const hText = richTextToHtml(block.heading_1.rich_text);
+        if (block.heading_1.is_toggleable) {
+          const childHtml = block._children ? blocksToHtml(block._children) : '';
+          html += '<details class="toggle-heading"><summary><h1>' + hText + '</h1></summary>' +
+            '<div class="toggle-content">' + childHtml + '</div></details>\n';
+        } else {
+          html += '<h1>' + hText + '</h1>\n';
+        }
+        break;
+      }
+      case 'heading_2': {
+        const hText = richTextToHtml(block.heading_2.rich_text);
+        if (block.heading_2.is_toggleable) {
+          const childHtml = block._children ? blocksToHtml(block._children) : '';
+          html += '<details class="toggle-heading"><summary><h2>' + hText + '</h2></summary>' +
+            '<div class="toggle-content">' + childHtml + '</div></details>\n';
+        } else {
+          html += '<h2>' + hText + '</h2>\n';
+        }
+        break;
+      }
+      case 'heading_3': {
+        const hText = richTextToHtml(block.heading_3.rich_text);
+        if (block.heading_3.is_toggleable) {
+          const childHtml = block._children ? blocksToHtml(block._children) : '';
+          html += '<details class="toggle-heading"><summary><h3>' + hText + '</h3></summary>' +
+            '<div class="toggle-content">' + childHtml + '</div></details>\n';
+        } else {
+          html += '<h3>' + hText + '</h3>\n';
+        }
+        break;
+      }
       case 'bulleted_list_item':
         if (!inUl) { html += '<ul>\n'; inUl = true; }
         html += '  <li>' + richTextToHtml(block.bulleted_list_item.rich_text) + '</li>\n';
@@ -187,7 +217,12 @@ function blocksToHtml(blocks) {
         dbRows.forEach(row => {
           html += '<tr>';
           cols.forEach(c => {
-            html += '<td>' + esc(getPropText(row.properties[c])) + '</td>';
+            const cellText = esc(getPropText(row.properties[c]));
+            if (schema[c] && schema[c].type === 'title' && row.url && cellText) {
+              html += '<td><a href="' + esc(row.url) + '" target="_blank" rel="noopener">' + cellText + '</a></td>';
+            } else {
+              html += '<td>' + cellText + '</td>';
+            }
           });
           html += '</tr>\n';
         });
@@ -247,7 +282,6 @@ async function fetchLabEntries() {
     const slug = getText(props.Slug || props['slug']) || null;
 
     const blocks = await fetchBlocksRecursively(page.id);
-    console.log('  [DEBUG blocks]', blocks.map(b => b.type + (b.type.startsWith('heading') ? '(toggleable='+b[b.type].is_toggleable+')' : '')).join(', '));
     const contentHtml = blocksToHtml(blocks);
 
     entries.push({ id: page.id, slug, title, description, date, tags, contentHtml });
@@ -338,6 +372,14 @@ function generateLabEntryPage(entryEncrypted) {
 '    .content th, .content td { border: 1px solid #2a2a2a; padding: 0.6rem 0.8rem; text-align: left; }\n' +
 '    .content th { background: #1a1a1a; font-weight: 600; color: var(--text); }\n' +
 '    .content td { color: #ccc; }\n' +
+'    .content details.toggle-heading { margin-bottom: 1rem; }\n' +
+'    .content details.toggle-heading summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 0.5rem; }\n' +
+'    .content details.toggle-heading summary::before { content: \'▶\'; font-size: 0.65rem; color: var(--accent); transition: transform 0.2s; flex-shrink: 0; }\n' +
+'    .content details.toggle-heading[open] summary::before { transform: rotate(90deg); }\n' +
+'    .content details.toggle-heading summary h1,\n' +
+'    .content details.toggle-heading summary h2,\n' +
+'    .content details.toggle-heading summary h3 { margin: 0; display: inline; }\n' +
+'    .content details.toggle-heading .toggle-content { padding-left: 1.2rem; border-left: 2px solid #2a2a2a; margin-top: 0.5rem; }\n' +
 '    .content details.child-page { border: 1px solid #2a2a2a; border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }\n' +
 '    .content details.child-page summary { padding: 0.8rem 1rem; cursor: pointer; font-weight: 500; color: #ddd; list-style: none; display: flex; align-items: center; gap: 0.5rem; }\n' +
 '    .content details.child-page summary::before { content: \'▶\'; font-size: 0.65rem; color: var(--accent); transition: transform 0.2s; flex-shrink: 0; }\n' +
