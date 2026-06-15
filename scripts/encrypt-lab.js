@@ -87,6 +87,14 @@ function blocksToHtml(blocks) {
         html += '<div class="callout">' + icon + ' ' + richTextToHtml(block.callout.rich_text) + '</div>\n';
         break;
       }
+      case 'toggle': {
+        const summary = richTextToHtml(block.toggle.rich_text);
+        const childHtml = block._children ? blocksToHtml(block._children) : '';
+        html += '<details><summary>' + summary + '</summary>' +
+          '<div class="toggle-content">' + childHtml + '</div></details>
+';
+        break;
+      }
       case 'divider': html += '<hr>\n'; break;
       case 'image': {
         const imgUrl = block.image.type === 'external'
@@ -128,6 +136,12 @@ function blocksToHtml(blocks) {
         html += '</details>\n';
         break;
       }
+      case 'child_database': {
+        const dbTitle = (block.child_database && block.child_database.title) || 'Database';
+        html += '<div class="callout">DB ' + esc(dbTitle) + '</div>
+';
+        break;
+      }
       case 'column_list': {
         const columns = block._children || [];
         html += '<div class="column-list">';
@@ -146,16 +160,24 @@ function blocksToHtml(blocks) {
   return html;
 }
 
+// 페이지네이션 — Notion API는 블록을 최대 100개씩 반환
 async function fetchBlocksRecursively(blockId) {
-  const response = await notionRequest('blocks/' + blockId + '/children');
-  if (response.object === 'error') return [];
-  const blocks = response.results || [];
-  for (const block of blocks) {
+  let allBlocks = [];
+  let cursor = null;
+  do {
+    const endpoint = 'blocks/' + blockId + '/children' +
+      (cursor ? '?start_cursor=' + encodeURIComponent(cursor) : '');
+    const response = await notionRequest(endpoint);
+    if (response.object === 'error') break;
+    allBlocks = allBlocks.concat(response.results || []);
+    cursor = response.has_more ? response.next_cursor : null;
+  } while (cursor);
+  for (const block of allBlocks) {
     if (block.has_children) {
       block._children = await fetchBlocksRecursively(block.id);
     }
   }
-  return blocks;
+  return allBlocks;
 }
 
 async function fetchLabEntries() {
@@ -362,7 +384,12 @@ function generateLabEntryPage(entryEncrypted) {
 '      document.getElementById("entry-title").textContent = entry.title;\n' +
 '      document.getElementById("entry-body").innerHTML = entry.contentHtml || \'<p style="color:#555">내용이 없습니다.</p>\';\n' +
 '      document.getElementById("lock-screen").style.display = "none";\n' +
-'      document.getElementById("article-content").style.display = "block";\n' +
+'      document.getElementById("article-content").style.display = "block";
+      if (window.renderMathInElement) {
+        renderMathInElement(document.getElementById("entry-body"), {
+          delimiters: [{left:"\[",right:"\]",display:true},{left:"\(",right:"\)",display:false}]
+        });
+      }\n' +
 '    }\n' +
 '\n' +
 '    function unlock() {\n' +
