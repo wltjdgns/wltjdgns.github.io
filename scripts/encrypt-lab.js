@@ -225,7 +225,7 @@ function blocksToHtml(blocks) {
         const schema = block._dbSchema || {};
         const rows = block._dbRows || [];
         // Fixed column order
-        const FIXED_ORDER = ['제목', 'data type', 'domain', 'static', 'year', 'conference', 'indoor', 'ACCESS', '특이사항'];
+        const FIXED_ORDER = ['Name', 'Data Type', 'domain', 'Static/Dynamic', 'Year', 'Conference', 'indoor/outdoor', 'ACCESS', '특이사항'];
         const columns = FIXED_ORDER.filter(c => schema[c]);
         html += '<div class="db-title">📊 ' + esc(dbTitle) + '</div>\n';
         if (columns.length && rows.length) {
