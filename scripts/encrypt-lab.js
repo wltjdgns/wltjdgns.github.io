@@ -91,8 +91,7 @@ function blocksToHtml(blocks) {
         const summary = richTextToHtml(block.toggle.rich_text);
         const childHtml = block._children ? blocksToHtml(block._children) : '';
         html += '<details><summary>' + summary + '</summary>' +
-          '<div class="toggle-content">' + childHtml + '</div></details>
-';
+          '<div class="toggle-content">' + childHtml + '</div></details>\n';
         break;
       }
       case 'divider': html += '<hr>\n'; break;
@@ -136,12 +135,6 @@ function blocksToHtml(blocks) {
         html += '</details>\n';
         break;
       }
-      case 'child_database': {
-        const dbTitle = (block.child_database && block.child_database.title) || 'Database';
-        html += '<div class="callout">DB ' + esc(dbTitle) + '</div>
-';
-        break;
-      }
       case 'column_list': {
         const columns = block._children || [];
         html += '<div class="column-list">';
@@ -152,6 +145,11 @@ function blocksToHtml(blocks) {
         break;
       }
       case 'column': break;
+      case 'child_database': {
+        const dbTitle = (block.child_database && block.child_database.title) || 'Database';
+        html += '<div class="callout">📊 ' + esc(dbTitle) + '</div>\n';
+        break;
+      }
       default: break;
     }
   }
@@ -160,7 +158,6 @@ function blocksToHtml(blocks) {
   return html;
 }
 
-// 페이지네이션 — Notion API는 블록을 최대 100개씩 반환
 async function fetchBlocksRecursively(blockId) {
   let allBlocks = [];
   let cursor = null;
@@ -384,12 +381,7 @@ function generateLabEntryPage(entryEncrypted) {
 '      document.getElementById("entry-title").textContent = entry.title;\n' +
 '      document.getElementById("entry-body").innerHTML = entry.contentHtml || \'<p style="color:#555">내용이 없습니다.</p>\';\n' +
 '      document.getElementById("lock-screen").style.display = "none";\n' +
-'      document.getElementById("article-content").style.display = "block";
-      if (window.renderMathInElement) {
-        renderMathInElement(document.getElementById("entry-body"), {
-          delimiters: [{left:"\[",right:"\]",display:true},{left:"\(",right:"\)",display:false}]
-        });
-      }\n' +
+'      document.getElementById("article-content").style.display = "block";\n' +
 '    }\n' +
 '\n' +
 '    function unlock() {\n' +
