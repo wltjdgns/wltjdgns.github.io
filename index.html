@@ -12,14 +12,15 @@
         :root { --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666666; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.7; word-break: keep-all; }
-        .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
-        nav { padding: 2rem 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; margin-bottom: 4rem; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 3rem; }
+        nav { padding: 2rem 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; margin-bottom: 4rem; position: relative; }
         .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; }
         .nav-links a { color: var(--gray); text-decoration: none; margin-left: 2rem; font-size: 0.9rem; transition: color 0.3s; }
         .nav-links a:hover { color: var(--text); }
-        header { margin-bottom: 6rem; }
+        .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; padding: 0.2rem 0.4rem; line-height: 1; }
+        header { margin-bottom: clamp(3rem, 8vh, 6rem); }
         .bio-label { display: inline-block; padding: 0.2rem 0.8rem; background: #222; border-radius: 4px; font-size: 0.75rem; color: var(--accent); margin-bottom: 1.5rem; }
-        .hero-title { font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 2rem; letter-spacing: -2px; }
+        .hero-title { font-size: clamp(2rem, 5vw, 5rem); font-weight: 800; line-height: 1.1; margin-bottom: 2rem; letter-spacing: -2px; }
         .hero-title span { background: linear-gradient(90deg, var(--accent), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .bio-text { font-size: 1.2rem; font-weight: 300; color: #aaa; max-width: 700px; margin-bottom: 2rem; }
         .btn-group { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
@@ -35,7 +36,7 @@
         .tag-filter-btn { padding: 0.35rem 0.9rem; border-radius: 20px; border: 1px solid #333; background: none; color: var(--gray); font-size: 0.8rem; cursor: pointer; transition: all 0.2s; font-family: inherit; }
         .tag-filter-btn:hover { border-color: var(--accent); color: var(--accent); }
         .tag-filter-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
-        .grid { display: grid; grid-template-columns: 1fr; gap: 0.5rem; margin-bottom: 6rem; }
+        .grid { display: grid; grid-template-columns: 1fr; gap: 0.5rem; margin-bottom: clamp(3rem, 8vh, 6rem); }
         .article-item { display: flex; flex-direction: column; gap: 0.4rem; text-decoration: none; color: inherit; padding: 1.5rem; border-radius: 12px; transition: background 0.3s; }
         .article-item:hover { background: var(--card-bg); }
         .article-date { font-size: 0.8rem; color: var(--gray); font-family: 'Inter'; }
@@ -46,7 +47,7 @@
         .empty-msg { color: #444; font-size: 0.9rem; padding: 1.5rem; }
 
         /* ── Project Grid ── */
-        .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 6rem; }
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-bottom: clamp(3rem, 8vh, 6rem); }
         .project-card { background: var(--card-bg); padding: 1.8rem; border-radius: 16px; border: 1px solid #222; display: flex; flex-direction: column; gap: 0.8rem; transition: border-color 0.3s; }
         .project-card:hover { border-color: #444; }
         .project-card-header { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -63,7 +64,7 @@
         .btn-mini-ghost { align-self: flex-start; padding: 0.5rem 1rem; background: none; color: #555; border: 1px solid #2a2a2a; border-radius: 8px; font-weight: 600; font-size: 0.82rem; margin-top: 0.4rem; cursor: default; }
 
         /* ── About Section ── */
-        .about-section { margin-bottom: 6rem; }
+        .about-section { margin-bottom: clamp(3rem, 8vh, 6rem); }
         .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
         .about-card { background: var(--card-bg); border: 1px solid #222; border-radius: 14px; padding: 1.6rem; }
         .about-card-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 1rem; }
@@ -82,10 +83,47 @@
 
         footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; display: flex; justify-content: space-between; }
 
-        @media (max-width: 600px) {
+        /* ── Responsive ── */
+
+        /* 모바일: 햄버거 메뉴 */
+        @media (max-width: 767px) {
+            .nav-toggle { display: block; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--card-bg);
+                border-bottom: 1px solid #222;
+                padding: 0.5rem 0;
+                z-index: 100;
+            }
+            .nav-links.open { display: flex; flex-direction: column; }
+            .nav-links a { margin-left: 0; padding: 0.9rem 1.5rem; border-bottom: 1px solid #1a1a1a; }
+            .nav-links a:last-child { border-bottom: none; }
+        }
+
+        /* 640px 이하: 1열 그리드, 푸터 세로 */
+        @media (max-width: 640px) {
+            .container { padding: 0 1.2rem; }
             .about-grid { grid-template-columns: 1fr; }
             .project-grid { grid-template-columns: 1fr; }
             .about-bottom { flex-direction: column; align-items: flex-start; }
+            footer { flex-direction: column; gap: 0.5rem; }
+        }
+
+        /* 480px 이하: 소형 모바일 */
+        @media (max-width: 480px) {
+            .bio-text { font-size: 1rem; }
+            .hero-title { letter-spacing: -1px; }
+        }
+
+        /* 울트라와이드 (1600px+) */
+        @media (min-width: 1600px) {
+            .container { max-width: 1400px; padding: 0 4rem; }
+            .bio-text { font-size: 1.35rem; }
+            .project-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
         }
     </style>
 </head>
@@ -93,6 +131,7 @@
     <div class="container">
         <nav>
             <div class="logo">WLTJDGNS.LOG</div>
+            <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false">☰</button>
             <div class="nav-links">
                 <a href="#articles">Articles</a>
                 <a href="#projects">Projects</a>
@@ -159,6 +198,22 @@
     </div>
 
     <script>
+        // ── 햄버거 메뉴 ──
+        const toggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        toggle.addEventListener('click', () => {
+            const isOpen = navLinks.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', isOpen);
+            toggle.textContent = isOpen ? '✕' : '☰';
+        });
+        navLinks.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+                toggle.textContent = '☰';
+            });
+        });
+
         const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
         function formatDate(d) {
@@ -229,14 +284,12 @@
         function renderBio(bio) {
             if (!bio) return;
 
-            // 관심 분야
             const interests = bio['관심 분야'] || [];
             if (interests.length) {
                 document.getElementById('chip-group').innerHTML =
                     interests.map(i => `<span class="chip">${esc(i)}</span>`).join('');
             }
 
-            // 지금 하는 것 — "(라벨) 내용" 형식 파싱
             const nowItems = bio['지금 하는 것'] || [];
             if (nowItems.length) {
                 document.getElementById('now-container').innerHTML = nowItems.map(item => {
@@ -250,13 +303,11 @@
                 }).join('');
             }
 
-            // 학력 — "학력" 또는 "Education" 헤딩 둘 다 지원
             const edu = bio['학력'] || bio['Education'] || [];
             if (edu.length) {
                 const card = document.getElementById('edu-card');
                 card.style.display = 'block';
                 document.getElementById('edu-container').innerHTML = edu.map(item => {
-                    // "(2025~)" 또는 "(2019~2024)" 형식의 연도 파싱
                     const match = item.match(/^(.+?)\s*\((\d{4}[^)]*)\)\s*$/);
                     const title = match ? match[1].trim() : item;
                     const period = match ? match[2] : '';
@@ -267,7 +318,6 @@
                 }).join('');
             }
 
-            // 소개
             const intro = bio['소개'] || [];
             if (intro.length) {
                 document.getElementById('about-principle').textContent = intro.join(' ');
