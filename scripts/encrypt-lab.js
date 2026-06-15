@@ -224,9 +224,9 @@ function blocksToHtml(blocks) {
         const dbTitle = (block.child_database && block.child_database.title) || 'Database';
         const schema = block._dbSchema || {};
         const rows = block._dbRows || [];
-        // Determine column order: title first, skip formula/rollup/relation
-        const SKIP_TYPES = ['formula', 'rollup', 'relation', 'files'];
-        const columns = Object.keys(schema).filter(c => !SKIP_TYPES.includes(schema[c].type));
+        // Fixed column order
+        const FIXED_ORDER = ['제목', 'data type', 'domain', 'static', 'year', 'conference', 'indoor', 'ACCESS', '특이사항'];
+        const columns = FIXED_ORDER.filter(c => schema[c]);
         html += '<div class="db-title">📊 ' + esc(dbTitle) + '</div>\n';
         if (columns.length && rows.length) {
           html += '<div class="db-table-wrap"><table class="db-table">\n<thead><tr>';
