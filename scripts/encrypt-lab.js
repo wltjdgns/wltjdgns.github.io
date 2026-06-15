@@ -405,7 +405,7 @@ function generateLabEntryPage(entryEncrypted) {
 '    :root { --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666; }\n' +
 '    * { margin: 0; padding: 0; box-sizing: border-box; }\n' +
 '    body { background: var(--bg); color: var(--text); font-family: \'Inter\', \'IBM Plex Sans KR\', sans-serif; line-height: 1.8; word-break: keep-all; }\n' +
-'    .container { max-width: 720px; margin: 0 auto; padding: 0 2rem; }\n' +
+'    .container { max-width: 860px; margin: 0 auto; padding: 0 3rem; }\n' +
 '    nav { padding: 2rem 0; border-bottom: 1px solid #222; margin-bottom: 4rem; display: flex; gap: 2rem; align-items: center; }\n' +
 '    nav a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }\n' +
 '    nav a:hover { color: var(--text); }\n' +
@@ -478,6 +478,9 @@ function generateLabEntryPage(entryEncrypted) {
 '    @media (max-width: 480px) {\n' +
 '        .pw-form { flex-direction: column; align-items: stretch; }\n' +
 '        #pw-input { width: 100%; }\n' +
+'    }\n' +
+'    @media (min-width: 1600px) {\n' +
+'        .container { max-width: 1000px; padding: 0 4rem; }\n' +
 '    }\n' +
 '    footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; margin-top: 4rem; }\n' +
 '  </style>\n' +
