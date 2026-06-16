@@ -16,10 +16,13 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; transition: background-color 0.3s, color 0.3s; }
-    .container { max-width: 860px; margin: 0 auto; padding: 0 3rem; }
-    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; gap: 2rem; align-items: center; justify-content: space-between; }
-    nav a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
-    nav a:hover { color: var(--text); }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center; position: relative; }
+    .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; text-decoration: none; color: var(--text); }
+    .nav-right { display: flex; align-items: center; }
+    .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; padding: 0.2rem 0.4rem; line-height: 1; }
+    .nav-links a { color: var(--gray); text-decoration: none; margin-left: 2rem; font-size: 0.9rem; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--text); }
     #lock-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 1.5rem; text-align: center; }
     .lock-icon { font-size: 3rem; }
     .lock-title { font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; }
@@ -85,13 +88,26 @@
     .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; }
     .content th { background: var(--surface); font-weight: 600; color: var(--text); }
     .content td { color: var(--content-text); }
-    @media (max-width: 768px) {
-        .container { padding: 0 1.5rem; }
-        nav { padding: 1.5rem 0; margin-bottom: 3rem; }
-        h1.article-title { letter-spacing: -1px; }
+    @media (max-width: 767px) {
+        .nav-toggle { display: block; }
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 0.5rem 0;
+            z-index: 100;
+        }
+        .nav-links.open { display: flex; flex-direction: column; }
+        .nav-links a { margin-left: 0; padding: 0.9rem 1.5rem; border-bottom: 1px solid var(--border-subtle); }
+        .nav-links a:last-child { border-bottom: none; }
     }
     @media (max-width: 640px) {
         .container { padding: 0 1.2rem; }
+        nav { padding: 1.5rem 0; margin-bottom: 3rem; }
         .content .column-list { flex-direction: column; }
         .content pre { padding: 1rem; font-size: 0.82rem; }
         .content h1 { font-size: 1.5rem; }
@@ -99,7 +115,6 @@
         footer { flex-direction: column; gap: 0.5rem; }
     }
     @media (max-width: 480px) {
-        nav { flex-wrap: wrap; gap: 0.8rem; }
         h1.article-title { letter-spacing: -0.5px; }
         .pw-form { flex-direction: column; align-items: stretch; }
         #pw-input { width: 100%; }
@@ -113,9 +128,16 @@
 <body>
   <div class="container">
     <nav>
-      <a href="/">← WLTJDGNS.LOG</a>
-      <a href="/lab/">연구기록</a>
-      <button class="theme-toggle" id="theme-toggle" aria-label="테마 변경">☀️</button>
+      <a href="/" class="logo">WLTJDGNS.LOG</a>
+      <div class="nav-right">
+        <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+        <div class="nav-links">
+          <a href="/#articles">Articles</a>
+          <a href="/#projects">Projects</a>
+          <a href="/lab/">연구기록 홈</a>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="테마 변경">☀️</button>
+      </div>
     </nav>
 
     <div id="lock-screen">
@@ -145,7 +167,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"811355a128a02ac62f6c6769aa68b92cb812e5e64d85e34a32e17160eaca8164","iv":"090b9408343388bd201add4a","data":"52cffa6c6b9b6bf076c7321f471a4b7be973ae01c2635386e74ce8c924ad007c9444c299246885bfc93cc1d6b74f5d187c18c8be363e66062243a9419aa124152543c893db490ddb971c9d8633dcf00f6aa7ba0fc6bf66c740295a9d3cff11309571b00baac6d34dd55130b2c0bc06880bc4b4eeca1985f61f67035b4d9a15de651098f40118e7f99679274b0122f0ac66237b94571a11f190b38bca008cf21e1fd356960c1a2a470dd58f3d3a7591077f646463f79bbb5f5b508bae3b65e6398157ba542cea9fd7f989fbb838aee2dec12cc560c1c08ec28dd8787cb9b0464cba5a0512908ba4550439fb45dab6f6a17ef7993340a774e403954f1ad2ddf75a18dffc8f6631aec5b102a2d111a2c0a8d42af962c4c5197f535ec3177e58c47cd81b922b481c4713795790d4c7d4167f96554cef4ab6b4117af176272dde9c7d1ad8abbf2b82844d6fcca2e01aea3a37f74fe720336107c4c327c493a73aba9eb4738e27479872a558814fa6c52957737626e9065ad02d37bf3003affb50135d801b44b92fe5f9f22e1ae1f29a447b890e0607770e23fc4df21ece376f05addb3c1b5dc2d51e19e5a9b0cb71a7edc48f0711b29fc44c2b483b2483ad39c36925315f82ce4e3158042fcb18c7502f932da1e43cfc7ddf36e36acf48dfc6346fe193684c750c0f0a739682f380843f653cb0df75c8e0f30d8e5633413cfc0aa7dd1855692df8093e9e36fdba89d5e5655c7e12f239dae711e268d4dd2b937ec59ffa9301a09c8fe446d9b3c3adfa8a48f9322033d34420a013b012b16c42b0be0777e2eaee10143c56f95692af96408cdc607990c556382840c2c154b85467f0e9bd78fedb57bf5dd63b5f1e4c3da45babb3d945279106834f058e0f3a635cb933c48665598bed106a797aba53755e8698e07369519bc503bb1050699c78ad027333e4c36311753a9d85c11d3861deec3741ad81ccdc3bac1e9c53405a708c771e2b80a29ff7de1f7ab83bc155e7b4cd0213fe96f8ebdb65e08cbcb7db858f55a735eb20813e73fa646991488b0e9a9cb523a5748286c2ffa6953cd56edc390cd2ea4adfde4f916d0fb25690e46a1722fb43822f242e847fd138abb85babd1d6dcfca0b910d1ccc08fe786141287b08ac21fab57810ca5e37b34a160166c0b76a34aeab1d4e797d8c811f66f5c76c3467baf463703707ecf30aa27165343a5856d6a33ef055ccf73f8610484c7003128575143fb9ea1f4e3286e52628769ac26eeb307dacabe4f76d5f2951f9ea6ace0ab16452046981eeb92486e0e889549aca1388b46ad825f320a5ebb0e00e4c6b940401e3687bc610bd2e7a16f308a6b4f3879fbef7fb446993a8b985ca7a0250b9068c8017e6da8c50ce8c3cd75218f431e13bff30760337663564099d9be6c94fe87e1cf1452234e6ca4f2ad48d854288bdf737c9e138394b598519b7feca228ab339cd331d78793f7d3ddf593f19aa998ac6e7809af5db3fe93f3fe2079ed6e4d8670224d02a14cd5ad23f8dc25903c182e8a1e86f4a71aa0d961c1d1b8ed35b3b72fd8e9b4add13f0b15bfb0f40cf30065dc0053a355d4dfbe514cc21818a527f7f0c98f2cee8b7a0ea3df0eb43c2fd3b5799e0f9d8aac132e14c23979fc96fa07843bc66670f8dc7435fb50d2056a7b0517f441ffa81357e0276113be72dd5e9494e986dc8d852876f2a4382c7780e256288ad1b602c64892f21f180ecf94c560fddb32a314cc3f22afaf38da106fdba4009f62f93d894aea513df0eb166fb4313019e564b8f76a0d4e538767bd01325e14bf26d2aba787c1491f282a0c5c80eaa670bf877a061631008aee91ecc114d4081d1d257c846402769a8ec1ddfa582e58dc0b11f2339a60a06396f64b11f1e8e714a9ac28d84d353eafabf82b4af464514cc6f56bf180ece7d1d4ddcd40af9927ad8fb8161c5bb29ba513069e1f56b3c76e3a4db9aff5d9615fc0786edfe0fffceb1cbbaa4b32cfbc3283adbd3c2a3ae6ac5f1e907013b3b18701a09eb4bfa37b11fadf8bee59d11365ba22c6b98acddcde5db4919a544383633638bf6bf2840b8b6b077779a8be34ac5727186642707d115864e3e937bb93d134107b89a5df36ec337670a0d4e79ec6525452090b95bcdb47ac8ad2c0a109dcde79d95f3fa7b2c7c1924bfdc8f95d6ef49b44ed6b4dd2966e4cc0eac4fbcffdf833621d39c2aaa786bd85dda149040d1c460e0f15b31136cd51de06d58c6f03bed69e1347132f0cc29115f404219f57ef6b58e78100706d0b54085964bf4cbaca2def930efde6c677643dc0267147174b2e3d9af7795eeec3b197ae3e47c8cccf323e4137beac37d478505cd1c727f47ba1258bc05ee732349b222967d0e526f03e3a5b2046f2d36bfef3a5cf66395a9231ec3f4ed38ff435d384b91b70e9f809d267d26f7c04d2d9f142abc77443ebf31a2d1de23aeb86edca53603448bdef96ff7c26f915b5ae508355e34ee45da4f045d9f0f7debeafc01cb5f086c23863d8c29223f93da2945bc646e81c830bcb912abe369e2c23c2558297908794c02888770a4eee40ae5151ca299ce2df1106b524056be7339dd8a981acd7c9512d28dd12f59a76b61f1097cd9e1c8443d1525228485106de7cb7e2e30d64a7ff92874f25595282c690ff048b1cf9f1db6100f59b0952f68e228d562fb9e504c41dc69182af6b74586c8c0099068d6878d37aa333af7029110e70fc5c5cd89741fc53f4352618e3c1cc00303ea0f8d38fff240202c81c0be714ec8b11a9f2590c7d9642dc7bb5bc54d267e2cc8adf87943d086aa4a74358f1a2da74d370afa75078df1ca5f283fd3398c25c0309d053313363cabc85555ef3643bc808fd5749102bfb194b8f9b6983af5df60756a7a1c7fc6a54a154180d9b95eeea9d511513b45211aa320bc5e0013d5533bbb42eb62474447d7609708ad07194a1a784f7b9a7746510bd7bc90f9103f01688770ef02c83da15826695eae21579bf9fe4ce7f97c6d5a8ba81ef080ceaa56c803c1628263e9931f4c8adad52ef0b3bfc01fe70b4db8c3dcbe6089ba0cc667da34c71ec61182b92e4a91f0877776e16eb34911c77df184af17150ed9c76d88677a368cddc3b8853891954fbd5b1de8e6c3701a2948be2850187844eca24c9d61ee03c5e92756624e68a9ddae5cff095742e7d1cc60ef934bde3efa2b61c79e8eff7d28625d1875a78e098591f95bbb3beb150217b98d614a89c6ae236c508259cf3753e0ab3abeb7730f424e73e55bfbf17dd4039bf8549907cf3e96af4849ad67d194e98cd7d87edcbf3f7693c9c3ab672b63d7a7b27f26ee3fb1b84eaee496a695940589011ebed0427851654b0f0ff92ccd7fe6605ff122e290df0fb0ee171129a5e6cb7e54b032d7f05c57ee4076f5d89f97b47fe917ced83e4976c0c9bcafa9001b12b750da4f64c2d18c5bb373641478b07cdb1ec337c1bf312ae9d092a0b60820e84909834ffe0b28d4288b01ba79c57b752ca385da9e4f6fa84e01e92248d8528f40cf2057bd087e57280ac82345b09937884d15586392baddda54656e7459d4e76d4b3942f2ff74ba9e4243b072c1265c2bc78ae72d68895b59b67d7c638fbb0722c2ee5acabe63abfccddaf06b9d6fe60dba62254242b495e49aec13ed5f93277299d525bc18d2a735d98c8958d506fef1793abf4e91a5daa8345f8f8ff947fc4ac67064e50cd2583ed43ae92b2ee443af4df4ee6467213653e3ee89257ef414e03cf17e0f2643635503f6905e41bd4e4e604dbc5ed5a38d74488c8c843afcc56646ddd6774cea331bff26a28c3d3a2a1bb8e971d4cd6c9cade64073920c8f6a85e3959a811096cf2de54f448520c9c9ff39638849ec71d51ab921cba32850a18aad991900c845d8963343d95ee418fbd0a798512ec27fed01cfe7b4d640643bb81369a523a8ce9a07688f0ba1de1e2180b2f8f279a369299fbaad5582ea0e72f0679fa98bdefb0d752bc8a52806ce949e50361a2245d31f76b6acbaa06c1e7e749b484a53adec267c5dfbb92f6e4ee21","tag":"d097206f8f486ff169a77579c28d4b0c"};
+    var ENCRYPTED = {"salt":"c5ff5be756ccbe9a1f1d04b810b287a44a82d1120b1ae4dbe3f3285977113b46","iv":"8880f120786d518c8ec86a76","data":"f04ad0b6c4548ee9c6f776763180179d79af1171fbb16b3a8127f59e112abf485f0b926e52077b7716cdd7ceb6bd34f8d88c091d0bd34205ec1b75dfcc74c98e5a1fe24a7e34060afcf777831612414be1859a72d4459038e2deeabfb513532b2d1c543c60c22579e6ecc1e02bb1e34138d37e5b1c7d340e0921c4803a21a5bb265558c8cb703b738b1ec58258b5b85b17a8180b195214a84dbf5c00ac030f67bc3d95875828422581b3d38d3d07a00ddf4988c6972cdf399b69450eb4950a4ac5f0d4155ee0a8cff672216b2e68f5d8a9fcab568b200e1bfc6ac293459fbe4b2e8671b2d111fb91aebc9095829588edea0ae007d46a6e14ef834102f26b95be4f7655721c62ef029e094ab3db9755e3ac5b3dac8055d5be39b6c20c8c16ba18df15af7961df0de8a828846ea01dad04879c8aa9a892f887bb31e1fc302637ab9626ca2c16ba4d5f5dd2277611ba45a5aa827ef5bb62daef36daa819a67b1558f283876a991e125649474c020dd8a508d859f01423d6ef4c81ce097325f17f41b8a1e7898994ca1e1ea2f03b7f658f08f135b88107c134466d71121b3debeb5fd05492e49cadda57bc3b02a8121862ae9692997d9c52651cb1dd39d644244047de06e8b5ae3a6cf6bb02f5d5435c1c0e4baa040ea01e487fe21e907d33fad19133db168f0fc9d9e4c179ceb1d04b949ababcc6278c366b7b943352b1c24184f8c630079b43a2bc7216487e54886f5aad315a564462e74103319ce07e87a5bfbdb89c91f01494180319f33aaf228c29f584fde6102e82d1cf837b71c21baa909f49b06f3ad090f82fc9f2b5d9f8c3b7e6a09dcc091dac7b7c1bb840c4d03da2e87602bda2b43d0b1c78b668301f7dec969c640c3fbfa08af3d88ac9d751dce1811eaeb1e6dc864311088131da460285914a118da77967b1ba56a75b4fc287f61d89c533cc015eb9420ab95f2efe78ebc637f87e296f0875039e64f1647266e60099a990c49764fcf511c51605d474a089e87e37e69caa7b158be4864280bed7b8263fc17abfb95a5db9cfff0700b7f6b9fdbd7f228a235edd22975316de9d53c36deadbb40062bdcc8086263cf48b2990ce19543147775b5977b6cf3935e8d534f1e10a80daa0ad5f3d0df41bcc69dbfa2fa7c299c09829bb97042bf17e583b90ba04aa266e29507eb8284b7da1ed5c8af311dc48145453bcc765f9761255f0e4495ce68403072c5a8f5cc6900fe64205517eab87f25ef9cefb4773dcbf72692c429c14727bd62d361ceb0883e7b2802440b1d59a5d0f66671252ba74f03f4be61e5a411b9477ff15f270233e5f646f53d47d8fa777bebbbbc14170ac5959ce080feeb5a33e4472c22cf43f2536ca58d8a4dad4dc57290164ba403472a643ba41a9c87215e6938db6c312dd0272f3ddbb6c96563d4ddea49af15ac9be5244b76d0be264cb980e0ea888bbdd8953635e5d6147b7fd767b84b5cd622da67395b9baa8a4f78d5c8075ec357cf403a1b92527d5be18f9a88a5fec205240133d232d9623a65de4b6b00e62ef4d75760ad5d72da8db46a74cdb356e2ff8631937a4b49ced053b35d4b32d574b2f2b7c9372faabf19eb79e4ad56b2ba5be4cf059462486bea33cb6d042517383bcfcc06cf2e488a1943e2171e63b646aee4d76dd58d4a42ebab49cfa29062df184cc60248382f9c53351808e66532856d2dbe9024a97fee5de3c0d10572dfad46ab53f181ce37d64609a967f5fe14c60f0d1e9d987e715bfc7352efa980767237e93651f58cbcaf0e8da8a67ef270196a4ba51a67909ee5ef3f9aa40cdaf60caeceb577cb0582c874b14f6b56969b9531188a185b8f7b154438421ce56d4996a1801e8b6ddcb04414a63cd5f93f31c5d3e87cb208d912cfd3a2b8df382e58fdaa89ff01a1bf4dc8c7a3140019aa33fe88f05070baaca191d60335d5044500498739296e880f7058c0b7ad3d95f46b407e626b38c968d5177e8daf3daed64b279dc79f4c8f508b4bce9e7671ce222db786836d93e43a5677f65e8c688dcbdd631fcb97bbe358f35e8a8422e9df08d99183fbff9d2c8e4140015153f1e1104dd711d4c5ccd665f61c546597842e613d8587deeb8ebf6ba244f5ffca545baa976847b351671916d423c388699f56099b2a90574a76f863f9dfe8905cb2b0fbfe3609f4ea9931767105fa67e19aa43627bc5040d8def93e249c1ea7a740663a153c8618574f4fc0d108f69ea590eb53eb2b45c9ab75c3b4c1ecd638637447fc819f0f2478e64aeb32408c57f88d7c267e4ee93da1f3b4c5d3d7b220091c72b358f01dec0a2b04387e61bc0ba00e567747539523b95269321e5a3c64ed2f0be6fa659494e63f39116d687c526e55cda2553ba238c18bffd85b71f597443bb1b5489db102f8a6d694b0b9968f2dbb44cc0ecf0c6ce11b71d4ae003c8a96e4a2f74111266ae24baaec233bad380b7210b9570ff73418f2a5e2062c553117d2eea30addb14b129b65167fe02e8ae2fa7ec8a0f1e255eebf025545df50e53bf527165b426a42ca5e05385f4fb37884f2fdb183e3da707d8f4bcd0c0728f19599ca8b612d89902ee4727dbce37e1112f7b964f6cdbe41894ee05997c28cff5c01561d7b9eb6ef87550af70c2872c45c508165b3a891f29c45e769aab745747dde72dcd325c964213ba5e8a59f610a8cfa8a3575c66e79f83401d43b40f60ee40f610c2ac83f277ccb88af461913423b0d82f9e2f2345f4dc269ed950b580d835c07128f5ea8ff61845412673105a574edd697041580219f22b181b55aea4aea7ffc184e2c205e76150dc87a9a56da08b00ce8df10e79591259fbe9d20a6f0f8970b95db9b7530754e3affe498b0fa3c73d54fdef85ff1a24982b76857173963c18dbd861867ffbe5dc94566ee9584d906a338bd187c94a301bf982fc9a042b4b8dea8b5c3af24a9fc3c968d4ec56d8609dea8984099bc182a68b03136aa97584bac5aa2df27619d0749e6d02b758cf4ce507b7d4927175d81f4ab61b386aa263bad2a46bd01197a18e20019a14250edb8cdf662dc509e8bcb70546773cd3a2260260fab7bd0bfe72d179d4a8584db0634d70ed96dcfc2abcd9d3db1396c92ea68d8661e6b479d4c88dae7b7f27b9fdb3fcbf1ad2f804df26332aee746e913638c15a402e3bb51bf4e1b705a78bbd8a3a604c6aa2db0305cf5b82c7570824bec2920acdfea04aced048180d1aee5e2bf2cb068e9dd30aa9e855427bb7c23306af45c8c5013e543f279bb80343f7d7fc3b8ba387759bba51b3808083ee53cbc7ef5a160725e457d62ddc95ec22687e39d8e911c9acdd9ebc53bb9435943cab76a0340db07ab2ba77d82825ecb35e9abcf2310255f9d0d31aad5cb07514342cc23427e80c27d0346e54334941d9664e55fd02383938c5e243aa177f53623f4a7ea452b6a301a93b954f04f432c20b8c2c0853250aeb1f263d19f7b097768bbde7480c6cc6777736188af31b4fed1b289b8d19847b404def331e4ff6d2d9b8182b7254ac5334ca47e3044947fe0c63f9c3c438dd82530b3968030d34ae1196e51f21e9045b56340f35e609621251e96f390f2979f3a15daa262755b9bfda9cf0bb599d399062613ddcedf1baf71c1a41441a5b5bb336576615cfd40a68ceedec51303f0403a6b9e45a3196052433a1b68609149837277cea6649b354d368230014893cd8ff4604502ec4c600c951416d9ec6cb0337f22fae5285ad60f0a8f0a3219458a2c9256d16c52195ffc80bdd15642d6b25f3259979e15bed234fa8a2467b4ca101820021d91cc32e4f18ac29f28bd8dd8b26d332524438c441110c6d5ee02c14c156502f868cc72d1c2e3b5372b3a2807d503477b287aa10f5969c3cc20ff368f7b9cb6f48a16c8ee41f8ffb7996565d5ae709f2e18b9b34fd92da9fa71b0e7bb0414500dcfbeaaa3742f8e169672ec38e5c83ac231d69d34ffdf9e79199b1d612922b3ac1bc94a21e7b96d94386cb27d4b5f8242acbabbb8284454dce84bf703fbc02a09d016ee428fdf5b49a26fcee5624858654","tag":"bf5c9e2a824a003d014f8c393eb375d3"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -230,6 +252,26 @@
 
     var saved = sessionStorage.getItem("lab_pw");
     if (saved) { document.getElementById("pw-input").value = saved; unlock(); }
+  </script>
+  <script>
+    (function() {
+      var toggle = document.querySelector(".nav-toggle");
+      var links = document.querySelector(".nav-links");
+      if (toggle && links) {
+        toggle.addEventListener("click", function() {
+          var isOpen = links.classList.toggle("open");
+          toggle.setAttribute("aria-expanded", isOpen);
+          toggle.textContent = isOpen ? "✕" : "☰";
+        });
+        links.querySelectorAll("a").forEach(function(a) {
+          a.addEventListener("click", function() {
+            links.classList.remove("open");
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.textContent = "☰";
+          });
+        });
+      }
+    })();
   </script>
   <script src="/scripts/theme.js"></script>
 </body>

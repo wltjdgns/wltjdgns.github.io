@@ -16,10 +16,13 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; transition: background-color 0.3s, color 0.3s; }
-    .container { max-width: 860px; margin: 0 auto; padding: 0 3rem; }
-    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; gap: 2rem; align-items: center; justify-content: space-between; }
-    nav a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
-    nav a:hover { color: var(--text); }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center; position: relative; }
+    .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; text-decoration: none; color: var(--text); }
+    .nav-right { display: flex; align-items: center; }
+    .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; padding: 0.2rem 0.4rem; line-height: 1; }
+    .nav-links a { color: var(--gray); text-decoration: none; margin-left: 2rem; font-size: 0.9rem; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--text); }
     #lock-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 1.5rem; text-align: center; }
     .lock-icon { font-size: 3rem; }
     .lock-title { font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; }
@@ -85,13 +88,26 @@
     .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; }
     .content th { background: var(--surface); font-weight: 600; color: var(--text); }
     .content td { color: var(--content-text); }
-    @media (max-width: 768px) {
-        .container { padding: 0 1.5rem; }
-        nav { padding: 1.5rem 0; margin-bottom: 3rem; }
-        h1.article-title { letter-spacing: -1px; }
+    @media (max-width: 767px) {
+        .nav-toggle { display: block; }
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 0.5rem 0;
+            z-index: 100;
+        }
+        .nav-links.open { display: flex; flex-direction: column; }
+        .nav-links a { margin-left: 0; padding: 0.9rem 1.5rem; border-bottom: 1px solid var(--border-subtle); }
+        .nav-links a:last-child { border-bottom: none; }
     }
     @media (max-width: 640px) {
         .container { padding: 0 1.2rem; }
+        nav { padding: 1.5rem 0; margin-bottom: 3rem; }
         .content .column-list { flex-direction: column; }
         .content pre { padding: 1rem; font-size: 0.82rem; }
         .content h1 { font-size: 1.5rem; }
@@ -99,7 +115,6 @@
         footer { flex-direction: column; gap: 0.5rem; }
     }
     @media (max-width: 480px) {
-        nav { flex-wrap: wrap; gap: 0.8rem; }
         h1.article-title { letter-spacing: -0.5px; }
         .pw-form { flex-direction: column; align-items: stretch; }
         #pw-input { width: 100%; }
@@ -113,9 +128,16 @@
 <body>
   <div class="container">
     <nav>
-      <a href="/">← WLTJDGNS.LOG</a>
-      <a href="/lab/">연구기록</a>
-      <button class="theme-toggle" id="theme-toggle" aria-label="테마 변경">☀️</button>
+      <a href="/" class="logo">WLTJDGNS.LOG</a>
+      <div class="nav-right">
+        <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+        <div class="nav-links">
+          <a href="/#articles">Articles</a>
+          <a href="/#projects">Projects</a>
+          <a href="/lab/">연구기록 홈</a>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="테마 변경">☀️</button>
+      </div>
     </nav>
 
     <div id="lock-screen">
@@ -145,7 +167,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"528b9c4f1182a0f97b3dd7917ac73694b2e970ce886313ee7de271a48b55022f","iv":"156fc8a41556377d4d795052","data":"1f5db107a93643ffa2e23d22d5c55f695738f11b47fe5a3273a033b0cfa1fd70187da1ea57d9c0766bfed9f7850b5ed6c148749f3ff5f7e750ecf4df5bcb6eb40374d7b09e4733ecd07e93f58b3e3e0dc8291a08617a46e5588517dc635cb3cc33ef888d3977db2b871651282fde57fc61b62ac002aee44c34542e80266d2a14e146c6305839aea7cc3307ef739ea4f4cbecf546fcd5ada1845f6c13dd5a577e49dfd76040a642712780b273592384465c8576aadb59253981e7a80e9f1f630fc7703e5dc411646100112b2e398b94aab4cb73905657cf6c88db2421fa33b19271d4462bcadc9f554e29922149634249aadca8ff4fa65a1ac43d3a8420c1da74ff8a403e962d1b197d1b7c40f3c7827a39732fb167f84a3f05f85c7d40dbb419cc6d916a9817b810dee271cf96b8f602113e06122fdcddd20f76d436ebef110671cb679d77a62c4be24c9635eefb8f9020556faa6ab72e63a6fd2f72866a1e74681b7b537aafdc5ded58b40b7096984aecdf0422e8d9c0659cd80f22639341f643c993ac0186b975375d4865477f96e3bf5fa7063117e6addcefc5fc687f31b0cdfc9e7207d1138b2bb73e55bed9893539f30c8ac8f10ea1d5e969a6e5b1e2732555814182a5df3a2af5e702cfdbd0f7ab777fe2cb966be0732141973618b6058407505880bf89d3a0ea65478a661854598a86f3dd32f3cd09049798c8d337271145844a90c1bdd799ab3304693719ed20e7d3cf88d5d833","tag":"ce79799482ca984bf27edf2e60af263a"};
+    var ENCRYPTED = {"salt":"e37f02d3e74d792bf2255d62ead3d02a2d2e89ad96c14076697871cdab45aa43","iv":"c845d8956906f0fd1991b0d0","data":"877cb2eea74152f285befb46bf5acd1d7e98a940bff12fc0637df8caf151b6977cc9b77180c8ae873b5a1f6f7f7e47958de4a454e765b7bf3cdf7ab32cec3d69910e6f5271925bd578f05c6771722f19008c45d77c8aa45b9822166410a174bd5ac6e71dfbcbb51497588263c0900598ec3e5b8498307fc3223983da9abe51dea0d78f38d47c29874587e682ca5a17a2d7beed66819cb540b777063a8ceacd475fc5db245b03ad032d8259b4b74556533766ef71c419699eef91e54d598ebf025b8b49d5e243faa9390817d45795cedc0d9ebf138efd9d946b2dd99ebaaa5329ee2c027b206ccd08e80f4740d8efdf3c92f155d51140bd987f7bc1fabf4a733c386fb69345b7cf99241dc9cb45322904dae41538167cd38a60b5b32fdbd8465c65cf0271e3cc904be3d1b033f6d9ac31db47b32b98b937817b6874d089e780a0bf42cf3c6cad54cc5659c3f6df30982825d4bec9d6686c18f60b2ba2166766efb1f5d89ac31e1e21f752f22a86ba42e1c5fbf3f4245310adbe3b0c65370afa66b7578a95583fd6befeb1590cebebf3c9fdbf01f3da126eea23de32c7df0e973918aca7b3268d0240d9045cacade59031c789e0ec946ca9dabea3e787b195cdb6c2331f25d1f13e89827d1f6d6b15bfe741b34d03c250b650dbe88ff9f4739935cfa03da97ff93df7665722be05e32783e20f3cc2e3ab42d9f3af43582912519a5111c0a72fb0da4716977d52ce4e43f381a306c20e819d52","tag":"1f3f1ba559bc8fae62a6a97bd0105bdd"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -230,6 +252,26 @@
 
     var saved = sessionStorage.getItem("lab_pw");
     if (saved) { document.getElementById("pw-input").value = saved; unlock(); }
+  </script>
+  <script>
+    (function() {
+      var toggle = document.querySelector(".nav-toggle");
+      var links = document.querySelector(".nav-links");
+      if (toggle && links) {
+        toggle.addEventListener("click", function() {
+          var isOpen = links.classList.toggle("open");
+          toggle.setAttribute("aria-expanded", isOpen);
+          toggle.textContent = isOpen ? "✕" : "☰";
+        });
+        links.querySelectorAll("a").forEach(function(a) {
+          a.addEventListener("click", function() {
+            links.classList.remove("open");
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.textContent = "☰";
+          });
+        });
+      }
+    })();
   </script>
   <script src="/scripts/theme.js"></script>
 </body>

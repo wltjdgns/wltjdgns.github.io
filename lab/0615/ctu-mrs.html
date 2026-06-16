@@ -16,10 +16,13 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; transition: background-color 0.3s, color 0.3s; }
-    .container { max-width: 860px; margin: 0 auto; padding: 0 3rem; }
-    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; gap: 2rem; align-items: center; justify-content: space-between; }
-    nav a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
-    nav a:hover { color: var(--text); }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center; position: relative; }
+    .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; text-decoration: none; color: var(--text); }
+    .nav-right { display: flex; align-items: center; }
+    .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; padding: 0.2rem 0.4rem; line-height: 1; }
+    .nav-links a { color: var(--gray); text-decoration: none; margin-left: 2rem; font-size: 0.9rem; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--text); }
     #lock-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 1.5rem; text-align: center; }
     .lock-icon { font-size: 3rem; }
     .lock-title { font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; }
@@ -85,13 +88,26 @@
     .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; }
     .content th { background: var(--surface); font-weight: 600; color: var(--text); }
     .content td { color: var(--content-text); }
-    @media (max-width: 768px) {
-        .container { padding: 0 1.5rem; }
-        nav { padding: 1.5rem 0; margin-bottom: 3rem; }
-        h1.article-title { letter-spacing: -1px; }
+    @media (max-width: 767px) {
+        .nav-toggle { display: block; }
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 0.5rem 0;
+            z-index: 100;
+        }
+        .nav-links.open { display: flex; flex-direction: column; }
+        .nav-links a { margin-left: 0; padding: 0.9rem 1.5rem; border-bottom: 1px solid var(--border-subtle); }
+        .nav-links a:last-child { border-bottom: none; }
     }
     @media (max-width: 640px) {
         .container { padding: 0 1.2rem; }
+        nav { padding: 1.5rem 0; margin-bottom: 3rem; }
         .content .column-list { flex-direction: column; }
         .content pre { padding: 1rem; font-size: 0.82rem; }
         .content h1 { font-size: 1.5rem; }
@@ -99,7 +115,6 @@
         footer { flex-direction: column; gap: 0.5rem; }
     }
     @media (max-width: 480px) {
-        nav { flex-wrap: wrap; gap: 0.8rem; }
         h1.article-title { letter-spacing: -0.5px; }
         .pw-form { flex-direction: column; align-items: stretch; }
         #pw-input { width: 100%; }
@@ -113,9 +128,16 @@
 <body>
   <div class="container">
     <nav>
-      <a href="/">← WLTJDGNS.LOG</a>
-      <a href="/lab/">연구기록</a>
-      <button class="theme-toggle" id="theme-toggle" aria-label="테마 변경">☀️</button>
+      <a href="/" class="logo">WLTJDGNS.LOG</a>
+      <div class="nav-right">
+        <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+        <div class="nav-links">
+          <a href="/#articles">Articles</a>
+          <a href="/#projects">Projects</a>
+          <a href="/lab/">연구기록 홈</a>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="테마 변경">☀️</button>
+      </div>
     </nav>
 
     <div id="lock-screen">
@@ -145,7 +167,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"91c15aab1b279aca2b07047862415b121fabf835512664e0b7f82a8d9c836050","iv":"528bb243027f7cb78c770115","data":"8b5fd2b6c2cddfb91eb715e91dba946bc15a15758ac89b931aeed6b977fcc7fa9dcec57f4a556803767b7dcff5599be301546b21242b669fdfc4c7a13a751dfeb35879fc1dda5c09fba047bd69b561b042756925cad753cf46c9d18ba6042d269443bd2cfea3e224662cfab8d0dc96c8ade7b5cbbe15c2d9833d6a782da0551ffdd1d9d6ccf6aad27ad74c2100929b6e480850ef232fac11037fca4f4c61ce67cc98487a5d30e13c91968acec8db626a18c7cfc2b96574ca28381406a6f23f36ec8e2d73d59f245c97fce4790971de9e59e4c81c1d453975790188e3fa01958a461017dc5372d745f39b423e07097088970776de050d8a0ff017fcd68e03aee987cbe2b83940c2730babcb8b365dc34bc1407e3557775d99f7f832b4b26063a5650872af48209607ce7e57511e138122dbd8010462c8a4a5390dc46cbdc5269e9e8c5fb15178139b88ec6c9f28fbcb4a31e6c3352875cce91319f8a356fbd3776394a712ce9f3905a74ae21b49e311995c253c45b363d74e4e46c52f5c481c830e2ccebfc9db9dcffc977bfa861e6fd6ac7aa2cba7770a8e670e11211dae34843ebbf5ca161481b07b8b2e43bc6ab147af5fc9f3e634eaa287bb884643355514b02b8a1b064c4e1ac38b0b6ef66550ea6327346104e38438b7bcc52dc5606c4b41974fb70d19ae81248a01b0147f919c0fbfb77323f883ee5228d57f9dcee90ca6c19d46cfcdcf5c6198fc3234cdbf01abd82d5640c5edab1f5f853aa035b3484b855b7bee0a32b45d6c5727a87d124df774aefe250090172fa5454193d9f35eff6e2638eb94b1cb65eb02af285f5406b54e7fe9adef812fa457ceb6cc3e4ba4cb903eebd4c61f8c9964dd864c7711998e5d8d838f56248fd41a1ad8878d9d4d3c691c59bd011b38ea1bc343d16b0f20f72783991b7b0c2485993dc4f12073e0dd85bf07a2406d6c78a0d87c33e07c8f8ab0bb9baaeddf0491d5a4391703c297061490153cf4c77bdb0649bf915e9dce2e86cba4469f21d7f1666bf2377a415df42fc08941034989a94b47bbbf2e22259a05cc7c92b3f768607530a9132f4491f697b9a500d503a22d01e75b82752f570d54660b19455a637d78fffc87989bbb41d15313f5f67cea1dffabc4b72a2e52d50a7199d13eeb76807f96a131501a05635fe667f80f603a803fabd0aed0b06b999160e91b3fc72a5043c1c50af6b553ac17bf0b8d4e364733fdb25ed7eb0a7bceea1841b1a5154a90307e8e419171991a97c60920b45aacb5cfe26d54afb473db8e646c46eefd9d936de045066387ab314684aa0e84534920ae71db95d95ca9653dc2cd32b3b93a96eefb6fc62875478b5bb6027868060d5fcf8a9aca8384e20b0752e04f3bbcf6e2e22137b01c9383225fdd2f261603145ca32e90557d8a41f8e676f37ced2200592c5e10727878614fd79c7145073c32a0647b96c03355e1c015c2364dbcb00a3f02ed5ac25f1f6f9238b796f42b4a557ba820ac579830143da691e22bbeb73358c0dacd7e67fd774dc42913b9159afd2f4bc8d8e3b5a2a951f24f25ce6fc92103a66f58ff338468ed18eaca4099b96da9c7072b9922e7de6daeb92be50afe42896947909779b7d8d55a0010b3bbac075b2c480fd9155f437e207ecbf51cd1325f7a06b4dd0268bc6d3209075059c8b197978952a830c386f00f1fd0e23a9d65dc426a1640ba0250eec6ecd4e97a520fbd48162ccaddba930092331b8b6e009986e2d7e48c0e3518c1e8e2c7f10af5506b77c03c479fcbe86845ba1be53b10ed7dd8286e06dec5bff98931a46378e045af1d7512778478275d53c2114c27a8a3ba4b8f1d4de300201ed54bfffa28ae796df4857fd0e64166918dcf254adc62dfb9fb16022d87c161a2e0e02dcd4c9880c0fd8fff0d2998e5bcf01daa48471bbdebf87b4546098f1d11519305510a208a15a5aea4689c81d30c6662ff310ff87a7b70f6fe3aca7c6572d1394c9047ff5ae29e1eb5bcf8bd30147d721141e9fce2df6854e1f8c80b5b7fa12e9f1e708ba7229f44b4fabdbd9f7608dfd983d008eac5000f52f2f37065f11290417569c5a6f56f931a65d9859837b371082cca883290a4a51e553b4041b64ff943ea1757caf73f98665bc379bc01917f6490535edfc8d8edc4cbf9307248c50b693fe53dade1d4a8d34611a819174b5862c1a1cb9d389987967655b943bb123363d46b2142d391c86bfab0517f33ca21032442b1ea48ed50519bc96170839674ca4d53e01e00f9432f8811887c996ef9b75962b8a333e1344a61724443ee7241e85a0d97169b511df2ed203742712413fb9ea25f5bda5c95","tag":"c3d57499bb95ccab9b0ff408f8e31c58"};
+    var ENCRYPTED = {"salt":"e2ac3032216de92016b8dce23a25f6c6c4cdd3a12ce91f9eda4861ce58a83602","iv":"dc2e5202828db2f1aef25fd2","data":"2ec8c235aedb579a3c5ca29e17f030b640202b97c6af58c268f324795db60d0c73d3e8d3dbc718e0fe516fb649d1df5f24d438f4f81682d757ca00f38be8e66a91be08e2f1387bd8b4482ba28ce989051dc50604e5b57057a309b1fc31ff522fe42dff7de0b305fa00ea6e0700da50378905f67ba825511648e03b9c230851ab418e1ce563e9ef4e4bf286b040fdcc19abd7dfaa33130535ed78dcbc8f83001b31b18c27ac9b6938d8dcd4b950702303a8bb51de4b64251a6b043f6627c97270e66c2f9f60aa1a9b77dc84e9c25064aa3193eb52e6a26071255f69227e93c4c04623bdf7b82a2f47c8042fc7c9e445fb2eb852aa1d2d069e91340e4b7fb4395bdb4a215dba4c572ab885720ea1893d4d0aecd220f6176b9eaea6ba9203b4fa5c682f0e2cfe20e70db9f5f2c6603137f33178db8d06dde4d18bc863a1b5404cec49d81e67dc20a68b640fe9db36891d184a601e3e2bb42237b633c4b5b47742c0ae5e2df8f2b811d7ae7e9d0fdf3459dfe19d2e1a3f3e658e991783326ef135f18bb5c28f624cb4bb0503ddd372f193c883c4d312fc2ac8a608642521312e9435998529e2f2f95781e427c54299ef2fa9ef62c51eeeb8a14d18991f7f74bcd6f34dd34c546d74d79f23e91b37e5e6c432d5b3db94467622779915b4e71a6e8593796f5607c01884f5feed10268b48a7a589c7e8ec3367946e9008be2895c58ebb7d7adfd694dea79f2e2c6a6e28a996c7811f43ecdc8f9be67ee663deead2bf20a24e35e9dd35a01b201b2c33842e878613e315c7a72d9aa460b01d2cc1b10a60898a26f1ec97e832bc5279e315038c668f85ae9c83626166a795a37f46ba4d2d3be5efe15c15b7b8d7266a897107a0f55b58b837f527fe95d231ffb2ffbf910681da3d5941d72d9e005bf6a379d88ac1d4ad940e2eac6b31adab84c9fdbdce06374229be81dc6333a4bb1b9f2594d099d5f90938be69fc6ca2135cc93c70549a979e7d253ce0f7657372f2edeaec3a2d2834b033a28f0f114106a9bb2076c5b1ff1fb55d0ea3db8a0512eaf5c239283df94f281fa131e54ec785df0102afbaf1ed892e77749db70de676f0d0fd352423ccb6b684f161c4d0f43a1a39b599cc3d7663b0dbcaa00ebf0393553bcacfd396f6260b670a8e94f592f498ca66d63a143781ad02803bc49c81ff0082a98b63ef9be357a343996cf19ff1d5851e82d692b6b1af7e56f507929a2bcefc1237acf17fa2c0b66d6e4133cf43da242ac177cc1cec611bbe5ae0a24a5aeae600f1204111e39e51fd7f75bfbb502ded8a7cc65b26f4bdbc349621eee9aa7719c2c1e57a6dd85de1e00762f198ab7fd0299708633100d9faf7d58c69e1281377c4fc712ccc04103ec67f70202888fd2c35b291b6f58f275144bde1a3846f532d7acd45b354df3eabe4ea7ff349b3cfd06c83927a280d1c70d017d10faf5ac3d03574109c7c0474e96ff54d2432264ce0508d74a53aef250e34a02b55aff3e59c8ac6566f41d08e27df1405333747f3d4d1f0d08727c6545362a5f61b5f33a7a0aa7147d76e92658248964de9264a3eaa9d11aedf192394db832b5d4599bed37e31d449e7161997bef7a2df266fc602bfa1f8b9c10b31bf7ed63c87c441a72b5bb075c4cfc1b0a07f0042c2c73fe08d9a11fd01e41e3ba20974494dd73c75b514de7ea011e211e27c1a09ee078c48fd0d371db81777fce9ac48844aa2c5d522fe471e8a72ce8e933372e50613f0935445da59565798aa2829ac0ac9fe4510c2ba7862253ed7cbfd60e4d21fd4248629bc5aa395b578cbf478af2927ae52577f8dde79c29d2473e534a5c067c98e234038111b80ce23590cdbb1c97c187632690b69e0b07aa55b96f021bc8bd35d67fcef86cfe6ccdc2e670b520427c54163482ebfc199ea082637d8e32beb8367d0eea4143c07f78a12f73ee144d831925276c90c75ed228970b7fb42534556cf958d3adfff3791e79ba75d13e72ab15dc47a1bb31f314cfd83c6392d67840e3a5034428b8cc86dc4f97cd34643101e4c08aca0fc853c428b068e1a5b124bd673c3cfdada5cd692a643e6f1f81984613141456ae9d7d531b2a1f609261e5199eecba5b3b4de6d036719fac40c10d3bbe817eff3272f2d791ce180a5c87f0ff1ebc3450e80a350c42d00fdf7303988b1f89b7e18f37ce2549b4be1c4e62f541bd30457c5a6c279039cd0a2569bb73ea209f4a32a66210ef953af154d6d60b6c937ec637320d85bf6894953b6235a85ccbdfe9c1328fd9b346fcce685cf7e157c8253483345c0b5eb7570694a923b4dd7eca4c5d6f594e87c1a51517328f3cfce99a96a","tag":"75b56431ee95571c7cdf23effa23ff64"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -230,6 +252,26 @@
 
     var saved = sessionStorage.getItem("lab_pw");
     if (saved) { document.getElementById("pw-input").value = saved; unlock(); }
+  </script>
+  <script>
+    (function() {
+      var toggle = document.querySelector(".nav-toggle");
+      var links = document.querySelector(".nav-links");
+      if (toggle && links) {
+        toggle.addEventListener("click", function() {
+          var isOpen = links.classList.toggle("open");
+          toggle.setAttribute("aria-expanded", isOpen);
+          toggle.textContent = isOpen ? "✕" : "☰";
+        });
+        links.querySelectorAll("a").forEach(function(a) {
+          a.addEventListener("click", function() {
+            links.classList.remove("open");
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.textContent = "☰";
+          });
+        });
+      }
+    })();
   </script>
   <script src="/scripts/theme.js"></script>
 </body>
