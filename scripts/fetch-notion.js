@@ -192,10 +192,12 @@ function generateArticlePage(article, contentHtml) {
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; transition: background-color 0.3s, color 0.3s; }
     .container { max-width: 720px; margin: 0 auto; padding: 0 2rem; }
-    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center; }
-    nav a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
-    nav a:hover { color: var(--text); }
-    .back-arrow { margin-right: 0.4rem; }
+    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center; position: relative; }
+    .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; text-decoration: none; color: var(--text); }
+    .nav-right { display: flex; align-items: center; }
+    .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; padding: 0.2rem 0.4rem; line-height: 1; }
+    .nav-links a { color: var(--gray); text-decoration: none; margin-left: 2rem; font-size: 0.9rem; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--text); }
     header { margin-bottom: 3rem; }
     .meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
     .date { font-size: 0.82rem; color: var(--gray); font-family: 'Inter'; }
@@ -240,14 +242,26 @@ function generateArticlePage(article, contentHtml) {
     .content .column-list { display: flex; gap: 1.5rem; margin-bottom: 1.4rem; }
     .content .column { flex: 1; min-width: 0; }
     .content .math-block { overflow-x: auto; margin-bottom: 1.4rem; }
-    @media (max-width: 768px) {
-        .container { padding: 0 1.5rem; }
-        nav { padding: 1.5rem 0; margin-bottom: 3rem; }
-        h1.article-title { letter-spacing: -1px; }
-        .divider { margin: 2rem 0; }
+    @media (max-width: 767px) {
+        .nav-toggle { display: block; }
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 0.5rem 0;
+            z-index: 100;
+        }
+        .nav-links.open { display: flex; flex-direction: column; }
+        .nav-links a { margin-left: 0; padding: 0.9rem 1.5rem; border-bottom: 1px solid var(--border-subtle); }
+        .nav-links a:last-child { border-bottom: none; }
     }
     @media (max-width: 640px) {
         .container { padding: 0 1.2rem; }
+        nav { padding: 1.5rem 0; margin-bottom: 3rem; }
         .content .column-list { flex-direction: column; }
         .content pre { padding: 1rem; font-size: 0.82rem; }
         .content h1 { font-size: 1.5rem; }
@@ -255,7 +269,6 @@ function generateArticlePage(article, contentHtml) {
         footer { flex-direction: column; gap: 0.5rem; }
     }
     @media (max-width: 480px) {
-        nav { flex-wrap: wrap; gap: 0.8rem; }
         h1.article-title { letter-spacing: -0.5px; }
         header { margin-bottom: 2rem; }
     }
@@ -268,8 +281,17 @@ function generateArticlePage(article, contentHtml) {
 <body>
   <div class="container">
     <nav>
-      <a href="/"><span class="back-arrow">←</span> wltjdgns.log</a>
-      <button class="theme-toggle" id="theme-toggle" aria-label="테마 변경">☀️</button>
+      <a href="/" class="logo">WLTJDGNS.LOG</a>
+      <div class="nav-right">
+        <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+        <div class="nav-links">
+          <a href="/#articles">Articles</a>
+          <a href="/#projects">Projects</a>
+          <a href="/#about">About</a>
+          <a href="/lab/">Lab 🔒</a>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="테마 변경">☀️</button>
+      </div>
     </nav>
     <header>
       <div class="meta">
@@ -286,6 +308,26 @@ function generateArticlePage(article, contentHtml) {
       <p>&copy; 2026 wltjdgns. Recorded with curiosity.</p>
     </footer>
   </div>
+  <script>
+    (function() {
+      var toggle = document.querySelector('.nav-toggle');
+      var links = document.querySelector('.nav-links');
+      if (toggle && links) {
+        toggle.addEventListener('click', function() {
+          var isOpen = links.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', isOpen);
+          toggle.textContent = isOpen ? '✕' : '☰';
+        });
+        links.querySelectorAll('a').forEach(function(a) {
+          a.addEventListener('click', function() {
+            links.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.textContent = '☰';
+          });
+        });
+      }
+    })();
+  </script>
   <script src="/scripts/theme.js"></script>
 </body>
 </html>`;

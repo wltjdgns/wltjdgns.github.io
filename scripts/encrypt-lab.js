@@ -406,10 +406,13 @@ function generateLabEntryPage(entryEncrypted) {
 '  <style>\n' +
 '    * { margin: 0; padding: 0; box-sizing: border-box; }\n' +
 '    body { background: var(--bg); color: var(--text); font-family: \'Inter\', \'IBM Plex Sans KR\', sans-serif; line-height: 1.8; word-break: keep-all; transition: background-color 0.3s, color 0.3s; }\n' +
-'    .container { max-width: 860px; margin: 0 auto; padding: 0 3rem; }\n' +
-'    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; gap: 2rem; align-items: center; justify-content: space-between; }\n' +
-'    nav a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }\n' +
-'    nav a:hover { color: var(--text); }\n' +
+'    .container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }\n' +
+'    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center; position: relative; }\n' +
+'    .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; text-decoration: none; color: var(--text); }\n' +
+'    .nav-right { display: flex; align-items: center; }\n' +
+'    .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; padding: 0.2rem 0.4rem; line-height: 1; }\n' +
+'    .nav-links a { color: var(--gray); text-decoration: none; margin-left: 2rem; font-size: 0.9rem; transition: color 0.3s; }\n' +
+'    .nav-links a:hover { color: var(--text); }\n' +
 '    #lock-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 1.5rem; text-align: center; }\n' +
 '    .lock-icon { font-size: 3rem; }\n' +
 '    .lock-title { font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; }\n' +
@@ -475,13 +478,26 @@ function generateLabEntryPage(entryEncrypted) {
 '    .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; }\n' +
 '    .content th { background: var(--surface); font-weight: 600; color: var(--text); }\n' +
 '    .content td { color: var(--content-text); }\n' +
-'    @media (max-width: 768px) {\n' +
-'        .container { padding: 0 1.5rem; }\n' +
-'        nav { padding: 1.5rem 0; margin-bottom: 3rem; }\n' +
-'        h1.article-title { letter-spacing: -1px; }\n' +
+'    @media (max-width: 767px) {\n' +
+'        .nav-toggle { display: block; }\n' +
+'        .nav-links {\n' +
+'            display: none;\n' +
+'            position: absolute;\n' +
+'            top: 100%;\n' +
+'            left: 0;\n' +
+'            right: 0;\n' +
+'            background: var(--card-bg);\n' +
+'            border-bottom: 1px solid var(--border);\n' +
+'            padding: 0.5rem 0;\n' +
+'            z-index: 100;\n' +
+'        }\n' +
+'        .nav-links.open { display: flex; flex-direction: column; }\n' +
+'        .nav-links a { margin-left: 0; padding: 0.9rem 1.5rem; border-bottom: 1px solid var(--border-subtle); }\n' +
+'        .nav-links a:last-child { border-bottom: none; }\n' +
 '    }\n' +
 '    @media (max-width: 640px) {\n' +
 '        .container { padding: 0 1.2rem; }\n' +
+'        nav { padding: 1.5rem 0; margin-bottom: 3rem; }\n' +
 '        .content .column-list { flex-direction: column; }\n' +
 '        .content pre { padding: 1rem; font-size: 0.82rem; }\n' +
 '        .content h1 { font-size: 1.5rem; }\n' +
@@ -489,7 +505,6 @@ function generateLabEntryPage(entryEncrypted) {
 '        footer { flex-direction: column; gap: 0.5rem; }\n' +
 '    }\n' +
 '    @media (max-width: 480px) {\n' +
-'        nav { flex-wrap: wrap; gap: 0.8rem; }\n' +
 '        h1.article-title { letter-spacing: -0.5px; }\n' +
 '        .pw-form { flex-direction: column; align-items: stretch; }\n' +
 '        #pw-input { width: 100%; }\n' +
@@ -503,9 +518,16 @@ function generateLabEntryPage(entryEncrypted) {
 '<body>\n' +
 '  <div class="container">\n' +
 '    <nav>\n' +
-'      <a href="/">\u2190 WLTJDGNS.LOG</a>\n' +
-'      <a href="/lab/">\uc5f0\uad6c\uae30\ub85d</a>\n' +
-'      <button class="theme-toggle" id="theme-toggle" aria-label="\ud14c\ub9c8 \ubcc0\uacbd">\u2600\ufe0f</button>\n' +
+'      <a href="/" class="logo">WLTJDGNS.LOG</a>\n' +
+'      <div class="nav-right">\n' +
+'        <button class="nav-toggle" aria-label="\uba54\ub274 \uc5f4\uae30" aria-expanded="false">\u2630</button>\n' +
+'        <div class="nav-links">\n' +
+'          <a href="/#articles">Articles</a>\n' +
+'          <a href="/#projects">Projects</a>\n' +
+'          <a href="/lab/">\uc5f0\uad6c\uae30\ub85d \ud648</a>\n' +
+'        </div>\n' +
+'        <button class="theme-toggle" id="theme-toggle" aria-label="\ud14c\ub9c8 \ubcc0\uacbd">\u2600\ufe0f</button>\n' +
+'      </div>\n' +
 '    </nav>\n' +
 '\n' +
 '    <div id="lock-screen">\n' +
@@ -620,6 +642,26 @@ function generateLabEntryPage(entryEncrypted) {
 '\n' +
 '    var saved = sessionStorage.getItem("lab_pw");\n' +
 '    if (saved) { document.getElementById("pw-input").value = saved; unlock(); }\n' +
+'  </script>\n' +
+'  <script>\n' +
+'    (function() {\n' +
+'      var toggle = document.querySelector(".nav-toggle");\n' +
+'      var links = document.querySelector(".nav-links");\n' +
+'      if (toggle && links) {\n' +
+'        toggle.addEventListener("click", function() {\n' +
+'          var isOpen = links.classList.toggle("open");\n' +
+'          toggle.setAttribute("aria-expanded", isOpen);\n' +
+'          toggle.textContent = isOpen ? "\u2715" : "\u2630";\n' +
+'        });\n' +
+'        links.querySelectorAll("a").forEach(function(a) {\n' +
+'          a.addEventListener("click", function() {\n' +
+'            links.classList.remove("open");\n' +
+'            toggle.setAttribute("aria-expanded", "false");\n' +
+'            toggle.textContent = "\u2630";\n' +
+'          });\n' +
+'        });\n' +
+'      }\n' +
+'    })();\n' +
 '  </script>\n' +
 '  <script src="/scripts/theme.js"></script>\n' +
 '</body>\n' +
