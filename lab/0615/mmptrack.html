@@ -4,35 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>연구기록 | wltjdgns</title>
-  <script>(function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta name="robots" content="noindex, nofollow">
+  <script>(function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);})();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/theme.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
   <style>
-    :root {
-      --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666;
-      --border: #222; --border-mid: #333; --border-subtle: #1e1e1e;
-      --surface: #1a1a1a; --surface-mid: #161616;
-      --muted: #888; --muted-text: #aaa; --muted-dark: #444;
-      --content-text: #ccc; --text-soft: #ddd; --input-text: #555;
-      --code-bg: #0e0e0e; --callout-bg: #111;
-    }
-    [data-theme="light"] {
-      --bg: #f8f9fa; --card-bg: #ffffff; --text: #111111; --accent: #0088aa; --secondary: #cc2222; --gray: #888888;
-      --border: #e0e0e0; --border-mid: #cccccc; --border-subtle: #eeeeee;
-      --surface: #f0f0f0; --surface-mid: #f5f5f5;
-      --muted: #666666; --muted-text: #777777; --muted-dark: #999999;
-      --content-text: #333333; --text-soft: #222222; --input-text: #444444;
-      --code-bg: #f5f5f5; --callout-bg: #f0f4f8;
-    }
-    .theme-toggle { background: none; border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 0.3rem 0.6rem; cursor: pointer; font-size: 1rem; transition: all 0.3s; margin-left: auto; }
-    .theme-toggle:hover { border-color: var(--accent); }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; transition: background-color 0.3s, color 0.3s; }
     .container { max-width: 860px; margin: 0 auto; padding: 0 3rem; }
     nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; gap: 2rem; align-items: center; justify-content: space-between; }
     nav a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
@@ -54,7 +37,7 @@
     header { margin-bottom: 3rem; }
     .meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
     .date { font-size: 0.82rem; color: var(--gray); font-family: 'Inter'; }
-    .tag { font-size: 0.72rem; padding: 0.15rem 0.6rem; border-radius: 10px; background: var(--surface); color: var(--muted); border: 1px solid #2a2a2a; }
+    .tag { font-size: 0.72rem; padding: 0.15rem 0.6rem; border-radius: 10px; background: var(--surface); color: var(--muted); border: 1px solid var(--border-mid); }
     h1.article-title { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800; line-height: 1.2; letter-spacing: -1.5px; margin-bottom: 1rem; }
     .divider { height: 1px; background: var(--border-subtle); margin: 3rem 0; }
     .content p { margin-bottom: 1.4rem; color: var(--content-text); font-weight: 300; }
@@ -66,7 +49,7 @@
     .content pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; overflow-x: auto; margin-bottom: 1.4rem; }
     .content code { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.88rem; color: var(--accent); }
     .content pre code { color: var(--text-soft); }
-    .content blockquote { border-left: 3px solid #333; padding-left: 1.2rem; color: var(--muted); font-style: italic; margin-bottom: 1.4rem; }
+    .content blockquote { border-left: 3px solid var(--blockquote-border); padding-left: 1.2rem; color: var(--muted); font-style: italic; margin-bottom: 1.4rem; }
     .content hr { border: none; border-top: 1px solid var(--border-subtle); margin: 2rem 0; }
     .content figure { margin-bottom: 1.4rem; }
     .content img { max-width: 100%; border-radius: 10px; }
@@ -74,17 +57,17 @@
     .content a { color: var(--accent); text-decoration: none; }
     .content a:hover { text-decoration: underline; }
     .content strong { font-weight: 700; color: var(--text); }
-    .content .callout { background: var(--callout-bg); border: 1px solid #2a2a2a; border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: var(--content-text); }
+    .content .callout { background: var(--callout-bg); border: 1px solid var(--border-mid); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: var(--content-text); }
     .content table { width: 100%; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
-    .content th, .content td { border: 1px solid #2a2a2a; padding: 0.6rem 0.8rem; text-align: left; vertical-align: middle; }
+    .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; vertical-align: middle; }
     .content th { background: var(--surface); font-weight: 600; color: var(--text); }
     .content td { color: var(--content-text); }
-    .content details { border: 1px solid #2a2a2a; border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
+    .content details { border: 1px solid var(--border-mid); border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
     .content details summary { padding: 0.8rem 1rem; cursor: pointer; font-weight: 500; color: var(--text-soft); list-style: none; display: flex; align-items: center; gap: 0.5rem; }
     .content details summary::-webkit-details-marker { display: none; }
     .content details summary::before { content: "\25B6"; font-size: 0.65rem; color: var(--accent); transition: transform 0.2s; flex-shrink: 0; }
     .content details[open] summary::before { transform: rotate(90deg); }
-    .content details summary:hover { background: var(--callout-bg); }
+    .content details summary:hover { background: var(--summary-hover); }
     .content .toggle-content { padding: 0.2rem 1rem 0.8rem 2rem; border-top: 1px solid var(--border-subtle); }
     .content details.toggle-heading summary h1, .content details.toggle-heading summary h2, .content details.toggle-heading summary h3 { margin: 0; display: inline; }
     .content .column-list { display: flex; gap: 1.5rem; margin-bottom: 1.4rem; }
@@ -93,7 +76,7 @@
     .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
     .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }
     .content .db-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-    .content .db-table th, .content .db-table td { border: 1px solid #2a2a2a; padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; }
     .content .db-table td { color: var(--content-text); }
     .content .db-table td:first-child { white-space: normal; }
@@ -148,7 +131,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"cb4e4e0ee10ed2741bddac1b0c304905d35262f31c4626cb1eb22d78a6960fad","iv":"1b0935b44f256e25aaf55e48","data":"29fe93e07d00b618618ff13934c5ac5d0d92464d52373ca4b2a5292f936f2862ad0b9d902ad4c4535f6bee1b26b161ef9da0065e4cf7c75e4d2612012b0fa718e28ea6d6e76f88a9daac829f05d7d825c891675db3755f2bfe8ed03ca75c161a3d24b20f771df343bf65dd650d1599be4c48df1a0180c6344bf506da5d679805107dbbb8874e7f81a773e618db2ca7a1b3f26064d3ca99fedcca3ec69b452058144c5ae4b1ee6c7ab6323e6b98b4c0b8b059c855e6f2fe099487113e753388b04f1286c9872c929c19130689d43290e210fcb42e07593beb271a6de61758725df21254f6f10222ffc65dde633390ce271f2c1aedc82993633ed1fce6fa1cb0015414a07f29e9af19511459668ed28977435214d8dd6b6c0cfb0a1367430eacdb476a26c28acc5cc4b92518e37549b24d1cbdfea741bdd0dc4f2314094a21413ebebaff0ecd0a6fbca5477097a55407b81afe7fa37f7c2022ea6c3cabaae8821dca922c8a2b2489b145d07ef8cf7831e79fe7f35ca5f2089a7580dfa715e09eef8e0025fc8211547c8f0c1923647c0200f7fc4811e92f488ed931b5b62c9fedc417001ae91e960dab032cd453b531adb7b33b13209a78b61182aa47cb0e272e167979407c354959b7","tag":"96e393a39f1c628b72972764b3be4da2"};
+    var ENCRYPTED = {"salt":"a83b79493ff04dfe514982b0349fc2c231398794c0c9b59c0d7553ec628aa948","iv":"6eb559ee185ab12c268a3a8c","data":"d8d04b5566f317e453e4ef81395d9ba1a2523ac09e2750054607f90764e12fa9b9e8486ad400e5a2f6959e7a7e97b407080828773ece1dcfc2f38079bc3763687357be0ae9f70a3c70fe1549313d3f52fc6a0cd4ed2000ebe0255bfa2246c7d8669b65ea39975ec6d1a93234e69595bfa8f3280475639d03537de901c73326b53bf72a522cd0ff5be8fffb6efe8f92421f163a31c6a626adf52cf7db0f495252af5f66fecced04640584dc8cb5d93e03caee5854455ed82e74d1c5f24dfb18928592e8a33c5a7394384716f0b8be298c03978b04b96d680632d79ec147b03969784bd95ac120f33b70087af081fa81fdf1b164c619171b7079a8a7791d754c9a942b84f70cd9c722f4445eb1b1e95ae52904d8432fc398a93a5f0df2062b63d1c18b0f0fa50acc6ee0536911538a833d279e295fc211570e68de2cf2d136521d9d93e0ef2cc43cf617880c8972c1e36f0ace744c4f7030f4a4beab8aa0bbd631aadb4cd87d73104e22b5caa8d51947ab5aaa03fee07207f7605d8253b967d22597f8020e58c5dd2ba833e6f8577682582dbf20282f6c477e24f7f23a4f1ab7e872cb76e32f5f4803c37d70c2543b9f5473bab126b6f3895fac0da99f416a439ad1d0ddf4d288562c","tag":"e485eba29fba0f386c82b29b69d2be8b"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -234,22 +217,6 @@
     var saved = sessionStorage.getItem("lab_pw");
     if (saved) { document.getElementById("pw-input").value = saved; unlock(); }
   </script>
-  <script>
-    (function() {
-      var tt = document.getElementById('theme-toggle');
-      if (!tt) return;
-      function applyTheme(t) {
-        document.documentElement.setAttribute('data-theme', t);
-        localStorage.setItem('theme', t);
-        tt.textContent = t === 'light' ? '🌙' : '☀️';
-      }
-      var saved = localStorage.getItem('theme') || 'dark';
-      tt.textContent = saved === 'light' ? '🌙' : '☀️';
-      tt.addEventListener('click', function() {
-        var cur = document.documentElement.getAttribute('data-theme') || 'dark';
-        applyTheme(cur === 'light' ? 'dark' : 'light');
-      });
-    })();
-  </script>
+  <script src="/scripts/theme.js"></script>
 </body>
 </html>

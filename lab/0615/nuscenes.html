@@ -4,35 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>연구기록 | wltjdgns</title>
-  <script>(function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta name="robots" content="noindex, nofollow">
+  <script>(function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);})();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/theme.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
   <style>
-    :root {
-      --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666;
-      --border: #222; --border-mid: #333; --border-subtle: #1e1e1e;
-      --surface: #1a1a1a; --surface-mid: #161616;
-      --muted: #888; --muted-text: #aaa; --muted-dark: #444;
-      --content-text: #ccc; --text-soft: #ddd; --input-text: #555;
-      --code-bg: #0e0e0e; --callout-bg: #111;
-    }
-    [data-theme="light"] {
-      --bg: #f8f9fa; --card-bg: #ffffff; --text: #111111; --accent: #0088aa; --secondary: #cc2222; --gray: #888888;
-      --border: #e0e0e0; --border-mid: #cccccc; --border-subtle: #eeeeee;
-      --surface: #f0f0f0; --surface-mid: #f5f5f5;
-      --muted: #666666; --muted-text: #777777; --muted-dark: #999999;
-      --content-text: #333333; --text-soft: #222222; --input-text: #444444;
-      --code-bg: #f5f5f5; --callout-bg: #f0f4f8;
-    }
-    .theme-toggle { background: none; border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 0.3rem 0.6rem; cursor: pointer; font-size: 1rem; transition: all 0.3s; margin-left: auto; }
-    .theme-toggle:hover { border-color: var(--accent); }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; transition: background-color 0.3s, color 0.3s; }
     .container { max-width: 860px; margin: 0 auto; padding: 0 3rem; }
     nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; gap: 2rem; align-items: center; justify-content: space-between; }
     nav a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
@@ -54,7 +37,7 @@
     header { margin-bottom: 3rem; }
     .meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
     .date { font-size: 0.82rem; color: var(--gray); font-family: 'Inter'; }
-    .tag { font-size: 0.72rem; padding: 0.15rem 0.6rem; border-radius: 10px; background: var(--surface); color: var(--muted); border: 1px solid #2a2a2a; }
+    .tag { font-size: 0.72rem; padding: 0.15rem 0.6rem; border-radius: 10px; background: var(--surface); color: var(--muted); border: 1px solid var(--border-mid); }
     h1.article-title { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800; line-height: 1.2; letter-spacing: -1.5px; margin-bottom: 1rem; }
     .divider { height: 1px; background: var(--border-subtle); margin: 3rem 0; }
     .content p { margin-bottom: 1.4rem; color: var(--content-text); font-weight: 300; }
@@ -66,7 +49,7 @@
     .content pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; overflow-x: auto; margin-bottom: 1.4rem; }
     .content code { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.88rem; color: var(--accent); }
     .content pre code { color: var(--text-soft); }
-    .content blockquote { border-left: 3px solid #333; padding-left: 1.2rem; color: var(--muted); font-style: italic; margin-bottom: 1.4rem; }
+    .content blockquote { border-left: 3px solid var(--blockquote-border); padding-left: 1.2rem; color: var(--muted); font-style: italic; margin-bottom: 1.4rem; }
     .content hr { border: none; border-top: 1px solid var(--border-subtle); margin: 2rem 0; }
     .content figure { margin-bottom: 1.4rem; }
     .content img { max-width: 100%; border-radius: 10px; }
@@ -74,17 +57,17 @@
     .content a { color: var(--accent); text-decoration: none; }
     .content a:hover { text-decoration: underline; }
     .content strong { font-weight: 700; color: var(--text); }
-    .content .callout { background: var(--callout-bg); border: 1px solid #2a2a2a; border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: var(--content-text); }
+    .content .callout { background: var(--callout-bg); border: 1px solid var(--border-mid); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: var(--content-text); }
     .content table { width: 100%; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
-    .content th, .content td { border: 1px solid #2a2a2a; padding: 0.6rem 0.8rem; text-align: left; vertical-align: middle; }
+    .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; vertical-align: middle; }
     .content th { background: var(--surface); font-weight: 600; color: var(--text); }
     .content td { color: var(--content-text); }
-    .content details { border: 1px solid #2a2a2a; border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
+    .content details { border: 1px solid var(--border-mid); border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
     .content details summary { padding: 0.8rem 1rem; cursor: pointer; font-weight: 500; color: var(--text-soft); list-style: none; display: flex; align-items: center; gap: 0.5rem; }
     .content details summary::-webkit-details-marker { display: none; }
     .content details summary::before { content: "\25B6"; font-size: 0.65rem; color: var(--accent); transition: transform 0.2s; flex-shrink: 0; }
     .content details[open] summary::before { transform: rotate(90deg); }
-    .content details summary:hover { background: var(--callout-bg); }
+    .content details summary:hover { background: var(--summary-hover); }
     .content .toggle-content { padding: 0.2rem 1rem 0.8rem 2rem; border-top: 1px solid var(--border-subtle); }
     .content details.toggle-heading summary h1, .content details.toggle-heading summary h2, .content details.toggle-heading summary h3 { margin: 0; display: inline; }
     .content .column-list { display: flex; gap: 1.5rem; margin-bottom: 1.4rem; }
@@ -93,7 +76,7 @@
     .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
     .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }
     .content .db-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-    .content .db-table th, .content .db-table td { border: 1px solid #2a2a2a; padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; }
     .content .db-table td { color: var(--content-text); }
     .content .db-table td:first-child { white-space: normal; }
@@ -148,7 +131,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"9f64e62bb906fe6e8374aeed1dddaf3f58f3b07eafdc4adfbdb053ed8e9f0036","iv":"0e57802294ca63e3a034466c","data":"8b7e165ff87f3e6f7e29cc2bb6be50d54995edbccfb2c8771332a53d3c67573eb4d2952e03c9d466922a4e615af7cb1d8bf79f8a6a3d927bc156cea3d0ed23694d44ab6c12194e43ae6f20b850b91290bdfcad12adc65b66e68df0b033811f56825a48cb84da373ebfc7b20e6c4f01a174eb1de7baf0caa8c08e7d028fb44411bf72b7f5de792da3e03a08cb46de6bb4dae05eafaa093549deef9d84ddb9e5a18e3b8e3c82925b0c6e90c357685f49d5d6cafb9d6a4adbb29026cad098a0804727e122c8d760dcff4c27a7de04b52849ddc6a825032e1783cc43775d76451b42af0f226d8f7dcaa6bf61df3e04db84a3bd5ac7754a79825e32aa4e272a687ad184389170e9990dfa79b37a2fb106d55d3e86ea24dbce5f3862e8d068b1a417bf5b3100ea9505ad14c981685b9eada43e53b125c13b20ec0d861f7786d95f692283502f49eea68cfa8def0ab364e4342d16d245505617860c6bcd740e09a558f8ce77401e8c9059da53dd49b36408d88f057b75795d9a271afdeea03766efcc8ba309867abe3e527d4cdd47bbf6d14f44b733a47e4658cec0cf6880c9f201c16b4cdfc16c51c7e00960784492760df30446454cd9de6b429a12be2c6169e7f1c0043f622e5a9ab95eaa2817a403ed","tag":"228289ea4aaee629bddb4b134da84784"};
+    var ENCRYPTED = {"salt":"2ce1ab8df8659f6640e3fe4ba43d117603b4e06eee076a47027839f8f03fb37e","iv":"dd9c22494d3eb5adca9c194f","data":"f1edf0dd448d68a25ecb4316d56854f3b38fa94d6c584bfe86d9dbe10e300740aa1d63ec443ad769a6e19ac61902aaf0cc7712a9ab02812de9d073d7b4e2a452047e4a10aca51cfac33890a7f36ffe3da932fa89532271675862dfa573e2982ec018dbae38fb8ff6eeaa5e1c72f02dc018d4a8d84febbc5ca5c09bc45659485fa79d98e027d8cfc22036d3af27c547011a52dd09fe880a5b29d807d1647fc4299beb6984a48f2145d3d370b9230573f3fd8ddc0ae6f50a313a6f7df4444dbcdfa8874c3da3d155376e10f2c18bbc8daa4431a2eb0eae9a572e23c92290f2360355592dd0757ac82e0980aa0c5826f02a6477b1cf10a60831899f466b6fe27d5a2492273c96f080daf01d329c25f4d25c097cc36e5df126c5113bc5c40dfaf2d679974783c62cbd92c485fe5fd6c14ae8c8d55e319029770e7005bf0da2e431d31beb7bf28dee37c09c7c2cc4f39c6e5caeac2ced9d879cb56b7d86407c0b85fdad8dfab6b085d9bc8a0a2995f4402dc9a7f667baca7572573520307ef072befc29bdfd37d053775814ab0474e1c5dd7b3f7cfad4fba572fb79a7c7f33a9a3525bc854c1a606047a2f781f07d908a2e94d145d080133c800274c74e79e78f2743d0cd94545cb24123ec798a5423a2","tag":"2036029c6b0f30aa2915f57ce014d48d"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -234,22 +217,6 @@
     var saved = sessionStorage.getItem("lab_pw");
     if (saved) { document.getElementById("pw-input").value = saved; unlock(); }
   </script>
-  <script>
-    (function() {
-      var tt = document.getElementById('theme-toggle');
-      if (!tt) return;
-      function applyTheme(t) {
-        document.documentElement.setAttribute('data-theme', t);
-        localStorage.setItem('theme', t);
-        tt.textContent = t === 'light' ? '🌙' : '☀️';
-      }
-      var saved = localStorage.getItem('theme') || 'dark';
-      tt.textContent = saved === 'light' ? '🌙' : '☀️';
-      tt.addEventListener('click', function() {
-        var cur = document.documentElement.getAttribute('data-theme') || 'dark';
-        applyTheme(cur === 'light' ? 'dark' : 'light');
-      });
-    })();
-  </script>
+  <script src="/scripts/theme.js"></script>
 </body>
 </html>
