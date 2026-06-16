@@ -4,20 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>연구기록 | wltjdgns</title>
-  <meta name="robots" content="noindex, nofollow">
   <script>(function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);})();</script>
+  <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/theme.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
   <style>
+    :root {
+      --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666;
+      --border: #222; --border-mid: #333; --border-subtle: #1e1e1e;
+      --surface: #1a1a1a; --surface-mid: #161616;
+      --muted: #888; --muted-text: #aaa; --muted-dark: #444;
+      --content-text: #ccc; --text-soft: #ddd; --input-text: #555;
+      --code-bg: #0e0e0e; --callout-bg: #111;
+    }
+    [data-theme="light"] {
+      --bg: #f8f9fa; --card-bg: #ffffff; --text: #111111; --accent: #0088aa; --secondary: #cc2222; --gray: #888888;
+      --border: #e0e0e0; --border-mid: #cccccc; --border-subtle: #eeeeee;
+      --surface: #f0f0f0; --surface-mid: #f5f5f5;
+      --muted: #666666; --muted-text: #777777; --muted-dark: #999999;
+      --content-text: #333333; --text-soft: #222222; --input-text: #444444;
+      --code-bg: #f5f5f5; --callout-bg: #f0f4f8;
+    }
+    .theme-toggle { background: none; border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 0.3rem 0.6rem; cursor: pointer; font-size: 1rem; transition: all 0.3s; margin-left: auto; }
+    .theme-toggle:hover { border-color: var(--accent); }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; transition: background-color 0.3s, color 0.3s; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; }
     .container { max-width: 860px; margin: 0 auto; padding: 0 3rem; }
-    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; gap: 2rem; align-items: center; justify-content: space-between; }
+    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; gap: 2rem; align-items: center; justify-content: space-between; flex-wrap: wrap; }
     nav a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
     nav a:hover { color: var(--text); }
     #lock-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 1.5rem; text-align: center; }
@@ -37,7 +54,7 @@
     header { margin-bottom: 3rem; }
     .meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
     .date { font-size: 0.82rem; color: var(--gray); font-family: 'Inter'; }
-    .tag { font-size: 0.72rem; padding: 0.15rem 0.6rem; border-radius: 10px; background: var(--surface); color: var(--muted); border: 1px solid var(--border-mid); }
+    .tag { font-size: 0.72rem; padding: 0.15rem 0.6rem; border-radius: 10px; background: var(--surface); color: var(--muted); border: 1px solid #2a2a2a; }
     h1.article-title { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800; line-height: 1.2; letter-spacing: -1.5px; margin-bottom: 1rem; }
     .divider { height: 1px; background: var(--border-subtle); margin: 3rem 0; }
     .content p { margin-bottom: 1.4rem; color: var(--content-text); font-weight: 300; }
@@ -49,7 +66,7 @@
     .content pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; overflow-x: auto; margin-bottom: 1.4rem; }
     .content code { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.88rem; color: var(--accent); }
     .content pre code { color: var(--text-soft); }
-    .content blockquote { border-left: 3px solid var(--blockquote-border); padding-left: 1.2rem; color: var(--muted); font-style: italic; margin-bottom: 1.4rem; }
+    .content blockquote { border-left: 3px solid #333; padding-left: 1.2rem; color: var(--muted); font-style: italic; margin-bottom: 1.4rem; }
     .content hr { border: none; border-top: 1px solid var(--border-subtle); margin: 2rem 0; }
     .content figure { margin-bottom: 1.4rem; }
     .content img { max-width: 100%; border-radius: 10px; }
@@ -57,17 +74,17 @@
     .content a { color: var(--accent); text-decoration: none; }
     .content a:hover { text-decoration: underline; }
     .content strong { font-weight: 700; color: var(--text); }
-    .content .callout { background: var(--callout-bg); border: 1px solid var(--border-mid); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: var(--content-text); }
-    .content table { width: 100%; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
-    .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; vertical-align: middle; }
+    .content .callout { background: var(--callout-bg); border: 1px solid #2a2a2a; border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: var(--content-text); }
+    .content table { display: block; overflow-x: auto; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
+    .content th, .content td { border: 1px solid #2a2a2a; padding: 0.6rem 0.8rem; text-align: left; vertical-align: middle; }
     .content th { background: var(--surface); font-weight: 600; color: var(--text); }
     .content td { color: var(--content-text); }
-    .content details { border: 1px solid var(--border-mid); border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
+    .content details { border: 1px solid #2a2a2a; border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
     .content details summary { padding: 0.8rem 1rem; cursor: pointer; font-weight: 500; color: var(--text-soft); list-style: none; display: flex; align-items: center; gap: 0.5rem; }
     .content details summary::-webkit-details-marker { display: none; }
     .content details summary::before { content: "\25B6"; font-size: 0.65rem; color: var(--accent); transition: transform 0.2s; flex-shrink: 0; }
     .content details[open] summary::before { transform: rotate(90deg); }
-    .content details summary:hover { background: var(--summary-hover); }
+    .content details summary:hover { background: var(--callout-bg); }
     .content .toggle-content { padding: 0.2rem 1rem 0.8rem 2rem; border-top: 1px solid var(--border-subtle); }
     .content details.toggle-heading summary h1, .content details.toggle-heading summary h2, .content details.toggle-heading summary h3 { margin: 0; display: inline; }
     .content .column-list { display: flex; gap: 1.5rem; margin-bottom: 1.4rem; }
@@ -76,17 +93,27 @@
     .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
     .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }
     .content .db-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table th, .content .db-table td { border: 1px solid #2a2a2a; padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; }
     .content .db-table td { color: var(--content-text); }
     .content .db-table td:first-child { white-space: normal; }
     .content .n-select, .content .n-status { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 0.78em; font-weight: 500; white-space: nowrap; line-height: 1.6; }
+    @media (max-width: 768px) {
+        .container { padding: 0 1.5rem; }
+        nav { padding: 1.5rem 0; margin-bottom: 3rem; }
+        h1.article-title { letter-spacing: -1px; }
+    }
     @media (max-width: 640px) {
         .container { padding: 0 1.2rem; }
         .content .column-list { flex-direction: column; }
+        .content pre { padding: 1rem; font-size: 0.82rem; }
+        .content h1 { font-size: 1.5rem; }
+        .content h2 { font-size: 1.2rem; }
         footer { flex-direction: column; gap: 0.5rem; }
     }
     @media (max-width: 480px) {
+        nav { flex-wrap: wrap; gap: 0.8rem; }
+        h1.article-title { letter-spacing: -0.5px; }
         .pw-form { flex-direction: column; align-items: stretch; }
         #pw-input { width: 100%; }
     }
@@ -131,7 +158,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"899220777415c152e4a0f42ebdc82767861068ab54fa6acd3e195d60a8bd3ecc","iv":"47ecef35cebed83454a490b4","data":"4e0fb49b8f78f878c51093efa31855f14400ee5b3d1a7d1a67a27c2fb2c27eb2e018cb7d282106d67988319e3dd4fae727e962db76b3c678115133fad94ab0cb7beedfbd998b971ddaff2b36c7a91432e5642731090e289d5320740c2cf16efc2dcf89a2f5c665066f6b2aa4c34ea131d7bf836e0e933903149f842eff78b75d8c72629d70b58ceb8cb40da3c74143c612324f309a5c284c2f7b90d628e1d8ce59d3d55b660227594008990808bf02a33080e29b6eb21ef31bd3e0c3eb40548e5af6b88af7112b71153ce0cbd9d1e97582ac945c662466a63f694b0d024b4a6a711e8b6d8d937cd415be5fc47d0e5d1f575ea9c01eb58084a476802c457f694ee5b76a828bf7691e86e0dab726dd9bc48367ec3918b4c2c815898c62846ec1687381d44f8cf6979b39fa0469d3f4ffae406da46cdad5c9098e7b8c4704e4df302ac1b11399305dccbfabb941daca5fb56555375e82811963ddbfed91a8cee076fac4ea70d0e58a2b4dc2f6481fc70b1e832cfa3a2162fa6191465cdb18b1cc459580e32e96fca80b8dca374f4c2b059f78c41a9278d84ebbda8fe4cfe775036987620219d5ac907dd8bc137e5580586f896b944a15180713601840ca22806a40eb1f81c113e8efd381acfd7ec216","tag":"d5477bb2b5e5e5c4f28ad41457ecbd12"};
+    var ENCRYPTED = {"salt":"9f64e62bb906fe6e8374aeed1dddaf3f58f3b07eafdc4adfbdb053ed8e9f0036","iv":"0e57802294ca63e3a034466c","data":"8b7e165ff87f3e6f7e29cc2bb6be50d54995edbccfb2c8771332a53d3c67573eb4d2952e03c9d466922a4e615af7cb1d8bf79f8a6a3d927bc156cea3d0ed23694d44ab6c12194e43ae6f20b850b91290bdfcad12adc65b66e68df0b033811f56825a48cb84da373ebfc7b20e6c4f01a174eb1de7baf0caa8c08e7d028fb44411bf72b7f5de792da3e03a08cb46de6bb4dae05eafaa093549deef9d84ddb9e5a18e3b8e3c82925b0c6e90c357685f49d5d6cafb9d6a4adbb29026cad098a0804727e122c8d760dcff4c27a7de04b52849ddc6a825032e1783cc43775d76451b42af0f226d8f7dcaa6bf61df3e04db84a3bd5ac7754a79825e32aa4e272a687ad184389170e9990dfa79b37a2fb106d55d3e86ea24dbce5f3862e8d068b1a417bf5b3100ea9505ad14c981685b9eada43e53b125c13b20ec0d861f7786d95f692283502f49eea68cfa8def0ab364e4342d16d245505617860c6bcd740e09a558f8ce77401e8c9059da53dd49b36408d88f057b75795d9a271afdeea03766efcc8ba309867abe3e527d4cdd47bbf6d14f44b733a47e4658cec0cf6880c9f201c16b4cdfc16c51c7e00960784492760df30446454cd9de6b429a12be2c6169e7f1c0043f622e5a9ab95eaa2817a403ed","tag":"228289ea4aaee629bddb4b134da84784"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -217,6 +244,22 @@
     var saved = sessionStorage.getItem("lab_pw");
     if (saved) { document.getElementById("pw-input").value = saved; unlock(); }
   </script>
-  <script src="/scripts/theme.js"></script>
+  <script>
+    (function() {
+      var tt = document.getElementById('theme-toggle');
+      if (!tt) return;
+      function applyTheme(t) {
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('theme', t);
+        tt.textContent = t === 'light' ? '🌙' : '☀️';
+      }
+      var saved = localStorage.getItem('theme') || 'dark';
+      tt.textContent = saved === 'light' ? '🌙' : '☀️';
+      tt.addEventListener('click', function() {
+        var cur = document.documentElement.getAttribute('data-theme') || 'dark';
+        applyTheme(cur === 'light' ? 'dark' : 'light');
+      });
+    })();
+  </script>
 </body>
 </html>

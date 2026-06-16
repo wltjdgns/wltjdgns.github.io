@@ -465,18 +465,32 @@ function generateLabEntryPage(entryEncrypted) {
 '    .content .math-block { overflow-x: auto; margin-bottom: 1.4rem; }\n' +
 '    .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }\n' +
 '    .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }\n' +
-'    .content .db-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }\n' +
+'    .content .db-table { border-collapse: collapse; font-size: 0.88rem; }\n' +
 '    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }\n' +
 '    .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; }\n' +
 '    .content .db-table td { color: var(--content-text); }\n' +
 '    .content .db-table td:first-child { white-space: normal; }\n' +
 '    .content .n-select, .content .n-status { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 0.78em; font-weight: 500; white-space: nowrap; line-height: 1.6; }\n' +
+'    .content table { display: block; overflow-x: auto; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }\n' +
+'    .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; }\n' +
+'    .content th { background: var(--surface); font-weight: 600; color: var(--text); }\n' +
+'    .content td { color: var(--content-text); }\n' +
+'    @media (max-width: 768px) {\n' +
+'        .container { padding: 0 1.5rem; }\n' +
+'        nav { padding: 1.5rem 0; margin-bottom: 3rem; }\n' +
+'        h1.article-title { letter-spacing: -1px; }\n' +
+'    }\n' +
 '    @media (max-width: 640px) {\n' +
 '        .container { padding: 0 1.2rem; }\n' +
 '        .content .column-list { flex-direction: column; }\n' +
+'        .content pre { padding: 1rem; font-size: 0.82rem; }\n' +
+'        .content h1 { font-size: 1.5rem; }\n' +
+'        .content h2 { font-size: 1.2rem; }\n' +
 '        footer { flex-direction: column; gap: 0.5rem; }\n' +
 '    }\n' +
 '    @media (max-width: 480px) {\n' +
+'        nav { flex-wrap: wrap; gap: 0.8rem; }\n' +
+'        h1.article-title { letter-spacing: -0.5px; }\n' +
 '        .pw-form { flex-direction: column; align-items: stretch; }\n' +
 '        #pw-input { width: 100%; }\n' +
 '    }\n' +

@@ -4,20 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>연구기록 | wltjdgns</title>
-  <meta name="robots" content="noindex, nofollow">
   <script>(function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);})();</script>
+  <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/theme.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
   <style>
+    :root {
+      --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666;
+      --border: #222; --border-mid: #333; --border-subtle: #1e1e1e;
+      --surface: #1a1a1a; --surface-mid: #161616;
+      --muted: #888; --muted-text: #aaa; --muted-dark: #444;
+      --content-text: #ccc; --text-soft: #ddd; --input-text: #555;
+      --code-bg: #0e0e0e; --callout-bg: #111;
+    }
+    [data-theme="light"] {
+      --bg: #f8f9fa; --card-bg: #ffffff; --text: #111111; --accent: #0088aa; --secondary: #cc2222; --gray: #888888;
+      --border: #e0e0e0; --border-mid: #cccccc; --border-subtle: #eeeeee;
+      --surface: #f0f0f0; --surface-mid: #f5f5f5;
+      --muted: #666666; --muted-text: #777777; --muted-dark: #999999;
+      --content-text: #333333; --text-soft: #222222; --input-text: #444444;
+      --code-bg: #f5f5f5; --callout-bg: #f0f4f8;
+    }
+    .theme-toggle { background: none; border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 0.3rem 0.6rem; cursor: pointer; font-size: 1rem; transition: all 0.3s; margin-left: auto; }
+    .theme-toggle:hover { border-color: var(--accent); }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; transition: background-color 0.3s, color 0.3s; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; }
     .container { max-width: 860px; margin: 0 auto; padding: 0 3rem; }
-    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; gap: 2rem; align-items: center; justify-content: space-between; }
+    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; gap: 2rem; align-items: center; justify-content: space-between; flex-wrap: wrap; }
     nav a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
     nav a:hover { color: var(--text); }
     #lock-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 1.5rem; text-align: center; }
@@ -37,7 +54,7 @@
     header { margin-bottom: 3rem; }
     .meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
     .date { font-size: 0.82rem; color: var(--gray); font-family: 'Inter'; }
-    .tag { font-size: 0.72rem; padding: 0.15rem 0.6rem; border-radius: 10px; background: var(--surface); color: var(--muted); border: 1px solid var(--border-mid); }
+    .tag { font-size: 0.72rem; padding: 0.15rem 0.6rem; border-radius: 10px; background: var(--surface); color: var(--muted); border: 1px solid #2a2a2a; }
     h1.article-title { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800; line-height: 1.2; letter-spacing: -1.5px; margin-bottom: 1rem; }
     .divider { height: 1px; background: var(--border-subtle); margin: 3rem 0; }
     .content p { margin-bottom: 1.4rem; color: var(--content-text); font-weight: 300; }
@@ -49,7 +66,7 @@
     .content pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; overflow-x: auto; margin-bottom: 1.4rem; }
     .content code { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.88rem; color: var(--accent); }
     .content pre code { color: var(--text-soft); }
-    .content blockquote { border-left: 3px solid var(--blockquote-border); padding-left: 1.2rem; color: var(--muted); font-style: italic; margin-bottom: 1.4rem; }
+    .content blockquote { border-left: 3px solid #333; padding-left: 1.2rem; color: var(--muted); font-style: italic; margin-bottom: 1.4rem; }
     .content hr { border: none; border-top: 1px solid var(--border-subtle); margin: 2rem 0; }
     .content figure { margin-bottom: 1.4rem; }
     .content img { max-width: 100%; border-radius: 10px; }
@@ -57,17 +74,17 @@
     .content a { color: var(--accent); text-decoration: none; }
     .content a:hover { text-decoration: underline; }
     .content strong { font-weight: 700; color: var(--text); }
-    .content .callout { background: var(--callout-bg); border: 1px solid var(--border-mid); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: var(--content-text); }
-    .content table { width: 100%; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
-    .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; vertical-align: middle; }
+    .content .callout { background: var(--callout-bg); border: 1px solid #2a2a2a; border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: var(--content-text); }
+    .content table { display: block; overflow-x: auto; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
+    .content th, .content td { border: 1px solid #2a2a2a; padding: 0.6rem 0.8rem; text-align: left; vertical-align: middle; }
     .content th { background: var(--surface); font-weight: 600; color: var(--text); }
     .content td { color: var(--content-text); }
-    .content details { border: 1px solid var(--border-mid); border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
+    .content details { border: 1px solid #2a2a2a; border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
     .content details summary { padding: 0.8rem 1rem; cursor: pointer; font-weight: 500; color: var(--text-soft); list-style: none; display: flex; align-items: center; gap: 0.5rem; }
     .content details summary::-webkit-details-marker { display: none; }
     .content details summary::before { content: "\25B6"; font-size: 0.65rem; color: var(--accent); transition: transform 0.2s; flex-shrink: 0; }
     .content details[open] summary::before { transform: rotate(90deg); }
-    .content details summary:hover { background: var(--summary-hover); }
+    .content details summary:hover { background: var(--callout-bg); }
     .content .toggle-content { padding: 0.2rem 1rem 0.8rem 2rem; border-top: 1px solid var(--border-subtle); }
     .content details.toggle-heading summary h1, .content details.toggle-heading summary h2, .content details.toggle-heading summary h3 { margin: 0; display: inline; }
     .content .column-list { display: flex; gap: 1.5rem; margin-bottom: 1.4rem; }
@@ -76,17 +93,27 @@
     .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
     .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }
     .content .db-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table th, .content .db-table td { border: 1px solid #2a2a2a; padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; }
     .content .db-table td { color: var(--content-text); }
     .content .db-table td:first-child { white-space: normal; }
     .content .n-select, .content .n-status { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 0.78em; font-weight: 500; white-space: nowrap; line-height: 1.6; }
+    @media (max-width: 768px) {
+        .container { padding: 0 1.5rem; }
+        nav { padding: 1.5rem 0; margin-bottom: 3rem; }
+        h1.article-title { letter-spacing: -1px; }
+    }
     @media (max-width: 640px) {
         .container { padding: 0 1.2rem; }
         .content .column-list { flex-direction: column; }
+        .content pre { padding: 1rem; font-size: 0.82rem; }
+        .content h1 { font-size: 1.5rem; }
+        .content h2 { font-size: 1.2rem; }
         footer { flex-direction: column; gap: 0.5rem; }
     }
     @media (max-width: 480px) {
+        nav { flex-wrap: wrap; gap: 0.8rem; }
+        h1.article-title { letter-spacing: -0.5px; }
         .pw-form { flex-direction: column; align-items: stretch; }
         #pw-input { width: 100%; }
     }
@@ -131,7 +158,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"137be2a55457ac04f7afe76a452ca120a8e9c522382fce7ceaedd394e3410c87","iv":"613c6d9a97e597252e876da2","data":"2943b6c82e1c748b73b4faf9b782d8e0e7ae21579fd79a816eb03b4c046cbc119e8c9b25d4675f07eb72e06c720771b96f6b3cfc6023094b0529a1dd6dc8f3691b218531179d4f5cb4d3a080784e81dc21dab3b2a7cbebe3e7d4ac04c127fd64402d6d6d4f1f31fee762c29db6a0df24cdc2946530a97b06c710aaba2a1dabe900001e62152db80063f958a3fe28d4de9a9d0657468399cf6436af637df3f14d0fb27fbd611b35cbf6ea4f5a36b30a58331428f5d9461cba7d70f00744df4c6616e45129c76c7ac142c61758d31fc26b4bda297fcdd88fa5328b306033646b33bbbfa15ac39659226ffb310374c7800c24137772ca11f6e5925cfd3657fd772b2d56c7239334d512ca0d32ff9717f4c41afbddc0c3d8e5a2c5e4d78b742e158d6e29ae08ecfa0ba3b4a62e2044a4a3d9149472a6285894085c2f0c60aab485af5b47b8c3688f07ed81c2265b159b6bc9ab73054e54a4d1e141ae6b335eeb7b3e00b7d143075f1389e23ce9efb3ae378cfbf9b943bed8b93dd0bde788281a9e3ae0e31a7bf72696bb68a43c89eaeeecd406cdeb796d9ea19869231888aee2054914a0adf39aec03802bf3985dee10554db3570fab6540d655a3c655288df59ea3cd3bde7a72752b3b74da94eaa516c03bb31dd1d960da985a5acb44c0519832b20e4081cda48b339022aca9a1fe3f034d5b52b708678525e3f7e4c54bcad917b23008a87a27fce5ffa29091f6d589d5c5277504889fe81390c7cb7f35dd18e7c40402259b62424ad9ac42c336b4610cc94b13b5296bc264fb284dcfb2b05320912f03e5deb3d61ae2eaa70ec6d5519e1430f22344a02f8ee7dfcdfd59d2f69c970195dc861b0c7e13e2d41c1362fe2aaf08a2e6d2861c2831cbd42c574b0bfedce8302081a1be506cd64576af674db3936cc70c15d5c1b784c9a64c34faf25dea67ae3095aa7d1ae75c73d38af0384ef60f3282619a281b44e79a086e7d8969d4ad107b61cecbaa160d72272ef309eb26292b7c98445802ad42fa020c5d01ae850229d99a781ba568767e5e54ca2c12319ba3f2a49ffdfc8eece99a919d53a825a86b37179710d8befb06714c34e4ee836cbbc94ff059316d483ae0e4b964691884c1e2859d051a8b5211c1301aa72d29efc7ae072d46b1c6004cfcfe594a67d56aa6ad7e17d5c81c05f6886b9a3cf8d2f80dc3fa92e485753bbe4c211f12d80dd91246a0d398ca670ea6f961ac235992c5004c1293408ec3c5e1475041a026da824b9a98135911f4af3736afe53e12956182b4cacfef7c9276d37dbee9b3ca65b221c0db309281e5756b8d704535186f9f3b021bc78c81bb4c082c22858787970253ecc91fb16de54ba1563756b78411d1875cf4103a82297edf26a0b4c82c4e50c4afb512cfeffc4b3387de8fef1dee77be5d5989d760ed3dabac4cc64e5e9f1285b52858ec29f2ac158c33891b3e916d681ffc6790400641f62ed7899ed4265f7ca01b8fcced901bfd83b9773e3ddf19b992b67e77cf82d1f5dee35690c1c5a648db92df2605afac4728c449aa279f3609871726ba74412939d37146d15e0f95ab0fa43f5d072b81f43183ce5fc9e955405cc88834d6dd3855e0f9877bc178644e89df3d393eae5e0e12a697924295ec10e825649310327128f6e062503ab51fdccf472e9245712506906ee1058408651a67f14c7a112233e51f98a913fa2772f7d5e9b5e675a6f53b329dec967b83baa1ebc3e3458ff0ba0ac9a489924468a9eb3a3a86ca29d5922bead4632f1600f3004262ac5914c83b114b6600452e0b3842442d9ff1e4cf7b7a4f8107fe324cd2385ca57febec96c6fb9d499b889b213ea0ca69c291c5cc9ce3cb070bbc73d5b7b0b94814ae936601135c375e77024adbb2184cbef18ad153f089e005a205b93405fe7c469f21496ecf4c7712ee9cb8fb0d473cf4caa5cd1e252916cfb4a48fe5e383fb43d17916a9853453950bd70f2127b0ebde44dd5902a0698e219c3e7c855c61780bc456d44a76d6b7d201f434f272d1d9080865c67a5e4ef2045f842779f765b3cff79e756a542ec018de936d455f8522a9080f88af384a9e87e548fad60993cbd4471756c732ff2236217fc7e86d9c7e20d534a6150f64a14325eddeb08814dfcce516dc71d4061a14c3aece730805407b4fe9f1b891bc5ecb8573630e7af220b40fe8b48744081a2a0d984d17606355c96c30153a3dee37ce9ff65677c3f2f0bd569c9f47502a327aee7573a4b394b534d31dc7cfac8bd5a828938cc3365f6d380c9d953c9b46517c0d3d3b7e7a320267626aaef3f22dc7883816d6551e5c012249fa12318ade","tag":"6fed7ffd95530c23afb30c490761c680"};
+    var ENCRYPTED = {"salt":"a8ea99c04ab2c3161a139dc20bb1b6dff65ef2e470e193d5b89e93dbdc2cc657","iv":"6830a397b8ae5997f805e196","data":"575674bd4fcdda06b52b11f49ebe7baf0bbe6faf18a6c30564d38f2a1645ef77df12db24f2333969ad382f5fe0b5314e51958e8aea7a0c0043c1f6586cf7b6ab21a50ecacf3da455b094d932685904ffda91a89f3d4668fd47b4e9a67d317ce5d1468b1046884fe6a77c48bd7c31ed02d7d9b1bc48af245f7b42dd62638f7c3f085459fbe837e8d66a40e7d5535f67457764495f02e45addadd2baec8d327593f201681192c21c2c34665d3dbee47f4d12d2aa657382e981cbd0b9055f76fa32ce5c19eda05942f0dbd2c024fad03d34337e06351d801613f7f45eab850ff418d25dd1491783d072d72c6cd7b46789551d7a212269c83addce66e6ace8d124a0f3832529819271a05521c919a13c5f41a0889e1791516980be0d1cf72650cf995ad4e45bd6e95f08f3d5cd6a5716c6419ea9eba6598b086e5fa944aec3fb12e2352d1a2cce6ca2abf8de65aedea7bf7c0434083bdf0ad80e2aaf0026cacd00094b907375ea613e87b7e2dd9f9d5fc3179e9e6f29b8e58eb38bd08778a1a2545c88a3cb9f35a2f151f935b0128d0cc0386a12e7b4740032bae1de021dc9c065d473ebb9fb8e7eae3eace5440d8d557440c29b74a8798a8d93e0231a50dfdb2675772f77c35c1bb91948cad5a77df474964bc4fb6ff87fa9e2da4b747b5cb3d42e7a69d9b04a0645746ce7ad5cb3c7a275891e0ddefe52cdec87af716e22c032aa7d9bb8d7e8dc82972e38518eca18608ab999b8dc1ed3c6363b1672134558201f3990db1d467b569c1965b5464403c5855dbbd2a6ab4d23fea1eb39f887226179baa4c404e618b68d62fc4baafdd41717d32796e541b94476d6231ea49ce8326fe08390f0823a87f0c374acbe75ec42fe611a5209abe1c849c606abe22ac7de9d80379711ec509e2c5159c14984168ec7833e276a023c960be673c74b8d25e2440c7292fc0100f2b5303365a209030902e6a9646004c4778f1458dd03018906a700da98875e4a106f62837009fcf2b9234a6254655455af0d15b05e74e45f40b822320399627e6b8b7534d2ed1ea10b0063641cc7cdc4f488963a3ef1b92f497c35283b36f06c755b1ccae4d8035641da815a99d63af4eda10b03067fe6e823325b2be086e3f12eb51b6f90b643e555e5d3956bb62f09374a2e07eacb23440e90771ab84b73e79a8b26d6fb0d2955758f8673dfc91a9f9eab0ec9765e5dfdb629be02dae33186df40435eb79d0a3add75c681b71787fc68d553f1629c61cf40b3fcd049a2686210c5c31967acec50d23b435769f80df24cc554abebe1d24c8691184a40554448d7e1de03649f0a3d9216eaf68946d7c6a05ccd74b12724eb8186fbaeaa198109f4f88577e93602eead180fef0873d55e3a806415d665f4d2c28a95e5338f51ea9767860da085e145445720593d4bad0d66390f9ee5f59ba49b50b5402c1347082083d1579c12c3eb16ba98f2e5316399ea8cda8715cc2291a253cd3797c44dbcee72b74caff5890b3a4c5f730af6ba2ba62af058a27c34edbd3a6540e44f5b93cd617b0677ec77342e9551bf89989f6930bb8329afca71ac04a087016397f799415ecbae48432d44bb01631e36d94af8358e7becf844e752a9d9dfb2308eea7f62c94798bd7ad94bbb2ac4a6cbb20996e54369df25b9f6d08b42d7355e406d9ee833a2813be222e975e52709a7f19399cc3859634a97cea27704b457dea6bc57990a492ae29f02cef6fd5fb04943a652745471c840cdd1d5e1c03bb2d7614eac963232eed1f460fbd13713e48feb528b374787c7306650cdf58eab1a97f38cfefe020d7ae03ccb9515345bfa94753f58ed5788f4a194da378b69f8650d383066d420e337f5849de3da2a36727ecf5f722e56183d76c9ce10df66709bad87ee2ae39601e42b343e222d18550c2958d07afa4c8ae5b99f4757270d218deb6684d3d4069e45b1895c225357261b94551263e2d1fbca5e84e75679951d716a87120ebfa32de0074f11874f8b0b2734dc85a38356bbcb1f4a14b45f1e99fa8ab67cbb938d22af6a772f578620ceb7b9c84c5833c9566a7ca5b616f9763e42d94e92618e2df23728106b5ae114337da579b859e23f74d1b87b85afda753407c79feafe752a533be59a643819a3fbc2ed8350e0b6f25b442f16d3ed32b09402e2ed98c40fa3ddc14be1fa0616c7f5639caebbf0a3180cf5f3b069e2d84a2fedbbc180f06b819c5c048b50cf94e7b74e8edaa01843746bedb8a6ecb95b3c292dac5924b496a2d22491dfd295f5f4d62a7d40a0f86bb50b79f5103154d778419f90eed16fd06613ec8791ae3cc4dc045d04f389dee982706927","tag":"5e9250ab64c683ce4f7530f202073d3e"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -217,6 +244,22 @@
     var saved = sessionStorage.getItem("lab_pw");
     if (saved) { document.getElementById("pw-input").value = saved; unlock(); }
   </script>
-  <script src="/scripts/theme.js"></script>
+  <script>
+    (function() {
+      var tt = document.getElementById('theme-toggle');
+      if (!tt) return;
+      function applyTheme(t) {
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('theme', t);
+        tt.textContent = t === 'light' ? '🌙' : '☀️';
+      }
+      var saved = localStorage.getItem('theme') || 'dark';
+      tt.textContent = saved === 'light' ? '🌙' : '☀️';
+      tt.addEventListener('click', function() {
+        var cur = document.documentElement.getAttribute('data-theme') || 'dark';
+        applyTheme(cur === 'light' ? 'dark' : 'light');
+      });
+    })();
+  </script>
 </body>
 </html>
