@@ -4,17 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>연구기록 | wltjdgns</title>
+  <script>(function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);})();</script>
   <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&display=swap" rel="stylesheet">
   <style>
-    :root { --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666; }
+    :root {
+      --bg: #050505; --card-bg: #121212; --text: #f0f0f0; --accent: #00d1ff; --secondary: #ff4d4d; --gray: #666;
+      --border: #222; --border-mid: #333; --border-subtle: #1e1e1e;
+      --surface: #1a1a1a; --surface-mid: #161616;
+      --muted: #888; --muted-text: #aaa; --muted-dark: #444;
+      --content-text: #ccc; --text-soft: #ddd; --input-text: #555;
+      --code-bg: #0e0e0e; --callout-bg: #111;
+    }
+    [data-theme="light"] {
+      --bg: #f8f9fa; --card-bg: #ffffff; --text: #111111; --accent: #0088aa; --secondary: #cc2222; --gray: #888888;
+      --border: #e0e0e0; --border-mid: #cccccc; --border-subtle: #eeeeee;
+      --surface: #f0f0f0; --surface-mid: #f5f5f5;
+      --muted: #666666; --muted-text: #777777; --muted-dark: #999999;
+      --content-text: #333333; --text-soft: #222222; --input-text: #444444;
+      --code-bg: #f5f5f5; --callout-bg: #f0f4f8;
+    }
+    .theme-toggle { background: none; border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 0.3rem 0.6rem; cursor: pointer; font-size: 1rem; transition: all 0.3s; margin-left: auto; }
+    .theme-toggle:hover { border-color: var(--accent); }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.7; word-break: keep-all; min-height: 100vh; }
     .container { max-width: 1280px; margin: 0 auto; padding: 0 3rem; }
 
-    nav { padding: 2rem 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; margin-bottom: 4rem; position: relative; }
+    nav { padding: 2rem 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); margin-bottom: 4rem; position: relative; }
     .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; text-decoration: none; color: var(--text); }
     .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; padding: 0.2rem 0.4rem; line-height: 1; }
     .nav-links a { color: var(--gray); text-decoration: none; margin-left: 2rem; font-size: 0.9rem; transition: color 0.3s; }
@@ -28,7 +46,7 @@
     .lock-sub { color: var(--gray); font-size: 0.9rem; }
     .pw-form { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
     #pw-input {
-      background: var(--card-bg); border: 1px solid #333; border-radius: 8px;
+      background: var(--card-bg); border: 1px solid var(--border-mid); border-radius: 8px;
       color: var(--text); font-family: inherit; font-size: 1rem;
       padding: 0.75rem 1.2rem; outline: none; transition: border-color 0.2s; width: 260px;
     }
@@ -47,7 +65,7 @@
     /* ── Lab Content ── */
     #lab-content { display: none; }
     .lab-header { margin-bottom: 3rem; }
-    .lab-label { display: inline-block; padding: 0.2rem 0.8rem; background: #222; border-radius: 4px; font-size: 0.75rem; color: var(--accent); margin-bottom: 1rem; }
+    .lab-label { display: inline-block; padding: 0.2rem 0.8rem; background: var(--border); border-radius: 4px; font-size: 0.75rem; color: var(--accent); margin-bottom: 1rem; }
     .lab-title { font-size: clamp(2rem, 6vw, 3rem); font-weight: 800; letter-spacing: -2px; margin-bottom: 0.5rem; }
     .lab-count { color: var(--gray); font-size: 0.85rem; }
     .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gray); margin-bottom: 2rem; border-left: 3px solid var(--accent); padding-left: 1rem; }
@@ -58,12 +76,12 @@
     .entry-item:hover { background: var(--card-bg); }
     .entry-date { font-size: 0.8rem; color: var(--gray); font-family: 'Inter'; }
     .entry-title { font-size: 1.3rem; font-weight: 600; }
-    .entry-desc { color: #888; font-size: 0.95rem; font-weight: 300; }
+    .entry-desc { color: var(--muted); font-size: 0.95rem; font-weight: 300; }
     .entry-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.4rem; }
-    .entry-tag { font-size: 0.72rem; padding: 0.15rem 0.6rem; border-radius: 10px; background: #1a1a1a; color: #888; border: 1px solid #2a2a2a; }
-    .empty-msg { color: #444; font-size: 0.9rem; padding: 1.5rem; }
+    .entry-tag { font-size: 0.72rem; padding: 0.15rem 0.6rem; border-radius: 10px; background: var(--surface); color: var(--muted); border: 1px solid #2a2a2a; }
+    .empty-msg { color: var(--muted-dark); font-size: 0.9rem; padding: 1.5rem; }
 
-    footer { padding: 4rem 0; border-top: 1px solid #222; color: #444; font-size: 0.8rem; display: flex; justify-content: space-between; }
+    footer { padding: 4rem 0; border-top: 1px solid var(--border); color: var(--muted-dark); font-size: 0.8rem; display: flex; justify-content: space-between; }
 
     /* 모바일: 햄버거 메뉴 */
     @media (max-width: 767px) {
@@ -75,7 +93,7 @@
         left: 0;
         right: 0;
         background: var(--card-bg);
-        border-bottom: 1px solid #222;
+        border-bottom: 1px solid var(--border);
         padding: 0.5rem 0;
         z-index: 100;
       }
@@ -105,6 +123,7 @@
         <a href="/#about">About</a>
         <a href="/lab/" class="active">Lab 🔒</a>
       </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="테마 변경">☀️</button>
     </nav>
 
     <!-- ── 잠금 화면 ── -->
@@ -259,6 +278,23 @@
 
     var saved = sessionStorage.getItem('lab_pw');
     if (saved) { document.getElementById('pw-input').value = saved; unlock(); }
+  </script>
+  <script>
+    (function() {
+      var tt = document.getElementById('theme-toggle');
+      if (!tt) return;
+      function applyTheme(t) {
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('theme', t);
+        tt.textContent = t === 'light' ? '🌙' : '☀️';
+      }
+      var saved = localStorage.getItem('theme') || 'dark';
+      tt.textContent = saved === 'light' ? '🌙' : '☀️';
+      tt.addEventListener('click', function() {
+        var cur = document.documentElement.getAttribute('data-theme') || 'dark';
+        applyTheme(cur === 'light' ? 'dark' : 'light');
+      });
+    })();
   </script>
 </body>
 </html>
