@@ -86,7 +86,7 @@
     .content .db-scroll-spacer { height: 1px; }
     .content .db-table-wrap { overflow-x: auto; }
     .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }
-    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; word-break: normal; overflow-wrap: anywhere; }
     .content .db-table td a { word-break: break-all; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
     .content .db-table th:hover { background: var(--surface); }
@@ -201,7 +201,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"c26dcdb764ad9232a02c6004c1223c379fa0936f9e7c71c8676aac91894c0424","iv":"d3926bc2da4bdff0ba2fbfe3","data":"f91a15cc6c687d2ebd390d1f1cbe93e03d96f05f760a2a2e9ffd4947fbc3b34c1602a9431e1c2210be92a1864b7b5cd1559f07bfee7d19c5f381b4d29874abe5612404120e7b770f9a8dafa3c07aff4d9a3806b78fef37948293b630f9f156590350b189fec832e189fb727bc647d7a72cebeafc304ed48313e0009f30eb9198c0dc11e448420e2560f30f09b007d6d2d36f38e422c3421fa9b65a1f87475f7e85f66d1ce80b7f514f20da31007c6503dde7d3d16a274410664ffb41953a2e099eab08a4cd5f0952bc0ddc07ff342e728321fae6fd9c16d001575fea296828bd8e4a78099ddf538679181b10a2cf3db18f6a3826fcfc10b2fbd0c7fcc862ade21c2a055ea604d562d86a102b153cbd7322e2b5e3ca98cfdd850d82a939fa1bd3e68f1063b47bdd298e02ed5090b4bb60d89f8d8d44df17b893779145f4ee76f5ab484e205fbe6d20c686cb5e544399441a5f5ddf18ead6b96be102a4fcca6fb13e1ca604","tag":"e91d955055f78c0450698e25b8ecb7a6"};
+    var ENCRYPTED = {"salt":"5093f7e5e12bfae1015d064d5a3e95cd7c4f18b2c3dcd5c8807026b1ce5edb15","iv":"91cf09d45adf4729f42b67b0","data":"f04afd942382ecce41f679a12f615624081891d7d7f255953a5549226a7d95f426f8231d03c8bedc36ec519d05cb4c1ab9219a420753697b4f5bcfa425a7153f1ada28edd5dee6055920e6dbddeb46692976f2585c17b162b00071e94e87c82b3ce442e22b9338bed97d995a327187a5d0f571013b99969dccef77657344fcf17ec0bb94f118fbcbf599ab89ced90843a64de77421bb89b214757c96bd8cec5ff0c3d54989337473334fa48c11933b58fdf25c2ed70e84d8044bacb4dc5bc112a4aae08e7a8abd3dedfc78e14ad95bbb2baa474411e70ca3b66b93c540b977b02611848799ea2478f5295b4e51d51d3f4f1a851f78e5d608f2d6d11ca731d224dc0e37f5fcc0641dd19304c8ac4775c417a20fd389e5a89f27fcc26d350c4ef51157a0016c551db71f50e9e01d957334e6565cb81070eaaa0f512ab00b17fe310b381679c9eb0897b8f3c8cbf8ad21560114624761e1672c0a343076bc1b18f88122361a","tag":"c8f8317cdcdce4a74975ecbad77699aa"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);

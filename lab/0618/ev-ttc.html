@@ -86,7 +86,7 @@
     .content .db-scroll-spacer { height: 1px; }
     .content .db-table-wrap { overflow-x: auto; }
     .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }
-    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; word-break: normal; overflow-wrap: anywhere; }
     .content .db-table td a { word-break: break-all; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
     .content .db-table th:hover { background: var(--surface); }
@@ -201,7 +201,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"5546506f828e661771cd520ab087adc0948a1f3dd6d4fe7a13cfaaa8e04cbf8a","iv":"afe9b2c81e2712143cfaae2a","data":"18d983dd240bb9259cbf7f5c7b0aca083117f29a48ea6685dc1307bd630ad16e7f92e45f03a55bbe51ecac1330bfc73d4de0eb895c9f3c6bfd4834c88287c800dfc4398fa89fb53564ae9c3e4c19a7bd1031d159855bb4bbb0e53e53d3c09348b2807250b70f583df717c054a1d7b58c690a3151b0d0d36bd72a37b3a94b2e53377a12335c573de484463a6286db5e575c76dcb7471084dc2f721323c07c3319079c6dd6db02e267d47c2f2e149641327835f71c660537775da2f31840c2b8ac5df505c64a8a2ee214e7f671372f4556f3ab5e1fed01ad1367b19384ec1699e5c8383f0a0fd9e8fb888c1c484efe0393c9a3cdc8d5e0aa409d59d05684e26e3f9191d92fac0ccb215127faba38b149805d0543def304516dec629ceb4665db88ad5859faa3ecc4ad46c2e185eec08abb16b326bf440bbd4c9043d396b2f9e3982e146231762615bfec1a2f98f0cf6a3df87557cbe4a5e56b4384ff0ef163","tag":"217a2f18987b8a764519e2207fc27520"};
+    var ENCRYPTED = {"salt":"fa1a249b0b4aca18f2cd8621d6c2fdaafc02df05e1a5ed29b346205a0eb445a9","iv":"9fb23d40e170eafd57cadd97","data":"1791a5548dde637677798f99efc72cc76d416d147bc4c4cf6e867a91b6c0dd10c28a1d45759271b8983250a5d9efd0991887270ded3fb1d5a8401f5f743b484cf7a09648842717aa6006056754146ffa9262a19691f4dc7191f1ee0fcffddabe351562f4e408ff0d9db0d498952dbf346f6206fef0e2137e63c31b2a65ed1ac884f3a925aef33539bb931593aec45508a43a238a3f3fdccaadf01a48cb4c0b194e09f39d5af0f33a48082456c437e282f49168d6fad9353c4b381b507c03ec97732afe5d584522f1e88b620f8e07d7ef9692c48c7a70bf051ddac1dbb5a7d816ec6fa96c47caf1e011c8793202c9526413aca255a67db71e5375e93d31407d420384604215fc9c22c2f290bfd63786b2b65afe7950cf43dd8ff0fed114e587939226ee08bb2de0bfdd68b0a293011152207d850df10ac2fc29a9b42d3aa54f4ace638ef40a158a9a4990865aad9b0f465e962d6da0b88c595b7cc4453116","tag":"de127d29e77d3181ba7cf88e418f4313"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);

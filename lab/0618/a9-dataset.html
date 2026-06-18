@@ -86,7 +86,7 @@
     .content .db-scroll-spacer { height: 1px; }
     .content .db-table-wrap { overflow-x: auto; }
     .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }
-    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; word-break: normal; overflow-wrap: anywhere; }
     .content .db-table td a { word-break: break-all; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
     .content .db-table th:hover { background: var(--surface); }
@@ -201,7 +201,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"17d58ae2540161818539fab01f4a29bb41aa6ebd1f4d82775540ac66ae5b3707","iv":"cb765311ffd208c1fd0e2e38","data":"610e75a4a82891bae9835efb8223534cc4a3ad2d7161195fe32b2be7ca461ca80a266eae21252351b03670b399692c9a52c4461c7ea162743283583f419d2e16d9e3a3aeb5340a77199080f3ede11c127a30a369884b751f193333112eccbc56589c2e7ee475405ab6ff188c51c9e23b9b74b90c2ca22a4a24c07504e398c16645dd4c0e451daa12dffd8f432993ee87dbb6121c9f6cb56122665537aeb62449f9084a2c062c2abf10732c1121543d911c11f7a1de7abe515de5b548d9eb4fe9459fd8d854a06b8ee8210f81107086dba91ecf129282887ce49234a48cd462618d4c4096183d22b0e0cfef0edd93171f1584f80285b181b6cc87a2291c8f1fbd2d6fc9343444e57acec4503f93ee8aaffb766006ade95b25f7cfb425c2ecd7c352f5a93cbff4a48bc8837fcf257805fb75571724217acb6010a6a32aa74df9545c7b374dd1bafd01c55b320642ed19d79b0d1f3a5edfff1104147c06c063902c5b9fca3d5a2b54","tag":"71e9fdfda64d83584cce43d901640dbb"};
+    var ENCRYPTED = {"salt":"96682cc305ca4d2fb583efb0f4a1ae01b50b2e18ea6c96105cb34c48ffb757f0","iv":"decd64b607987420a91d7d13","data":"f58aa0739664d6863dcbfbd3f88b164794b92ed12a6ef84173c8d56dbd0b2ef7f7ba0b0d2c8701a618726b7835d7c3ba28d31ce6571574900f3d7413c6e92865d6c38a802ff84051caeb2e02e2dfbafc15c6e9c855fe44750b5b5afee7ef1ad46528b298cf0f13b058ec588e1aafdc5d485c066080cd7022a5c02591ba198352707de38fe384719dd6295d5aaac566b20face0ce3b2be593847457ece3995358fd4e8bccc13b711f72c3b85dae125331ca55f21da8940ae0acf6a98502ee8acdee5aae275a9b6555d3ad18306a1f998d94ee9c6246558e62ff6a290f8305fb14af9512dcbda72686093f66117b2d39dab141dda3b7a6a472095766d6edf8ac820fd899a3d5284533311091d6b08680c825d6aaa095e3bb21f110e73f1d94a0abee8e9baae9c7d6b4edf19b2292740c96ff2d3500e71bd9d41659b9f7f7e0dfd799af767696b86b06abbc3c056ffd891a0a5a3c90d1ca1ef69632a52ac713a549a6b11e80066f6a","tag":"a0e200b8628dd0e8bfb5b684dc0cc4df"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);

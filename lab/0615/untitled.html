@@ -86,7 +86,7 @@
     .content .db-scroll-spacer { height: 1px; }
     .content .db-table-wrap { overflow-x: auto; }
     .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }
-    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; word-break: normal; overflow-wrap: anywhere; }
     .content .db-table td a { word-break: break-all; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
     .content .db-table th:hover { background: var(--surface); }
@@ -201,7 +201,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"4d29cd5ebb5866b6b69c4b476e80dcd989e9154e2bd3c9d9c86c529e1e10f3db","iv":"f5f2e3ad0cfc61d79f0b593f","data":"1662362650e8899b9cc870d942f067bf85544178355f1ff1d79f4968f7770bc62f204837015c85a2d6e0dcd1ab38f87f6a9782169dc56d0259b1d58d413a0845e82f0b6d4eac95b641d2534eaee3a81ea2cca9960c6aee4e66f57b18a238c09ab49299400fa15c7050e3456882306698f1198aa19fbad825d6904d6f0b0f27964e4f5c07","tag":"d1db63d1384bd832f01db0fc6e691b00"};
+    var ENCRYPTED = {"salt":"58adddee426729d6cdadff9025ef52bcd226f65eb2c35f755a13f69e0673a7b7","iv":"e33b85e6979fc9d4cf61327a","data":"ed12fedf434aa8411ef0ec0ada5b3a3f2399af818ecf9a49879d151fefb569c75e812a6c5bcf6cf5f5f9db687111466ae5f168616e8a0584bfa0e1f6e4b212047ff72c3cdeeea8b03f013f1666dd7b48774561d6fdd12d4a7c34c98b9158feed86c2605a92e1ae7e6cd46d39d95cc432c0d7e101caa986ebd40b21d6c9e847fb4cf2f538","tag":"ce5802dcc0f050c15bf998c3625c9896"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);

@@ -86,7 +86,7 @@
     .content .db-scroll-spacer { height: 1px; }
     .content .db-table-wrap { overflow-x: auto; }
     .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }
-    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; word-break: normal; overflow-wrap: anywhere; }
     .content .db-table td a { word-break: break-all; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
     .content .db-table th:hover { background: var(--surface); }
@@ -201,7 +201,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"abaaa04222108f377f0d721e7f442d841df839f5e51a2a71dee38e0bfe578652","iv":"1b94916231eaba06df800a31","data":"4429a73f82af2b952c67166620c900ab9cdd8dc809dcce3df04b4f1bf3b7ce95c8eefe0ef830ef9762951c646debbf2d15107e9709a0553ddf0a0d8cadb33ced43cef2fb83375c06ab0aa9b22226bf56c76c05009e8106439e0b27517e392454651df826049e5b1facb376a00313900e3e51f68646ac30d4165245e416b9c3af385f55e7778389424b963c00d2fb49303216b2a46cc25da1302e9271bd70f95976bff2c64409d2b09610ee7ae3044e24a32f5487a9e67ea9b94ac80a2facbe347ebf1eafc7fb33093872158299cde11ce140163d4906f1bb20f77d23e2b443128984188e7c7c014ec697ec6e649f4b8e88c13cc2a89687903e65818a1065b23017fbe5d82a1d1cbe17dab1cd9e9c903557d1493d74fa2296c4d4cab61cb53a1a6d4148434cc9686de71520ca99d1c1d9fbf322e60a3cb74892f2ac52e63d5585f0c8e3ceaf81099184df1419e30123c77e864bb588f05b9d92463c48bd32f807dffe48c1ac1be6e24542785d242bc6a31748219a2b403b75b01b003d3a62697b70f3cb1ead","tag":"91955a40754b5a74eab1b27b0088f247"};
+    var ENCRYPTED = {"salt":"c7765e0ef4fb032ba38476f752904fce4f407311b01187e45a08a3a9b94a51ca","iv":"cf5835432bf80af9aac6a12f","data":"a6e90c789c99f1dd2391daeeee36d980af87dc868acfd771088cd109c0ac4197e89d1ec7364ca1c5afe77c2f26c5a752d4f11f95572632974bf7b693a353e5d7cf9a685641a75b07e929f50d1da12745082beab696082f67782daae20735fb7d87fc7844ef0949b6cd51ca8ee71941f26dd5cafac236aaf33d17c82b91aeff52c5a81fdf0c0e84f4e70c365bea9067d8afb07b9e361a663579cb043b9612e5ac71ae3ccee48d075573f8933859c50ffe2406880235739b3e0b89a431cf3ac264ac41b777d698e985009bc842be698a01fdbe9b52f31e7cb1775032d9bdf2e895b14759c626cd29388a4604d773735b3c48cb0499fc5ad4db44740d8f29e90573f0828ecd16c546434e10f73b891aaf00488b0e95e09fe5fb3faf10e8ba2a5260cef0bd53c40a6d8bbe2fbadcddaf63ab7ff88d99aad6e420209afa0929356c595c02233a8ba678813a85dee33b620cab80dbafcc3d41bf1e3e16e71c31522ab470fb2ed823d6ed6542ccaa57f9fff5889082408c38b2e2b69956502c2ecb063cb73b0cba53","tag":"03c0f8a4c06e6748653f1c3c1eb5f702"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);

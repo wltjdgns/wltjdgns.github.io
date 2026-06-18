@@ -86,7 +86,7 @@
     .content .db-scroll-spacer { height: 1px; }
     .content .db-table-wrap { overflow-x: auto; }
     .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }
-    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; word-break: normal; overflow-wrap: anywhere; }
     .content .db-table td a { word-break: break-all; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
     .content .db-table th:hover { background: var(--surface); }
@@ -201,7 +201,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"75e229a4def23b7bd98cc706c6dffb3debc8e1271673995d57e06e754faccb27","iv":"3201ecbab2a21351f01dd87b","data":"e236fc957a810b5402f848adb2849bfaf9f8e61bdfecdd253ba9c88406d5542cb61271bb85327ecc90af0a20de6bd9af84fd6dcd85c57012b07d088764d61392535915de46201a2905435135d507f60b81b8d9cd63a8c103fb8444b6b8a25556ebce7bc2d79b16901452e3a658e25e6737428bcec9c50546ba0b9decde3fc6180a0551b2e9f2e825ecbc9a154d7ee85d61ee378fe6c2b2b2c7a1ce80ea8bdcec885a5ef3c56b574f145b3da8ada846add67f814abb7236f1249afcc1fe536d7d843d74963043a51f3fc82bc3101a08551994ae55d6f114ea583e83deee2ac837856406266c43b580876aee406301078e185537cf5bde393a2694aa6a345a25a4ede2780e81a164c7e2cf26156791f70160c3eb22fd4e50536e63ce6b2eb22711f4712bdada685e7440d5d9fe0f9cdc7b7604ed4f0a614bb503927b6e0191cbe86cd81ddfb7d865aa829f69165bc6503253fb41f9f22ac9c97c8ced8b2d54933c8c5027a00f887dbbbc3fd66eb679ebb5fe5bd96a7c48","tag":"da15d4b58f30f74a1973bee6b5e7e61e"};
+    var ENCRYPTED = {"salt":"dddf99cc2473c418495c3bee51fbb7fd46ecf652715fdda5aecde1b50b2a514c","iv":"2bdad749364eda8bf9e4dac3","data":"0858991dbcfd73bdce879ac7b12b5bfe6a3059a2405ee2490a05685b9b234d435fce1dd53791791c1e54a55b1389ee33c17367d5121c6a7316c19c1a8605257679741942398ea2177b15b54951b6244e20ef8fa0f8ff086fe3f96fae1996f09c45a1e779f3fc1caf6e1194b94f22191cbe946343174b8036c90e0e9330a75222a0fd3181641c0ffc9131f7ab5872fe23a13c018e0a563d1a9f6eed8d2be65ad8a738f768ac7176fd45d99b847563d80190728bb0566ea76545291e7f539a0f68f9cb68e068d5ef25196f03e27e997f4f8b1b40b8d2b465232d226e5684c27fc20fbc25d76fe65f9bf32ccfce11836d1c6fb3b30f98f89535338ce516311b3cd90d6598f7782947ad100213852a3855b4c9a135661c985e773fd242532ea86e2ccd60d0aa5634fc347f31e52ba9645f32d34c7586b7b14ab830d788513530f7a0e49b0fab5b1ffb0ac8c26724d3dd663d0c0f9012c7a52ebd54a64fe4517da49f65036dca4d91c9fc2d36c449c9c801444aa788caad84","tag":"e081f83cee11f860417521e6162fc1db"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
