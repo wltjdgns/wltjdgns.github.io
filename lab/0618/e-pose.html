@@ -85,8 +85,9 @@
     .content .db-scroll-top { overflow-x: auto; overflow-y: hidden; }
     .content .db-scroll-spacer { height: 1px; }
     .content .db-table-wrap { overflow-x: auto; }
-    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }
     .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table td a { word-break: break-all; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
     .content .db-table th:hover { background: var(--surface); }
     .content .db-table th .sort-icon { font-size: 0.65rem; opacity: 0.4; margin-left: 0.2rem; }
@@ -200,7 +201,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"f6619393a7bd714bedad0746f9412fce2e3dadc8c06070cbb260b26e1aabefd4","iv":"83a355a9761f21c4bd09deab","data":"7f61025b217a81f77a450f8b4f9b756a6d62578dd2859679df6f5101a72b1462772a5ca63552f9236d15e903225547c283fe00f35bbf4eb8095680a8bff1f746495674f9ce72a3f9f45f12c2dba7df642d9e49150b39f080bfcc0c1a5c31a2d23ab8da666b9947e5b673db532d3886766bd8e3306c0d872c8a2747a0c780a087d6a431c4a3302e5e9284aca8e08a22d05c63ae7ac1a7c0e358a9f186685d06dd2073ef07f0bd6fbe2dccf69f0166ba1245efb50b31b5eabaf67b1c771fc7ba73850d9b5510cfc1c6bcda104e59506d6620df8d330678bcac7a6780f75502757b319bb87df525d5597e418e522ba28b9afd354ca3ff831e71a8e6faba9fd9d9a4e75a308ee02d9f7bbb8797f89476f767843ca58b71784ddeb1ca4bad722afa9d40cf391eeb34628632611215e893743a7cd141dfd8c9090285f26d6b9035096fc1abcc8dc6fa11c3c519a3cfde63f32581056bd56abfc048ebf04c49ec4452de706d3d844bff5a58d9a93da5c681cfb46d2bb627b1de260c82416a468be1cf3b56c5af4788","tag":"770446a502686633ee25e8617aed81e6"};
+    var ENCRYPTED = {"salt":"abaaa04222108f377f0d721e7f442d841df839f5e51a2a71dee38e0bfe578652","iv":"1b94916231eaba06df800a31","data":"4429a73f82af2b952c67166620c900ab9cdd8dc809dcce3df04b4f1bf3b7ce95c8eefe0ef830ef9762951c646debbf2d15107e9709a0553ddf0a0d8cadb33ced43cef2fb83375c06ab0aa9b22226bf56c76c05009e8106439e0b27517e392454651df826049e5b1facb376a00313900e3e51f68646ac30d4165245e416b9c3af385f55e7778389424b963c00d2fb49303216b2a46cc25da1302e9271bd70f95976bff2c64409d2b09610ee7ae3044e24a32f5487a9e67ea9b94ac80a2facbe347ebf1eafc7fb33093872158299cde11ce140163d4906f1bb20f77d23e2b443128984188e7c7c014ec697ec6e649f4b8e88c13cc2a89687903e65818a1065b23017fbe5d82a1d1cbe17dab1cd9e9c903557d1493d74fa2296c4d4cab61cb53a1a6d4148434cc9686de71520ca99d1c1d9fbf322e60a3cb74892f2ac52e63d5585f0c8e3ceaf81099184df1419e30123c77e864bb588f05b9d92463c48bd32f807dffe48c1ac1be6e24542785d242bc6a31748219a2b403b75b01b003d3a62697b70f3cb1ead","tag":"91955a40754b5a74eab1b27b0088f247"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -251,13 +252,13 @@
         var rowCount = container.querySelector(".db-row-count");
         if (!scrollTop || !tableWrap || !table) return;
         /* sync top scrollbar width */
-        function syncWidth() { scrollSpacer.style.width = table.scrollWidth + "px"; }
-        syncWidth();
+        function syncWidth() { scrollSpacer.style.width = tableWrap.scrollWidth + "px"; }
+        setTimeout(syncWidth, 0);
         var ro = window.ResizeObserver ? new ResizeObserver(syncWidth) : null;
         if (ro) ro.observe(table);
         var syncing = false;
-        scrollTop.addEventListener("scroll", function() { if (!syncing) { syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; syncing = false; } });
-        tableWrap.addEventListener("scroll", function() { if (!syncing) { syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; syncing = false; } });
+        scrollTop.addEventListener("scroll", function() { if (syncing) return; syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
+        tableWrap.addEventListener("scroll", function() { if (syncing) return; syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
         /* sort */
         var ths = table.querySelectorAll("thead th");
         var tbody = table.querySelector("tbody");

@@ -85,8 +85,9 @@
     .content .db-scroll-top { overflow-x: auto; overflow-y: hidden; }
     .content .db-scroll-spacer { height: 1px; }
     .content .db-table-wrap { overflow-x: auto; }
-    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }
     .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table td a { word-break: break-all; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
     .content .db-table th:hover { background: var(--surface); }
     .content .db-table th .sort-icon { font-size: 0.65rem; opacity: 0.4; margin-left: 0.2rem; }
@@ -200,7 +201,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"9cc84894b9c38fc2c457cbde3b4446833c243580c765428338013e7e0fc279c5","iv":"f9129eac27314b9df4cb282f","data":"0734f287d3e05cc9dadb39bc8a1248d8804ba64637ae76ca66c3c5b2eedbc4f72614dac6ab7d22b153905f48727f742078a7d069634c11f5669034fb8249110b80e08fda6bde1c1bc1ba1893592eb6208932bd218b0cd312ef739ef8a5462c68e916ecb6fd7a965651e03f42b6f7c004730fdc245e8c36610800ce0303cbebbb65bc7504cf15929508cb92e37540922fe3386bc0c9dc1f9c4fb7ee57964208da42c5ebbd69f70bb5d64a44eec3ae18dcd73651b67824623e83df7e8c409a4a9ee27015c1a9b4fea33cab932343c51a1e4039634fe170da3700e584ab2300e2dbdf37a117647d39feafe664eba324ecd15aac824d7cc0f3fb1e70dcb1e7172dbb01ba47132e54c4bcf48b6f3801306f348c9e6f757eeb742f1ffbcba9dc5c8620181cacbf0a20beea153400665ba1aa81294aeaa64549938dd95ec9edff6f075086cd32a0a4a89cba9faa1249d364017a35d6e694b34d0a9016a2ecbd90a93d20e9af04f1","tag":"b68f56b99d41f34321eec3a3d149881b"};
+    var ENCRYPTED = {"salt":"c26dcdb764ad9232a02c6004c1223c379fa0936f9e7c71c8676aac91894c0424","iv":"d3926bc2da4bdff0ba2fbfe3","data":"f91a15cc6c687d2ebd390d1f1cbe93e03d96f05f760a2a2e9ffd4947fbc3b34c1602a9431e1c2210be92a1864b7b5cd1559f07bfee7d19c5f381b4d29874abe5612404120e7b770f9a8dafa3c07aff4d9a3806b78fef37948293b630f9f156590350b189fec832e189fb727bc647d7a72cebeafc304ed48313e0009f30eb9198c0dc11e448420e2560f30f09b007d6d2d36f38e422c3421fa9b65a1f87475f7e85f66d1ce80b7f514f20da31007c6503dde7d3d16a274410664ffb41953a2e099eab08a4cd5f0952bc0ddc07ff342e728321fae6fd9c16d001575fea296828bd8e4a78099ddf538679181b10a2cf3db18f6a3826fcfc10b2fbd0c7fcc862ade21c2a055ea604d562d86a102b153cbd7322e2b5e3ca98cfdd850d82a939fa1bd3e68f1063b47bdd298e02ed5090b4bb60d89f8d8d44df17b893779145f4ee76f5ab484e205fbe6d20c686cb5e544399441a5f5ddf18ead6b96be102a4fcca6fb13e1ca604","tag":"e91d955055f78c0450698e25b8ecb7a6"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -251,13 +252,13 @@
         var rowCount = container.querySelector(".db-row-count");
         if (!scrollTop || !tableWrap || !table) return;
         /* sync top scrollbar width */
-        function syncWidth() { scrollSpacer.style.width = table.scrollWidth + "px"; }
-        syncWidth();
+        function syncWidth() { scrollSpacer.style.width = tableWrap.scrollWidth + "px"; }
+        setTimeout(syncWidth, 0);
         var ro = window.ResizeObserver ? new ResizeObserver(syncWidth) : null;
         if (ro) ro.observe(table);
         var syncing = false;
-        scrollTop.addEventListener("scroll", function() { if (!syncing) { syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; syncing = false; } });
-        tableWrap.addEventListener("scroll", function() { if (!syncing) { syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; syncing = false; } });
+        scrollTop.addEventListener("scroll", function() { if (syncing) return; syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
+        tableWrap.addEventListener("scroll", function() { if (syncing) return; syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
         /* sort */
         var ths = table.querySelectorAll("thead th");
         var tbody = table.querySelector("tbody");

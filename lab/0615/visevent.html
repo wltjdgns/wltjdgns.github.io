@@ -85,8 +85,9 @@
     .content .db-scroll-top { overflow-x: auto; overflow-y: hidden; }
     .content .db-scroll-spacer { height: 1px; }
     .content .db-table-wrap { overflow-x: auto; }
-    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }
     .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table td a { word-break: break-all; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
     .content .db-table th:hover { background: var(--surface); }
     .content .db-table th .sort-icon { font-size: 0.65rem; opacity: 0.4; margin-left: 0.2rem; }
@@ -200,7 +201,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"f8bc1b2e56101fcfc05408a475ba2f0a45c54cc9592c0747eb09e2f46534af6e","iv":"22e4dc70d04167a3c4aaf02d","data":"e2cb4f357727050ea1a73c5fe9bc3399243ede47711839e3635bc84747711f6b061542e364155fcf95639b1fde30af06e5c7b150c0547e13c66a26afe3e6d40c684bbd5a0d81b5f78766416822f3a3ba0940a63abb61eea13e7ac190742c0e5358e56c5adfe6bd80aa982d4c0601aaa4693b09b611b6c626383dced4746f2a66207c4aed8462f94228e3f2393175a7b6b745b5089fb92c1796a7b84bca7cd239bbc9ba436e6a8ae7ad5b3b826d15ecc6abd4f548401d07e6a8e45daac37ac36241a1e8a4cd08e6995484464ed570b53049bfe3c09c7dc63bdaf2a2d00d226b324b7b4d59566e6189842c292f60587498254d2344b5ecc93a614e1f375a8565ed4dd9a91934af4f32ae25527cf447c66a0ba58be6c6cfe688e2f2c25741c9b6cc8a94ef281fc18279486476a7a9cdd7cf9416d5e62a2978a16ad9f8bd6e54d237af90a8fae988455829cf059c4aeca1cf46b3e1c5b644651f50f930396f38dded10aee5590da7384bcf80ba1867543caf89e5b898d1cd569a02f2e80979a28d91815dfa94ab1248e503ab19135fdb861997d07969c9647863043e7dd0809d50c8b94ebb1734b6b43bad1e7ad2e9739a26dc15905d41e879c1dd36924ae5eafd0474facfaa6c27e6204b7b4ec6af9333076e572d4b8b14b3d7e0c1afc19d699ede65fb5aacb0a497a196c3f11fb5ae66f7ee916172f23dbb7d52c42406617dd52ef3293f577155fa42e49d843c1876faefde4e4c45d7396f631eea67cbbb670a2959cf1e20977c39e41fb5faa21e79823c5644082d247d9458087d4d3f24e61c68e5c3f5536f8f8de5462fa750187f15ae2a94eb7d47a5b4b2fd8c50661c5a1faaa10a5ccfcdc7c17b2415572ce537ade47858c8bc0c60c43e5ddc394308f3bbc3af35642171a6bcc41c487e43dfc73d70abf5973876a6a41e6c3cf8ed0a8eebbad6f55405068bac2b4a7b9c7185b7cb32564a06b791bbfb1aef30728d4493bcca304c8a64d8edec836286b0e09e27234e9c055281e242cf44a7ea9220e68183eae333101d64b5b917388c4f5a1124714008504c24a11ca9f35493a1d00b3ac8144bcc3d64c6dedc8b2e628aa921dcc5137ef58c953e58fd3263bd5ae73f19ae2f5977f87741a024f29d159ec8e7db30b4","tag":"1ccb3776e0fa657d444845e7dbf78ac5"};
+    var ENCRYPTED = {"salt":"d2d92bd080c921eb917f63370f0db7f739b1551fcb028b0d42a604f8e6b25ba4","iv":"389372df89055274de3730db","data":"1c3f85d0052c536aef8c764089bf0bfc51f11ec8e214a4148b4cbdd1308214ec3ca0691207923c073b39059d80409be1110556d127785fdaacd483585775aee6f63a0e959f187be07816e1f17a9fa04c727b13cedded155540dacbe8f092ce5482f3fedd7a9e60472c49e4c393a51f93b40503160328868f19cb727eba86f93ab5b3f5934849f7f027ccfdfdb5f767d790ea6071a93e12e20058c40e69b3ebea4ee8f03fed6c56f8582c188e11e42cf949d6621146891068929857005f849c2bf1bb5a3459b10fab09517160c6c0cf853065c0a8e3937b237c42a1ff830e16a11a4989d2d8ba50a7846ee824e06b461013d7ef772904a0d807bd4446f84d687f07f58cad988e2720220736ca01b1ab494486efa654d44d8043106fa4236e68813a1c2d81da65226e418a55d920dd69a3dfd2d4acc555913b94bddc96c213382dddcf1e668ddcd5535bc86a2e61f0685a127f0aa9604ddf47c54569f80cd99729bf9273a12eb85ec1bd2bf9ca93a746ecdadf8c268474f8008a664b8304a6198e7e6c508039752b9b14d4e41912428124e821420962a2f94bfb4c01ffc5bdd7414710f23b2120bf8472a3e3d4d269ee6c5091b99005a2f2253eb49a59d568a52542463bc0d4985e15c2dbead4aa2fc2c6098e37517e145dbf870292de928b86a00a35551adb45e808b1ea9fc2e40633b13a39fb3455bf02e96e624fe13e20bc69bc6f8fe3d010d3972f683b1fd51c88889cdcfe48b8ec84222f52f415d67b2ca619d0be2730dbc1a818c5f9f6fb51a3e4d293385e135ec31e9eae95d13eaed129b4719a01f2fb9e3b8552ddd8d5cce09fb1f0f25dd3f6ac8f576c918fde492d9a61069426955cf97d19e143d8ebb9709d054885d015c982f2d8fa0ce17018c63cc608c290e0fad921e6665d9bc7c61f359566e8096b3d04b7e15b5b7066fa925f53280fa1f3342ad2f7b323b3b488154058fef57c53df831cb56e1e63f123d5848256659b59b92b97021578a2c865d1f9517f042c145a1c639556d38c3bca01c2460fab8a7774cacc9a984102c875f11dab3ad6fd44c060417c67dcb8ff4b7556b79f347cbb7876b34169b5615c5ab8d07aae0b3c446dc9b36fabe892cf21bb860ad7ce9414be125c6419d55e2602e6db","tag":"44d72b4d61b156c0860157d1d534ade3"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -251,13 +252,13 @@
         var rowCount = container.querySelector(".db-row-count");
         if (!scrollTop || !tableWrap || !table) return;
         /* sync top scrollbar width */
-        function syncWidth() { scrollSpacer.style.width = table.scrollWidth + "px"; }
-        syncWidth();
+        function syncWidth() { scrollSpacer.style.width = tableWrap.scrollWidth + "px"; }
+        setTimeout(syncWidth, 0);
         var ro = window.ResizeObserver ? new ResizeObserver(syncWidth) : null;
         if (ro) ro.observe(table);
         var syncing = false;
-        scrollTop.addEventListener("scroll", function() { if (!syncing) { syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; syncing = false; } });
-        tableWrap.addEventListener("scroll", function() { if (!syncing) { syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; syncing = false; } });
+        scrollTop.addEventListener("scroll", function() { if (syncing) return; syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
+        tableWrap.addEventListener("scroll", function() { if (syncing) return; syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
         /* sort */
         var ths = table.querySelectorAll("thead th");
         var tbody = table.querySelector("tbody");

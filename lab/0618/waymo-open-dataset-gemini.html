@@ -85,8 +85,9 @@
     .content .db-scroll-top { overflow-x: auto; overflow-y: hidden; }
     .content .db-scroll-spacer { height: 1px; }
     .content .db-table-wrap { overflow-x: auto; }
-    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }
     .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table td a { word-break: break-all; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
     .content .db-table th:hover { background: var(--surface); }
     .content .db-table th .sort-icon { font-size: 0.65rem; opacity: 0.4; margin-left: 0.2rem; }
@@ -200,7 +201,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"3bd51db499a702295f60c4e17610c224cc5cfe59900c8374f59b073f626dbf4b","iv":"f07aff151c78268c5082429b","data":"2363f9db2a69c2c2652af2fc2c51442cff087bd314c88668447388248b82503d02ae548b7c28d8983c02db2201726967c7471d9a28b28aeb0d656807d1c4b4dd1210ff24ba47373908b05abae256bfd1d542456acb30beaef6a3ce31746fd1f97fc2cf08fd8131954ec16461d118d2ca625f37ace8cf04f4155c1c0ab7228252888d9dbe4fcc3ca76615b429141615662d2108499d55f8ec4582d19d04377bc78f38ac2ba56ed7180afd87b28ad0a706389b02eb001da93ed61f60ecbeb72e107da6f448f5782304bf04cef96fdd0791e01ead39b445ee95da0daa99208eb26588339c49285884d951553fccb55529155cec78144e1dbeb2503968e0e690e06d282f3daa221f11471ed6986559fbf36a7165d20838f395f5c010ac7959518cdb4d77d54db19f9cf46ba0b2996139b036307a1be97d1b7e3dc95202810e34d0555a9067b54a12a15f8998e188f8be1cbcdaf1b0571c413e7fd8dd747ed5734edfe1182bdbbd311a783d3d65f23e413abcab34dae9bf4b19455db5b133af487fdc55abbbbbcbad121fb3470925f6ea2b1df3e53820b3cba693228f0da9b08370c76b534925c12a45d16177f3a81ddd9000e40f57d93e5e97d4f99d382ddbb4519468646bf8d3745ac678d36f0ed0d7724a6572ea20738a21c513ff56b07ebc706fae747031427c6c72cf1e403a7037a8c745e9add854c4cf1ad56417c8b2504c655bae7650b5fc6b1b149935bf91cdd7c45e750650490acb18da556b5d2d4185058fdda2f856f4a6f2f3db95aa41738d8551096354bb59788c3ba6df24b47282bb837cddb2f3e4e183230e75a792f2f06c9056189d7f142cc609e6b3","tag":"c2c6224fcac8425148dccddf0d17ab63"};
+    var ENCRYPTED = {"salt":"2b9a855dd4bc25e039fa4873ea7b5497c6df17037f952a0061d4a875fc65b68b","iv":"07c653a2d89ae3f8217668c7","data":"c589e4f6e633442459632ad1a95f3b8a0c7a0adcdf8117ab0da921a8f7d965a8e4d68fad6e2cebff7ae2b3769f6a3b00b4491e8d67fc5143aba68b983222bcdce359c024adb11618945ff1d1d30a1b6a4cc9223ec719f2d139d5a341491066d7b23d48e5a69607df625ea91f50bd914ce8dc9a2fc37326ed08eed99b6bc7d4017bd26195bdbc25a137c948238b12fccf27d3fc946f76f358ab18e994b063ef6604581046c65d956243204ccbce1ee896565c21a49061ed33c10766fc526a68adf456a09eb42113638b4fbdf2d74e77850f55830345719b686ca8a908bc9298950317fb198c363af846597bbb61ef4bb82a536bd02ce42971b5a772589a94633f9cd439f878127a8c4fad703c54888a58c419618df10b7b63f2784346680e81edf37f17130ae201ffd0e8f2a6ca9acef4961df55902fe0fb88102e951cb58e477666e1e6634b56067cd1125ad25e15ca2375db15775804923da551c992164fe41a749cbc60b47f7fc2e65463d52add5c93a408dd396fb4716cbecc3b70fd1ad49f158f34cf0a4479e0afb8cc048764aa5f4238ae383adc8da7867bd710d04a9c37411f80ee474be6e5f3055d4c8aa8684ca90051c5d93bdd01989f66d9e4b516fe6eead8c16bb78e968a2a6d6a1f9249a9f3ebae73cfbc0997ecd2819083c3d314f19e38b17d8adde94f1d3dfc4cfbf1b824999ab6e741f3b5e5d34c212e8d1d20e8323a9bceccdc6a25a5c12f7b5a2fdafc8b8cd69478a25d03af5a954a9418c7f010b42841ff8f3fecfdb108571eff84cd8c589e87c073225cc5af18c7043e1f1499d076bd287a599a0feea995337e6456c9d6bf309334aea9a46","tag":"9360e84f01f2bd4de5784fddb4e83588"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -251,13 +252,13 @@
         var rowCount = container.querySelector(".db-row-count");
         if (!scrollTop || !tableWrap || !table) return;
         /* sync top scrollbar width */
-        function syncWidth() { scrollSpacer.style.width = table.scrollWidth + "px"; }
-        syncWidth();
+        function syncWidth() { scrollSpacer.style.width = tableWrap.scrollWidth + "px"; }
+        setTimeout(syncWidth, 0);
         var ro = window.ResizeObserver ? new ResizeObserver(syncWidth) : null;
         if (ro) ro.observe(table);
         var syncing = false;
-        scrollTop.addEventListener("scroll", function() { if (!syncing) { syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; syncing = false; } });
-        tableWrap.addEventListener("scroll", function() { if (!syncing) { syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; syncing = false; } });
+        scrollTop.addEventListener("scroll", function() { if (syncing) return; syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
+        tableWrap.addEventListener("scroll", function() { if (syncing) return; syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
         /* sort */
         var ths = table.querySelectorAll("thead th");
         var tbody = table.querySelector("tbody");

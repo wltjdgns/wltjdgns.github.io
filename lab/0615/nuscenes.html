@@ -85,8 +85,9 @@
     .content .db-scroll-top { overflow-x: auto; overflow-y: hidden; }
     .content .db-scroll-spacer { height: 1px; }
     .content .db-table-wrap { overflow-x: auto; }
-    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }
     .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table td a { word-break: break-all; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
     .content .db-table th:hover { background: var(--surface); }
     .content .db-table th .sort-icon { font-size: 0.65rem; opacity: 0.4; margin-left: 0.2rem; }
@@ -200,7 +201,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"5be6d3c7473fc9e091266b15571599fec5f7e2920f35ff8b09aced9b3039828d","iv":"77694c44117c73f7e1e9b6fb","data":"d2cd95e9cefb88312aa2683d30ce6dd3e7a89955fc0ca4a6c59f89c9f1b23f817d6b56f408d7b68e9b2d839a82b26aac8ac28c9ab642f796d61ec51e9cc5a5f685761608471e43105c585f10980d228ddce4513b05e80f705bafe089351f57320159f3d675fb98229df011b97dadf429dce49db636a87d09c5c38177d516ea3ecba297db067311466ba11ca3776c154bf96e6958412a4e79f67bbda8941b914a8d977f308d9b578ac36437797095a94cc30f57af833f5c9be54f8cdeacd07bd596d264dceb2e5de8484dd52e1712414218ca00df8168fb9ba1476ea6010258022cd7e86f1c210915c49e64df5de04fcc484c659ea9384d5160d9307503b670ba428f3c87ca1c671a2b6aaeff071f3307b79fda5f8c0aa42e73d3a1e10096801cf5bbb27d5d58b5c17fe32916d9ec3b10f2596a948b49b2c077d132b25d1597e9f6640b7eca4feb83154f7c1292f612e7c30c62aa52be00ab12f24126604390cf071c5d909440aee4a9661a340406c4f563f7dbf74f008fcacd533594b51ebd6779e7ef07442208f32af528996e1e67ba7bf3dee362136bde7f271b362356abe2fe0a99112631967e29cddb892c7039cdb861f7f0f74afaf4393950cf9c43a984a8986e5f8c73ef1a9e0299b9d21191085d6a39d2c351b02095e5f9baa42b8d92089df5f7ba4969f9b10c9d5ce7f8c95a1ad86ea424301b33a921070845305bee305258ba36abc9c9aec9fc102188f2623b938dd11f0d29dafe263b1794ea9639d8824c3145c7d6cecc16798c87f3a6c867e85a2a3deb4922bc979a4b80a3a50567729a77018f6abf5a259e09482209d8e48eef598613b25a52fc6f1493afbca5164424e44233b45ceef557d6928cd5cb9e12a2c9e577805a6c25978557f10b19c87e2fce97ac01258385579edddd8f648f54e421d4d60bc97ded929b9b76eab37766a80b","tag":"238709d86bcb1bce087ef053ff9b4d29"};
+    var ENCRYPTED = {"salt":"7da228e2c4953cbca7692064ebb7141275b305def4e90896f7c147c29b60bafe","iv":"71a2edf3a3c0ba3229678322","data":"59cac4564f7c2e174b6d1d9457b19b7b81a3ed8d09bfeb3b02a69ad0a4fdd970f0e8f00138fc9d1b7b2f956f852a132edbda47061a06ae9f975e16b470885875fd9cc778057fe34713b2ef442c270343ad5b30d357376989b1180d54ca1a2c9763b74dbc8c2799d5df8981bae59cf0807a3c37510030fdb439c1137ab8c47550c9bc8a4f9a9c5af2d11d1eed1fbcdf5f7d3fe5e131952bc4cec3705e5250e555ff1cfd6115dec61091e0e3e16d86ec870e8934746409a9f4b4325976ea8b50ea1fc8fff786b90d1decd26651822aea8f78ea03d2dfc28455361b8c8556181a43b00d31ba2331340821c8e3f3a25cd5c18561dde1e2f3fd4292a0553a150f3932e4849a37eb728fa91411e8d985deadd2c1288ea4de7d3c7caebe8313962b4aafc61517f175fe324ce9b8bb5d00c14fe4b3391aeeb1c22b59800c6e25955dfd351236f070a49ee9cd63f344868aad436e8e360c8ef662cee79cf8f11c8c346879abfcd9829ed775734719da0c0dc8aec589bca0d6eb7bc8c6c2326ec34efd83ad917254da28d4277dc4818d398882a553f572390d1fe3fca4f8c012f3c97cad1807d0b09c8b35fa1b0b2fb37ce1d8183631f78803afdd38499d0a44748b23ea84c7a0e86887704759126131d5f81786eb16e425d38c02a3d088f174b93d2287749a66c2e690c855c4801e11cfa08b0281baa011b7a64e62ea90a55da0f300aaf45a86d61a3b6fd8e0c58c6f55bbc028939051d6775d5868f38af65882200ab905358918c1aac411bfd3174d50be427d735468c510ebec9647d69bae7f3fe89caf186ccbfd0724a9b9f7645162015aac14579256786977e8ea9f98440ac4dabf1e903e7e4acfa48c3345c6c35e15e9a83a67e574d8ac3bceb3d87d747bac4a61e326055db9910ff1ec4486245a3ff27b08042683442e01e1cd65ed269d1cd097dccfa5691e","tag":"15b19a3b57e1a7dddd0d25e9ac755908"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -251,13 +252,13 @@
         var rowCount = container.querySelector(".db-row-count");
         if (!scrollTop || !tableWrap || !table) return;
         /* sync top scrollbar width */
-        function syncWidth() { scrollSpacer.style.width = table.scrollWidth + "px"; }
-        syncWidth();
+        function syncWidth() { scrollSpacer.style.width = tableWrap.scrollWidth + "px"; }
+        setTimeout(syncWidth, 0);
         var ro = window.ResizeObserver ? new ResizeObserver(syncWidth) : null;
         if (ro) ro.observe(table);
         var syncing = false;
-        scrollTop.addEventListener("scroll", function() { if (!syncing) { syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; syncing = false; } });
-        tableWrap.addEventListener("scroll", function() { if (!syncing) { syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; syncing = false; } });
+        scrollTop.addEventListener("scroll", function() { if (syncing) return; syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
+        tableWrap.addEventListener("scroll", function() { if (syncing) return; syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
         /* sort */
         var ths = table.querySelectorAll("thead th");
         var tbody = table.querySelector("tbody");

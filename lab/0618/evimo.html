@@ -85,8 +85,9 @@
     .content .db-scroll-top { overflow-x: auto; overflow-y: hidden; }
     .content .db-scroll-spacer { height: 1px; }
     .content .db-table-wrap { overflow-x: auto; }
-    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }
     .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table td a { word-break: break-all; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
     .content .db-table th:hover { background: var(--surface); }
     .content .db-table th .sort-icon { font-size: 0.65rem; opacity: 0.4; margin-left: 0.2rem; }
@@ -200,7 +201,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"f8d23653c641fb4711f271876314d13147d3b62b64a2cc24bd0ebd7ee7a54bf6","iv":"c5323a33e706c77b46808945","data":"fa7f3fceec33e0c4d5b6c5795f3e8cc2d91284ab0598ec89e36edc34bfa2493583c69c0285b8652cf39ced8019c5c2b1fd2066818c6ce18cf2110abe011a91063ab9ef5e341308d1607b8c25e7a65aeba555eb7658a9de994a48fe60b0009cf4cb38933b371e98e664da847b876215fb5b743898609c6267124535e2afbdcaf043220d9f4446435aede39f5272bc99dcdfd6ebfddc1e7cbf8ac664f9e41817699e1b77446295b98712dfca74fa570bd950086eea3faf7e65a06e7cd07a1c350ef0adf3dc5b6f5dc772c236e28d88b269a2007956f0d9c4cebe9f19268bdcf0df52295ddaa5a26b1c9a0060a51df486b21bf3f40b33695ff9c3640b28adc8f7380d4dcea62d6fbbdf3120a9eeb20ba7cb529092cd044e6e14b6189e22ee369ab396ba8943ae1161258415ecee72ccf2b643de1a37a2dfdb459d8b02a3c0be914212b07a9a567c88ca23311d96","tag":"8eb1cb4cb8c09a0cffc4cc78fd3a00f1"};
+    var ENCRYPTED = {"salt":"b9d8ca584d1cc62b2d7a84bd514a2d35729460eca0e9cdbe66edbf1a6983b536","iv":"a8be130b267fd50ef695b1cf","data":"29a6792dfcef5a80cfdccc16d6ba8a64d13a3b529b0c5cc9ed44f57005407afd7c7533d6067235c1a2bd6c4a28d4b4bbfef038ba9a668450e421e2125665c9e92346a88f16d891266c9c356a1235a933913abb8e5936d185c0de7b0848ff1d94b7efd56f8b7e109f1281b445056d5d8a040299d0f9e38d1250c1bea94a18f481e87f9d8169c1c846a346cc23e7474aa9b205c81c2f7b10ae2ae0d3d3fc72073190a4759f588764dd7ab2149f60c5b887385a1412cb1cf13f71ae2ebfebd52d9e781d303bc935bd6ab0a1143eb79dc4b7d4e4bde5477f951337846515e89bfd5d76cb157c930a2616014d1d5211cd0d0b57b520c8016994ee7198eb0a09325ffa48d70fb0bb55d62693bfc55f5534102a451222e37072a67ea16c7b507eda4c9e8ebe0bb022cbe259c871ff9b859389d287cb0d82877f0e56e2ed1387caaa83c6bc704002d2bb0e95cccd7bd2","tag":"87db5a9f9b5c04e761458ed975a0d9d9"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -251,13 +252,13 @@
         var rowCount = container.querySelector(".db-row-count");
         if (!scrollTop || !tableWrap || !table) return;
         /* sync top scrollbar width */
-        function syncWidth() { scrollSpacer.style.width = table.scrollWidth + "px"; }
-        syncWidth();
+        function syncWidth() { scrollSpacer.style.width = tableWrap.scrollWidth + "px"; }
+        setTimeout(syncWidth, 0);
         var ro = window.ResizeObserver ? new ResizeObserver(syncWidth) : null;
         if (ro) ro.observe(table);
         var syncing = false;
-        scrollTop.addEventListener("scroll", function() { if (!syncing) { syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; syncing = false; } });
-        tableWrap.addEventListener("scroll", function() { if (!syncing) { syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; syncing = false; } });
+        scrollTop.addEventListener("scroll", function() { if (syncing) return; syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
+        tableWrap.addEventListener("scroll", function() { if (syncing) return; syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
         /* sort */
         var ths = table.querySelectorAll("thead th");
         var tbody = table.querySelector("tbody");

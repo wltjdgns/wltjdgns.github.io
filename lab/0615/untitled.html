@@ -85,8 +85,9 @@
     .content .db-scroll-top { overflow-x: auto; overflow-y: hidden; }
     .content .db-scroll-spacer { height: 1px; }
     .content .db-table-wrap { overflow-x: auto; }
-    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }
     .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table td a { word-break: break-all; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
     .content .db-table th:hover { background: var(--surface); }
     .content .db-table th .sort-icon { font-size: 0.65rem; opacity: 0.4; margin-left: 0.2rem; }
@@ -200,7 +201,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"2d59984473d7762499b4d805073df6d33bf329f6e0b9e072fd19c7806618d544","iv":"20231b9c7e0fc993812ed9eb","data":"edec3d4b2cb10245615fe90e2a5df0c39e1832bef5d07253393ab5bfe629b76feed19b83f92f9dbb74990b77ea07598f7c6cc6446de7f3697385933a9f8c4c4af832968517942c5cb735dfca05e498bf7d9a29748b7e0ee5d82973d36eca165df3cf692a02aa668b92088eccf0b04917712c459991f5f770dc70ccac5831ee8201c02d73","tag":"3cdac445429d35acb07e1f91b4271da4"};
+    var ENCRYPTED = {"salt":"4d29cd5ebb5866b6b69c4b476e80dcd989e9154e2bd3c9d9c86c529e1e10f3db","iv":"f5f2e3ad0cfc61d79f0b593f","data":"1662362650e8899b9cc870d942f067bf85544178355f1ff1d79f4968f7770bc62f204837015c85a2d6e0dcd1ab38f87f6a9782169dc56d0259b1d58d413a0845e82f0b6d4eac95b641d2534eaee3a81ea2cca9960c6aee4e66f57b18a238c09ab49299400fa15c7050e3456882306698f1198aa19fbad825d6904d6f0b0f27964e4f5c07","tag":"d1db63d1384bd832f01db0fc6e691b00"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -251,13 +252,13 @@
         var rowCount = container.querySelector(".db-row-count");
         if (!scrollTop || !tableWrap || !table) return;
         /* sync top scrollbar width */
-        function syncWidth() { scrollSpacer.style.width = table.scrollWidth + "px"; }
-        syncWidth();
+        function syncWidth() { scrollSpacer.style.width = tableWrap.scrollWidth + "px"; }
+        setTimeout(syncWidth, 0);
         var ro = window.ResizeObserver ? new ResizeObserver(syncWidth) : null;
         if (ro) ro.observe(table);
         var syncing = false;
-        scrollTop.addEventListener("scroll", function() { if (!syncing) { syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; syncing = false; } });
-        tableWrap.addEventListener("scroll", function() { if (!syncing) { syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; syncing = false; } });
+        scrollTop.addEventListener("scroll", function() { if (syncing) return; syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
+        tableWrap.addEventListener("scroll", function() { if (syncing) return; syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
         /* sort */
         var ths = table.querySelectorAll("thead th");
         var tbody = table.querySelector("tbody");

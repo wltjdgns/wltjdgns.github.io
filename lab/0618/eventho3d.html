@@ -85,8 +85,9 @@
     .content .db-scroll-top { overflow-x: auto; overflow-y: hidden; }
     .content .db-scroll-spacer { height: 1px; }
     .content .db-table-wrap { overflow-x: auto; }
-    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }
     .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table td a { word-break: break-all; }
     .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
     .content .db-table th:hover { background: var(--surface); }
     .content .db-table th .sort-icon { font-size: 0.65rem; opacity: 0.4; margin-left: 0.2rem; }
@@ -200,7 +201,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"ae3bcae54e8cff42551ffc2e8225de9a11caeb14867537a72f8c41de56a934c0","iv":"5b01f98048f6a02e5a4c57d6","data":"64b68bc186be8b6fece1b16e3d483534bf8706555fd9cadf04643448595fc81b0e93c33ec3530a084b877d5da2b8fe1d5a0bd5b510811468e623467545ddb35786f1f3e006bde9f85dc3be9071a86c05dd1de846b006e40bd56da594480b89a36a61fe017e96e7e23498b70c821ba7361988a31cb9107675c361ed01a43ffd83ee5985ac2be455bda396261426e7f35c5f220295a23596e985ad168640b42532219f3a6361fa8d5016f18ef16652392c3477a12596baa26804097c8b238e535a6fb52ce8bfe17c868255e153594e0c60ba135e5083702e577b738e2bb2ae30b94b2c42c0d14dbcc1da9dee13c2ab8e933b149bcabb6f91db6d1dc5a6b5d2c79915d8fb94e879826c1068b237b4851ea2c709955ec23e0f14813004d89cb6f7262363160e4c06a35cc9ff94c4b4547d7a15803a043820b60e4da498505e621080f6bd22dac4a2b4dc9816e3d25a92fc4680857875017a","tag":"f702855d0a41905cf6ff25e88b69c519"};
+    var ENCRYPTED = {"salt":"1b380a9f89e383aedb45c9582f1071fecb2c2c27756717e620b7873220997430","iv":"e20a647bf9d6ac7e7d9ae45a","data":"85095b47500161655bd8a3f31d767434677ae3de6d43bca69660a1317f4ae51bcf41ae30df5b6e5e572d91ec1604fa9d678f3d56a092cecf27e3f43160fb44a45d7191ee50cff1933c7ab4867cf4d6fc3168192b84bd94e07d95bc020b045c5a07f2316eb96a9df39b3de8a23e356f8d2f83cc8699e1cf63f636b343f8216c1d84128cba5fb605efc1dda288f5a97891a0075796ba734b56a0c81e87549e9dac809b38c12dd0918a5fa727af8b71d512be6092cf4228dda1c273585dbe8fd781555fd2aaef5169617a87345719b6efae28f702ac95754c0d4f785b247cfea68c25f3a69f2223892623d918ffcfd2048a31d577b7f51a2c65af16231bb3ff09eb8089fbdae4417a7e9804f227ab33708609d5cffc73b937433e9792b643bc0c8614ccb9c5661d84032ee6ec58fd53d6d5e12a8e5695d541b413f82635ef01a969f74f9fceeee1959d306f1520a7b9e987ff54eb280269","tag":"841500900bd4a807a37885966b801f5c"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -251,13 +252,13 @@
         var rowCount = container.querySelector(".db-row-count");
         if (!scrollTop || !tableWrap || !table) return;
         /* sync top scrollbar width */
-        function syncWidth() { scrollSpacer.style.width = table.scrollWidth + "px"; }
-        syncWidth();
+        function syncWidth() { scrollSpacer.style.width = tableWrap.scrollWidth + "px"; }
+        setTimeout(syncWidth, 0);
         var ro = window.ResizeObserver ? new ResizeObserver(syncWidth) : null;
         if (ro) ro.observe(table);
         var syncing = false;
-        scrollTop.addEventListener("scroll", function() { if (!syncing) { syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; syncing = false; } });
-        tableWrap.addEventListener("scroll", function() { if (!syncing) { syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; syncing = false; } });
+        scrollTop.addEventListener("scroll", function() { if (syncing) return; syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
+        tableWrap.addEventListener("scroll", function() { if (syncing) return; syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });
         /* sort */
         var ths = table.querySelectorAll("thead th");
         var tbody = table.querySelector("tbody");
