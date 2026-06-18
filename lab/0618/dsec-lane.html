@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>연구기록 | wltjdgns</title>
+  <meta name="robots" content="noindex, nofollow">
+  <script>(function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; transition: background-color 0.3s, color 0.3s; }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center; position: relative; }
+    .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; text-decoration: none; color: var(--text); }
+    .nav-right { display: flex; align-items: center; }
+    .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; padding: 0.2rem 0.4rem; line-height: 1; }
+    .nav-links a { color: var(--gray); text-decoration: none; margin-left: 2rem; font-size: 0.9rem; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--text); }
+    #lock-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 1.5rem; text-align: center; }
+    .lock-icon { font-size: 3rem; }
+    .lock-title { font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; }
+    .lock-sub { color: var(--gray); font-size: 0.9rem; }
+    .pw-form { display: flex; gap: 0.5rem; }
+    #pw-input { background: var(--card-bg); border: 1px solid var(--border-mid); border-radius: 8px; color: var(--text); font-family: inherit; font-size: 1rem; padding: 0.75rem 1.2rem; outline: none; transition: border-color 0.2s; width: 260px; }
+    #pw-input:focus { border-color: var(--accent); }
+    #pw-input.error { border-color: var(--secondary); animation: shake 0.3s ease; }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+    .btn-unlock { background: var(--accent); color: var(--bg); border: none; padding: 0.75rem 1.4rem; border-radius: 8px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: opacity 0.2s; font-family: inherit; }
+    .btn-unlock:hover { opacity: 0.85; }
+    .btn-unlock:disabled { opacity: 0.5; cursor: not-allowed; }
+    #lock-error { color: var(--secondary); font-size: 0.85rem; min-height: 1.2em; }
+    #article-content { display: none; }
+    header { margin-bottom: 3rem; }
+    .meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+    .date { font-size: 0.82rem; color: var(--gray); font-family: 'Inter'; }
+    .tag { font-size: 0.72rem; padding: 0.15rem 0.6rem; border-radius: 10px; background: var(--surface); color: var(--muted); border: 1px solid var(--border-mid); }
+    h1.article-title { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800; line-height: 1.2; letter-spacing: -1.5px; margin-bottom: 1rem; }
+    .divider { height: 1px; background: var(--border-subtle); margin: 3rem 0; }
+    .content p { margin-bottom: 1.4rem; color: var(--content-text); font-weight: 300; }
+    .content h1 { font-size: 1.8rem; font-weight: 700; margin: 2.5rem 0 1rem; letter-spacing: -1px; }
+    .content h2 { font-size: 1.4rem; font-weight: 700; margin: 2rem 0 0.8rem; border-left: 3px solid var(--accent); padding-left: 0.8rem; }
+    .content h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.6rem; color: var(--text-soft); }
+    .content ul, .content ol { margin: 0 0 1.4rem 1.5rem; color: var(--content-text); }
+    .content li { margin-bottom: 0.4rem; font-weight: 300; }
+    .content pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; overflow-x: auto; margin-bottom: 1.4rem; }
+    .content code { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.88rem; color: var(--accent); }
+    .content pre code { color: var(--text-soft); }
+    .content blockquote { border-left: 3px solid var(--blockquote-border); padding-left: 1.2rem; color: var(--muted); font-style: italic; margin-bottom: 1.4rem; }
+    .content hr { border: none; border-top: 1px solid var(--border-subtle); margin: 2rem 0; }
+    .content figure { margin-bottom: 1.4rem; }
+    .content img { max-width: 100%; border-radius: 10px; }
+    .content figcaption { font-size: 0.8rem; color: var(--gray); text-align: center; margin-top: 0.5rem; }
+    .content a { color: var(--accent); text-decoration: none; }
+    .content a:hover { text-decoration: underline; }
+    .content strong { font-weight: 700; color: var(--text); }
+    .content .callout { background: var(--callout-bg); border: 1px solid var(--border-mid); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: var(--content-text); }
+    .content table { width: 100%; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
+    .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; vertical-align: middle; }
+    .content th { background: var(--surface); font-weight: 600; color: var(--text); }
+    .content td { color: var(--content-text); }
+    .content details { border: 1px solid var(--border-mid); border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
+    .content details summary { padding: 0.8rem 1rem; cursor: pointer; font-weight: 500; color: var(--text-soft); list-style: none; display: flex; align-items: center; gap: 0.5rem; }
+    .content details summary::-webkit-details-marker { display: none; }
+    .content details summary::before { content: "\25B6"; font-size: 0.65rem; color: var(--accent); transition: transform 0.2s; flex-shrink: 0; }
+    .content details[open] summary::before { transform: rotate(90deg); }
+    .content details summary:hover { background: var(--summary-hover); }
+    .content .toggle-content { padding: 0.2rem 1rem 0.8rem 2rem; border-top: 1px solid var(--border-subtle); }
+    .content details.toggle-heading summary h1, .content details.toggle-heading summary h2, .content details.toggle-heading summary h3 { margin: 0; display: inline; }
+    .content .column-list { display: flex; gap: 1.5rem; margin-bottom: 1.4rem; }
+    .content .column { flex: 1; min-width: 0; }
+    .content .math-block { overflow-x: auto; margin-bottom: 1.4rem; }
+    .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
+    .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }
+    .content .db-table { border-collapse: collapse; font-size: 0.88rem; }
+    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; }
+    .content .db-table td { color: var(--content-text); }
+    .content .db-table td:first-child { white-space: normal; }
+    .content .n-select, .content .n-status { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 0.78em; font-weight: 500; white-space: nowrap; line-height: 1.6; }
+    .content table { display: block; overflow-x: auto; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
+    .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; }
+    .content th { background: var(--surface); font-weight: 600; color: var(--text); }
+    .content td { color: var(--content-text); }
+    @media (max-width: 767px) {
+        .nav-toggle { display: block; }
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 0.5rem 0;
+            z-index: 100;
+        }
+        .nav-links.open { display: flex; flex-direction: column; }
+        .nav-links a { margin-left: 0; padding: 0.9rem 1.5rem; border-bottom: 1px solid var(--border-subtle); }
+        .nav-links a:last-child { border-bottom: none; }
+    }
+    @media (max-width: 640px) {
+        .container { padding: 0 1.2rem; }
+        nav { padding: 1.5rem 0; margin-bottom: 3rem; }
+        .content .column-list { flex-direction: column; }
+        .content pre { padding: 1rem; font-size: 0.82rem; }
+        .content h1 { font-size: 1.5rem; }
+        .content h2 { font-size: 1.2rem; }
+        footer { flex-direction: column; gap: 0.5rem; }
+    }
+    @media (max-width: 480px) {
+        h1.article-title { letter-spacing: -0.5px; }
+        .pw-form { flex-direction: column; align-items: stretch; }
+        #pw-input { width: 100%; }
+    }
+    @media (min-width: 1600px) {
+        .container { max-width: 1000px; padding: 0 4rem; }
+    }
+    footer { padding: 4rem 0; border-top: 1px solid var(--border); color: var(--muted-dark); font-size: 0.8rem; margin-top: 4rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a href="/" class="logo">WLTJDGNS.LOG</a>
+      <div class="nav-right">
+        <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+        <div class="nav-links">
+          <a href="/#articles">Articles</a>
+          <a href="/#projects">Projects</a>
+          <a href="/lab/">연구기록 홈</a>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="테마 변경">☀️</button>
+      </div>
+    </nav>
+
+    <div id="lock-screen">
+      <div class="lock-icon">🔒</div>
+      <h1 class="lock-title">연구기록</h1>
+      <p class="lock-sub">비공개 영역입니다. 비밀번호를 입력하세요.</p>
+      <div class="pw-form">
+        <input type="password" id="pw-input" placeholder="비밀번호" autocomplete="current-password">
+        <button class="btn-unlock" id="btn-unlock" onclick="unlock()">열기</button>
+      </div>
+      <p id="lock-error"></p>
+    </div>
+
+    <div id="article-content">
+      <header>
+        <div class="meta">
+          <span class="date" id="entry-date"></span>
+          <div id="entry-tags"></div>
+        </div>
+        <h1 class="article-title" id="entry-title"></h1>
+      </header>
+      <div class="divider"></div>
+      <div class="content" id="entry-body"></div>
+    </div>
+
+    <footer><p>&copy; 2026 wltjdgns. Recorded with curiosity.</p></footer>
+  </div>
+
+  <script>
+    var ENCRYPTED = {"salt":"479e5f2368152dbe3ec1261664a64cd76ca5faa318f47a95d29bea113a5104a2","iv":"e4f2012b13bb57c7d30376bd","data":"09a41e173504a3ee0634d2c28ed1d261175d9a2bf1a3108e597a83775c302f698212d707ce667b939b7e38572e39ce7dd8bb58f64b9b281e91666b33b0f5b165085790e4a45defc48a404148317b7b62ef96e76dc1cc021ca939b3c8ac1a5ada59b457adbcbb356d1137bdcb21ef26609b59c7f77d35be501ddc7497c62ce418fabeb4be0986014640acb8318a160153821700b79a5ea33a48998380eabfb9f1e80abc05fa12f07bc17c1a1430b6a11f45b8c01af616d9486f6cc651bae3365cfde637550addf37bdec4b1401d879ba1911c2e82de0fe6a0372c04654ecb476c15ebc2d48dabbe6f144514b2180a722196697b2e0aec2080a21a5d3b0a98a66293eec25aa9bbbd44d2e636baf7b97d6118e1c35985a589f04dbb6b591aa97df75d92af865aa81595a316de390b25ed48718755ad805cb49a343073acca80ba92049d3756574522606cd2ce65223fad517091b6cbfed9ac2ae29aa2eaa7ff67c59208b771dc9f841494d8ede291d578504b552a3a5f30e0d6a799956c362e2b5f368b5044acb4f6436d5dd3cfa43e1df6885371dfe3c263896447dd534c9cf00a3777c901ed84a87f9f0a5b915f8534b035b8bcdcc1c30716c2e33370f9d474cc14d8644ae0a6734d789a8dc499d8a1009ea030d7aadfc57a2d136ace7deedcb81b3e875cabf49a61fca1e13260fb01fe3ba5c6e013c159e0d6117fbeebab28a49b1161cd5140e0763de643b3178c5c7a3fa0a4a9d50f8f7bc2084f40f9f0a25af671f8468f4afcb4f92a9bb683efaa6dd7b9e6659782af9dbd8f636ccd7df6fb00bfaf05a100022c5a92b29db32511fe9b45be4454c0a16d3f9b5f8a3dd97fb2d43e2fc6f9e03cd741592123de5c5894ecf6bac46e4d537a67269d422addb8ce7c83f44a54abbff6d47c7df225ca8649430a7caa31e961429c87bd1d3ba9b9707401c7ff738c95731443c2ca32cef3414562bcfeb98b6f18910ed00220964d68ead7dd2f7114e969c31e7fec772e9ae34d04286a9c6faf0c15a094017b7ad2fd98abfebe08d57f0e32ac6bf54178c944b05e7d3e8bcc134f722a49b7938559f5ae53b0b918773d1a92105541ea38e2f7561645bc73310647163a0de846e82eefea748c3b06ecce9a7ab37b1bbc2ef9cdc14be5a7c3f1d1b6cd53664dd4039cf153603e67370f29d4d3649075c59edc30a80db2b5b44ee29c7295486f1191e264259965ce06c73a3d20683486d1c95942d86bee02d3b07ce9e93e0563517180c2caafa22b4612f38ffd523ec503e1ebbc43ba403456ec555b74e7078f45d1d5db1c1393921b6193e1b459ea02af1364ee8c00a05471e63bd3bafbc522becf374243c18f243d6ee774a38b45c8db657bfe703089894f244dd9dc1b5c142568828ddbb94bd3393a1db2226daabe8dd024f326aceca2755d2628c2952d70c7f46b683afaee0dffd114d4f483d7cfaf5b5fa7c2adc34d6d02dcf517cc4608a87267f53b11ef477627d42d5d6ca6ffbf3565cbf09afaa908fa7b584cb3be96ffdfa3b8f67caadc40ffaa7a337b64c45f5718a434e6311ad4f4640694ab6639ba70f4bcc1c004b07b85905b944c4daba79383269960688da35fd9333683748768ff8dbfec9e91d0f4514bd4bd27be888367e1de0f1d2ce03d2546c4bf6a0aa70bf286eda7b5a82f72d2e04200edea11bed4b7e53eb5165f359d1b7012f3f4c2a39471d3b7ae5a6b359e2a27e3141e8b05ec1990dc3e16c625879a5d1a3138f71c11609112d3addd15ada8ef93a27f09f5dc85920fbedd5378e6b69c722aa4c971527e90bbd11dc37db2b77db39f1abae6e02df9cec062c0495cfc34967b142e642f960223b7e7afeecfe2d91e60c94f9bcaece01b15e86b34a36a8acc5fb773fd2a20cac3f23975d6b4ee185000372fff3e11e9ee495beec8658b6cf3189c5afd9f152d9a368d353f77522a0a79650af4ce68430eec54d0cbcda9cfd91a646e6e3efc128292f949c6e8ee24b766cf9ce196db4a18061743131ba6ff6a2298d7b3ea55942475c5f10cefe26d0c36bc2415c5f5209e8c0658de77e7143791e66a9996ed94bdb481afa36213b05b18be1307048132254a23d83e8093aa2e62732501667beccceb6d6fd71aed72d1abffcba2d0b9968235d97027423e849f52b94afa46551cf55b4368ed9301cb8a5ae93de1219a2ce7164171b7972d258de6692e0141b5f06ff63eaab24572616881418fc84f588f09ce477444323dd978cea3aa7877968d14cc785f37ec9590e6e8ff93e3e0f4bfbfa7727e4e97d85c4c04775b6641a2b29452d6298c15cbde474b4f3343792bea112b516643e2b7f12423df19fcabca0b12de28c825adcdeebcd339ed2ba8687556d4e3941daed4714f10a719d2ab75a765ab19fe501248b1193a8b00bad5f1692b0ce086600cd7e797c22b64b30285f8930c743d88fba10d3da020e5e61885be3d99eb2789d8efe77c11ca420337e9b2e643bafc688898111cc6dcf8f98d6fc230ca85912d2df6bdd76a76cdcb91d72e08b6eaace62446ffaf385ed18b6f705b1a1df0bb12e36fa6f3a83e0b3363704061cf8f2cd5318c2011c0dc750c89d1b00c778b736f99e639af4cc805159263e16c24dace481cf4b8fe2f0d8c30ac115221242aa8410ea5c77810b73c016d8ad0a0affaeba4ad1406c0a88fb75de91f1cb7b25ea853e315bac3b3c5a8ebdf91791c7acd2993c0fc742cd09bc3b92adf33ab8881f3823b938f02e30dd4e69247265fbf6f040662da3023a42f8c2ad17e51b81ca7974812d01484c3ef0ddba584fdaaf21964cae21198f4940d6dcb8bae62d7df1cb0b2d74b94a5fc823ef48701e4a07b9805690c8ec3c912ce049cc5e367a4b1ca0bcf4ec4a53e240b76b4ff7a45d00df0192331ac86c5b53665aaeace84e36896c669a47bafe4dce648a22d9cec0ccd81318889a1f1c315a9ae3872b9a8cd742765dd889af5b6fb77613cb4dea2fa70359d59cf8f4f816658646a8134485e0c477672b4b3802f93b0fa1912f6e64fc2c43da105acf9290d21547911a9706c9c88bcdc025de373f000acb4087a0620f7b281abdff10d77228b8d0cc52b6e2f2e6c054dc4112869da2b8a8f2e98528b25db6701e2666c96169247b7ae5adc642b1bbfdd6a2c153ce1cba063d95f8a745a8741ca12880863f0386621f07cc558d60770195b719acd68bed526e004a0b7562b782b4803b4f7b23fcef3023499e2ec4e0833ce3dee2c206a073cb5b744c25edcde46e9d255bdc835d02ca467864eeb48d01c45748b77c6f8bfe505ace65db1835c3ba3d337283e281c3cce7dfc7c679a5c781fcd0fffc7a222920dc4dd144da5fe8d081a384f2f3c332eb8393764423ecdfa37f5756fea8f1fc079ad26975cc85b5bd7ebd2fa5fa9cd2cab40a4acaa133fe9fa31a54db2aa5ef10268745be396d3f13ff3265af112af90f8243f3faa1411de0270e3c6078d97f9827c1fc0cd0650f16c75e69b3782e394fc42151f342123d9fccfa889e214ce4b37a0888a37f6fbf7759d1ab48bb320d90f2eaee4ce87b3f8e5d25b927593293b989f88db0d7af43c40fc07a600d7f6b98062730f40739970a8b28f9d64c81d0ae6a589dbaf2bce","tag":"084644fe3f0aee44d17f2af9c8b2fa19"};
+
+    function hexToBytes(hex) {
+      var arr = new Uint8Array(hex.length / 2);
+      for (var i = 0; i < hex.length; i += 2) arr[i / 2] = parseInt(hex.slice(i, i + 2), 16);
+      return arr;
+    }
+
+    function deriveKey(password, salt) {
+      var enc = new TextEncoder();
+      return crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveKey"])
+        .then(function(km) {
+          return crypto.subtle.deriveKey(
+            { name: "PBKDF2", salt: salt, iterations: 100000, hash: "SHA-256" },
+            km,
+            { name: "AES-GCM", length: 256 },
+            false, ["decrypt"]
+          );
+        });
+    }
+
+    function decryptData(encObj, password) {
+      var salt = hexToBytes(encObj.salt);
+      var iv = hexToBytes(encObj.iv);
+      var data = hexToBytes(encObj.data);
+      var tag = hexToBytes(encObj.tag);
+      var combined = new Uint8Array(data.length + tag.length);
+      combined.set(data); combined.set(tag, data.length);
+      return deriveKey(password, salt).then(function(key) {
+        return crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, combined);
+      }).then(function(dec) {
+        return new TextDecoder().decode(dec);
+      });
+    }
+
+    function formatDate(d) {
+      if (!d) return "";
+      var parts = d.split("-");
+      return parts[0] + ". " + parseInt(parts[1]) + ". " + parseInt(parts[2]);
+    }
+
+    function renderEntry(entry) {
+      document.getElementById("entry-date").textContent = formatDate(entry.date);
+      document.getElementById("entry-tags").innerHTML = (entry.tags || []).map(function(t) { return '<span class="tag">#' + t + "</span>"; }).join("");
+      document.getElementById("entry-title").textContent = entry.title || "";
+      document.getElementById("entry-body").innerHTML = entry.contentHtml || '<p style="color:#555">내용이 없습니다.</p>';
+      document.getElementById("lock-screen").style.display = "none";
+      document.getElementById("article-content").style.display = "block";
+      if (window.renderMathInElement) {
+        renderMathInElement(document.getElementById("entry-body"), {
+          delimiters: [{left:"\\[",right:"\\]",display:true},{left:"\\(",right:"\\)",display:false}]
+        });
+      }
+    }
+
+    function unlock() {
+      var pw = document.getElementById("pw-input").value;
+      var errEl = document.getElementById("lock-error");
+      var btn = document.getElementById("btn-unlock");
+      var input = document.getElementById("pw-input");
+      if (!pw) return;
+      btn.disabled = true;
+      btn.textContent = "복호화 중...";
+      errEl.textContent = "";
+      input.classList.remove("error");
+      decryptData(ENCRYPTED, pw).then(function(plaintext) {
+        var entry = JSON.parse(plaintext);
+        renderEntry(entry);
+        sessionStorage.setItem("lab_pw", pw);
+      }).catch(function() {
+        input.classList.add("error");
+        errEl.textContent = "비밀번호가 올바르지 않습니다.";
+        btn.disabled = false;
+        btn.textContent = "열기";
+        input.value = "";
+        input.focus();
+      });
+    }
+
+    document.getElementById("pw-input").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") unlock();
+    });
+
+    var saved = sessionStorage.getItem("lab_pw");
+    if (saved) { document.getElementById("pw-input").value = saved; unlock(); }
+  </script>
+  <script>
+    (function() {
+      var toggle = document.querySelector(".nav-toggle");
+      var links = document.querySelector(".nav-links");
+      if (toggle && links) {
+        toggle.addEventListener("click", function() {
+          var isOpen = links.classList.toggle("open");
+          toggle.setAttribute("aria-expanded", isOpen);
+          toggle.textContent = isOpen ? "✕" : "☰";
+        });
+        links.querySelectorAll("a").forEach(function(a) {
+          a.addEventListener("click", function() {
+            links.classList.remove("open");
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.textContent = "☰";
+          });
+        });
+      }
+    })();
+  </script>
+  <script src="/scripts/theme.js"></script>
+</body>
+</html>

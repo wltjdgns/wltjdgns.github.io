@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>연구기록 | wltjdgns</title>
+  <meta name="robots" content="noindex, nofollow">
+  <script>(function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; transition: background-color 0.3s, color 0.3s; }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center; position: relative; }
+    .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; text-decoration: none; color: var(--text); }
+    .nav-right { display: flex; align-items: center; }
+    .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; padding: 0.2rem 0.4rem; line-height: 1; }
+    .nav-links a { color: var(--gray); text-decoration: none; margin-left: 2rem; font-size: 0.9rem; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--text); }
+    #lock-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 1.5rem; text-align: center; }
+    .lock-icon { font-size: 3rem; }
+    .lock-title { font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; }
+    .lock-sub { color: var(--gray); font-size: 0.9rem; }
+    .pw-form { display: flex; gap: 0.5rem; }
+    #pw-input { background: var(--card-bg); border: 1px solid var(--border-mid); border-radius: 8px; color: var(--text); font-family: inherit; font-size: 1rem; padding: 0.75rem 1.2rem; outline: none; transition: border-color 0.2s; width: 260px; }
+    #pw-input:focus { border-color: var(--accent); }
+    #pw-input.error { border-color: var(--secondary); animation: shake 0.3s ease; }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+    .btn-unlock { background: var(--accent); color: var(--bg); border: none; padding: 0.75rem 1.4rem; border-radius: 8px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: opacity 0.2s; font-family: inherit; }
+    .btn-unlock:hover { opacity: 0.85; }
+    .btn-unlock:disabled { opacity: 0.5; cursor: not-allowed; }
+    #lock-error { color: var(--secondary); font-size: 0.85rem; min-height: 1.2em; }
+    #article-content { display: none; }
+    header { margin-bottom: 3rem; }
+    .meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+    .date { font-size: 0.82rem; color: var(--gray); font-family: 'Inter'; }
+    .tag { font-size: 0.72rem; padding: 0.15rem 0.6rem; border-radius: 10px; background: var(--surface); color: var(--muted); border: 1px solid var(--border-mid); }
+    h1.article-title { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800; line-height: 1.2; letter-spacing: -1.5px; margin-bottom: 1rem; }
+    .divider { height: 1px; background: var(--border-subtle); margin: 3rem 0; }
+    .content p { margin-bottom: 1.4rem; color: var(--content-text); font-weight: 300; }
+    .content h1 { font-size: 1.8rem; font-weight: 700; margin: 2.5rem 0 1rem; letter-spacing: -1px; }
+    .content h2 { font-size: 1.4rem; font-weight: 700; margin: 2rem 0 0.8rem; border-left: 3px solid var(--accent); padding-left: 0.8rem; }
+    .content h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.6rem; color: var(--text-soft); }
+    .content ul, .content ol { margin: 0 0 1.4rem 1.5rem; color: var(--content-text); }
+    .content li { margin-bottom: 0.4rem; font-weight: 300; }
+    .content pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; overflow-x: auto; margin-bottom: 1.4rem; }
+    .content code { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.88rem; color: var(--accent); }
+    .content pre code { color: var(--text-soft); }
+    .content blockquote { border-left: 3px solid var(--blockquote-border); padding-left: 1.2rem; color: var(--muted); font-style: italic; margin-bottom: 1.4rem; }
+    .content hr { border: none; border-top: 1px solid var(--border-subtle); margin: 2rem 0; }
+    .content figure { margin-bottom: 1.4rem; }
+    .content img { max-width: 100%; border-radius: 10px; }
+    .content figcaption { font-size: 0.8rem; color: var(--gray); text-align: center; margin-top: 0.5rem; }
+    .content a { color: var(--accent); text-decoration: none; }
+    .content a:hover { text-decoration: underline; }
+    .content strong { font-weight: 700; color: var(--text); }
+    .content .callout { background: var(--callout-bg); border: 1px solid var(--border-mid); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.4rem; color: var(--content-text); }
+    .content table { width: 100%; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
+    .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; vertical-align: middle; }
+    .content th { background: var(--surface); font-weight: 600; color: var(--text); }
+    .content td { color: var(--content-text); }
+    .content details { border: 1px solid var(--border-mid); border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
+    .content details summary { padding: 0.8rem 1rem; cursor: pointer; font-weight: 500; color: var(--text-soft); list-style: none; display: flex; align-items: center; gap: 0.5rem; }
+    .content details summary::-webkit-details-marker { display: none; }
+    .content details summary::before { content: "\25B6"; font-size: 0.65rem; color: var(--accent); transition: transform 0.2s; flex-shrink: 0; }
+    .content details[open] summary::before { transform: rotate(90deg); }
+    .content details summary:hover { background: var(--summary-hover); }
+    .content .toggle-content { padding: 0.2rem 1rem 0.8rem 2rem; border-top: 1px solid var(--border-subtle); }
+    .content details.toggle-heading summary h1, .content details.toggle-heading summary h2, .content details.toggle-heading summary h3 { margin: 0; display: inline; }
+    .content .column-list { display: flex; gap: 1.5rem; margin-bottom: 1.4rem; }
+    .content .column { flex: 1; min-width: 0; }
+    .content .math-block { overflow-x: auto; margin-bottom: 1.4rem; }
+    .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
+    .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }
+    .content .db-table { border-collapse: collapse; font-size: 0.88rem; }
+    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
+    .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; }
+    .content .db-table td { color: var(--content-text); }
+    .content .db-table td:first-child { white-space: normal; }
+    .content .n-select, .content .n-status { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 0.78em; font-weight: 500; white-space: nowrap; line-height: 1.6; }
+    .content table { display: block; overflow-x: auto; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
+    .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; }
+    .content th { background: var(--surface); font-weight: 600; color: var(--text); }
+    .content td { color: var(--content-text); }
+    @media (max-width: 767px) {
+        .nav-toggle { display: block; }
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 0.5rem 0;
+            z-index: 100;
+        }
+        .nav-links.open { display: flex; flex-direction: column; }
+        .nav-links a { margin-left: 0; padding: 0.9rem 1.5rem; border-bottom: 1px solid var(--border-subtle); }
+        .nav-links a:last-child { border-bottom: none; }
+    }
+    @media (max-width: 640px) {
+        .container { padding: 0 1.2rem; }
+        nav { padding: 1.5rem 0; margin-bottom: 3rem; }
+        .content .column-list { flex-direction: column; }
+        .content pre { padding: 1rem; font-size: 0.82rem; }
+        .content h1 { font-size: 1.5rem; }
+        .content h2 { font-size: 1.2rem; }
+        footer { flex-direction: column; gap: 0.5rem; }
+    }
+    @media (max-width: 480px) {
+        h1.article-title { letter-spacing: -0.5px; }
+        .pw-form { flex-direction: column; align-items: stretch; }
+        #pw-input { width: 100%; }
+    }
+    @media (min-width: 1600px) {
+        .container { max-width: 1000px; padding: 0 4rem; }
+    }
+    footer { padding: 4rem 0; border-top: 1px solid var(--border); color: var(--muted-dark); font-size: 0.8rem; margin-top: 4rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a href="/" class="logo">WLTJDGNS.LOG</a>
+      <div class="nav-right">
+        <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+        <div class="nav-links">
+          <a href="/#articles">Articles</a>
+          <a href="/#projects">Projects</a>
+          <a href="/lab/">연구기록 홈</a>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="테마 변경">☀️</button>
+      </div>
+    </nav>
+
+    <div id="lock-screen">
+      <div class="lock-icon">🔒</div>
+      <h1 class="lock-title">연구기록</h1>
+      <p class="lock-sub">비공개 영역입니다. 비밀번호를 입력하세요.</p>
+      <div class="pw-form">
+        <input type="password" id="pw-input" placeholder="비밀번호" autocomplete="current-password">
+        <button class="btn-unlock" id="btn-unlock" onclick="unlock()">열기</button>
+      </div>
+      <p id="lock-error"></p>
+    </div>
+
+    <div id="article-content">
+      <header>
+        <div class="meta">
+          <span class="date" id="entry-date"></span>
+          <div id="entry-tags"></div>
+        </div>
+        <h1 class="article-title" id="entry-title"></h1>
+      </header>
+      <div class="divider"></div>
+      <div class="content" id="entry-body"></div>
+    </div>
+
+    <footer><p>&copy; 2026 wltjdgns. Recorded with curiosity.</p></footer>
+  </div>
+
+  <script>
+    var ENCRYPTED = {"salt":"f905a7515e87ebee704a5e47143625937e6c4e7687cd67dfad7a384feb0d6bca","iv":"a15f9b4692cabcc327b9b9da","data":"110f709576d811a27e5e28e8153199e8d00055814286d5da51163b066e7a9e991766e86b9a97617a353ced133fabd7c3c13df52fb55b6d049796c2fee7e213977b7f389d2ee6384a73360448cbc7a5c372711d94d1ecba0abacc84be6bd05a9af4fc37a6ec93f7ef62861dfb1f48bbcb501b9692d972aca47bba3f887892c24a6524cae393e957f05259f0e885f3824a78e9755c23b26a06d182a2b9491e310a63ae6dcd536122adda879b42117db53f79173f81abe67a69bd9f55693d8ef7f1c105321fe4bcac0e2fdd82541306b7dcf1c6070a0e1778f7728073cb5535a126b5c53952f570e7cff18f5f65543cff3e6abe2c0db4fe71b9f65a107ae0930a3f624e632e7637dcadba1bc02a265f42167f2d9fb9beb28a3a719a39037b210edab0ae44d3a5c09e5c66dbbf1d28dfac6b43185a63737b3ec2af444641aa7111283218ac8b78fce29ca6cca3f3049eafe3ab488423428db2b4dc6c68c7946310d2ae821f6e6152e40cd9beb6f65a2d48692f9712dd5444b72aa49034e838a2f2588152e1dc2198299736da8661843e37caa69fdc438dc2bb4adaa0e11aaec81a0a564ea2930bb47fafb1a4cf2af2263b619d2c8089f6c22069d5450f13d862a0fae50dd52c1694e21e2ff54d62a7cf89cbe7e62668aeff859aa871b94740cb5c6a07b7afeef3089415f4877c0da3ce3d51835d754be01bceb95b491562da4ed4681c0d17ee3121c3b126acc9e13422bc105802bf350c799a8fb0d990c0a4a4b7b62b5dcd7c80c3125c50610d918d336e57cea2620871f5049788514863b88d116577c07d62fe4ffb091ef860fcdeefe1ba758640f26d7f57b36b263d990f106dbdb5fdac294cddb62fe2287bc4dc51694517c702f317a9150d0a19fb841168cb5dad71435e751c66281aad1cffbee4d44e095241aa40aca9db40b5f2c6b36593d2fcb1fdaf5715395f1393be577f17b6ee19794eb15c22824adbe2d0fa76f1138b87d82bfa3b4a1a726ae4aab558188ec9b08fb9e2621f3d1cf147ef39426e7c44b9da2dbf81ee77e83da3a51e12ef8b0f55f0a2c39f487e7d0da2376cfe06fa5cae14c09f4074d82327a27fed3b95562506302c9c775ff5a4c54852bd3ea5686a4f09c64217877946e39f93e3343f2d8cfb360bf04ae45c55394e01321173739075141d247c073349d0f1d779c4981e8b2936cfd256e41e3351fb1c12f6a46b32e1e29bae5c9b3122bb7cc8b9c77c5fbc646d526ef981c12de37f1420f1804d37b734a0be0cd01d9d02f06b18f5ab11c1f432bd0935eaac20f3cc7fe0927c4440a4598bb125455c7d406c16ee8aae79ed42f8ebb21310da0165a2c3900495d8eea90766d78a5f84fb0b7815b585786fd584d8843a7e40b0b1cb0c599be94d5b5678a950c08590a154dfdd73f8787731187ebcb7198841af6a247ae12aa0a7e912d468fda709278160a8d336136a7bb8736a928226aaef16f08da482aad3c3a6d7ff5f22a0690697ffba8045e2de8a1851d94b0eb1bfb61040793465218dd7fd93311663c561d5e328fecf5944c598c36c55011f061c62ea645e7c7a8603d5f4bbad5305ba4a6bcf5acfecdb7703e35091e9dd212faaa3702adf9efd1246e6200cbab5934d152458b2b4232222028725a6edc20f308f2919931b0c2ac8bb8ad22a811decd221b8be1e4232d9058ca5bd3c2d139deb99f7173d7c539a9318b8c21caf5c4c2eddfdb3f388ae2b55fce73dad41d54f60b1ebaf44e70ff60c04025222cc78e3d8ce4e32728b8e574e5712e848d82e6d93edca2250ef0d4fd26b19dbcc63d1d6409a354c3c84dcca398a1531d2e82dc92f0f4a69a3b934988fdb3badc6e279703801ca8170f0268fdfc29d5069d1f40a4278177bf67858b34993edb68266047d5fbb02965abbe91c5f89ea0b7a562b61e331e9c0f1fe1e97a8b7bbde7657e1d9d85aba3866cb5372f23584716586c57eeb5b645e8f5c3d024a597ea9b0a13490673715fc84b6498e871a4f42aeb92f196a73ada977b04dbcb18e6cac6dc93cc2cdf9bb44688a51d6f3ef00a58909b2ceccaad490ffd69997479e5c43c0676f8b9533f5e066b85165345b5ad88d7443a26208a6b228d019a409732b3895d26f456662beaef36c2f51eab3a56bc5e332ea52dfc189ab7b28dbaf176410e559ae41e3a9d9746380970301b7376d5bc43f13051f60fc565efc56b1ffd544eaa39ccbd630580f915e002fca43b96049ca85d8fcd08117db9fd1896a06e818d8d737107959d42b418324ad337575258df0817cd31182949c7a8f51786d51cf117a5d1b3f0e4f821b0354959b05d295b71e7141b841b3e924bcd81df41c57ec0c2866173256d6d02030d95cdd61cd58a33363bfea290b390100c439d9998be593b0e3ac28b926092c725612ce2493e771fa08c93bf9f68ae9e599a996d4b6841db1843cb93a1c8932b728c2aa0fbb2af6d698537f1568d11185b14234969ff5dc47a3e58f46a0bb6b929b68fe04e8ba5431e21137f74502f68465c6e51712714d803b3a579457845aebabecd00600bfe7d15d44aef1a6fbef5088e23197a811492618aeaf9f6a4c97e188a8a52887cddda6965dc82cb1701eecb7ea4eef499e896a09c16ad5b739698e3dd534e71ac295c54f25297606c23525bc89420939e463b04be90263f2c1a6bc689138780b02eb00a94215235d70e7043112c4f64aa44c748546f3232b74b95090498be3d7bc0f47ca62c14e2e90b336be92854426b495c8715f6d182e0e4241846414f5bae57682073797b34018115005e112297d962061d19b73f9bd353293d329b85b5234cc2e6926ba5f70abeade1ea1f596f7cfd5e0a4eff5df5fc0e9315aa200765626481065041ebcb36e1107060803e165279b8ada66a192e6d45016febc9f3b0475565620bc39ae04a3c18dd20fa1a27856741a65afdc8bc62a57e8cf0a526d5578c149a9fd670c79ef168ade168c291a57e59ea20a539131da67492299be725384ee4f9f04a834237242cf083aaaa4bbbb5b9b6e3add0372dadd897fee25adc8bc8a66c59a5fafe5093076f11bb3a96c5cb2edb0e03019caa6b2b3d9199a1945141a077d209c519a342e2dcb3557e9f1369f137139210e6e3e5cf848558f7ed669e33800f53750e649c9541ee038a8a54742cbeb06bf1c4840f9cbfebeca1f4a9adf17fa2d0c5ccb0160a8ac6d3138c86f7c5cdaff1c9ddaf2f2ed4a7e84bf8612551760234801f3c924853406d1b23842d37322333696f2c8314e93dc601e916a86153bebadaa760cdd4eda69082f6282a6cd72faa6b6ddd880ba9f80eac19ba025b93222646a7630cd16dfe445fe38f4c62de14b0a0bb04a0958eaf36015b1dee997e7d169a99be227db956534dc3b47476c46c7d4ec3759e9cca763375e5b641dd7ffb8154ecfccad15a6a280119a2d8196487bfeaee7a63a13bf08b2bc7c5cee00721475e0fcbb8e4eb4615212b808fc431acd90cab853d51d54ce243e5b80f7bd94eb0f40ec84a7c47877449b179425119452fe98681040eb7ad07dee701a88ecec1087f0f9c549d7eb51b6e0dd5e67a9c5a0ae21e7d61b8f6cc5e9818eb9058745aa229472474d7233d4c68c8652c7b6961b","tag":"02a1fea660b452251818228477bc1703"};
+
+    function hexToBytes(hex) {
+      var arr = new Uint8Array(hex.length / 2);
+      for (var i = 0; i < hex.length; i += 2) arr[i / 2] = parseInt(hex.slice(i, i + 2), 16);
+      return arr;
+    }
+
+    function deriveKey(password, salt) {
+      var enc = new TextEncoder();
+      return crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveKey"])
+        .then(function(km) {
+          return crypto.subtle.deriveKey(
+            { name: "PBKDF2", salt: salt, iterations: 100000, hash: "SHA-256" },
+            km,
+            { name: "AES-GCM", length: 256 },
+            false, ["decrypt"]
+          );
+        });
+    }
+
+    function decryptData(encObj, password) {
+      var salt = hexToBytes(encObj.salt);
+      var iv = hexToBytes(encObj.iv);
+      var data = hexToBytes(encObj.data);
+      var tag = hexToBytes(encObj.tag);
+      var combined = new Uint8Array(data.length + tag.length);
+      combined.set(data); combined.set(tag, data.length);
+      return deriveKey(password, salt).then(function(key) {
+        return crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, combined);
+      }).then(function(dec) {
+        return new TextDecoder().decode(dec);
+      });
+    }
+
+    function formatDate(d) {
+      if (!d) return "";
+      var parts = d.split("-");
+      return parts[0] + ". " + parseInt(parts[1]) + ". " + parseInt(parts[2]);
+    }
+
+    function renderEntry(entry) {
+      document.getElementById("entry-date").textContent = formatDate(entry.date);
+      document.getElementById("entry-tags").innerHTML = (entry.tags || []).map(function(t) { return '<span class="tag">#' + t + "</span>"; }).join("");
+      document.getElementById("entry-title").textContent = entry.title || "";
+      document.getElementById("entry-body").innerHTML = entry.contentHtml || '<p style="color:#555">내용이 없습니다.</p>';
+      document.getElementById("lock-screen").style.display = "none";
+      document.getElementById("article-content").style.display = "block";
+      if (window.renderMathInElement) {
+        renderMathInElement(document.getElementById("entry-body"), {
+          delimiters: [{left:"\\[",right:"\\]",display:true},{left:"\\(",right:"\\)",display:false}]
+        });
+      }
+    }
+
+    function unlock() {
+      var pw = document.getElementById("pw-input").value;
+      var errEl = document.getElementById("lock-error");
+      var btn = document.getElementById("btn-unlock");
+      var input = document.getElementById("pw-input");
+      if (!pw) return;
+      btn.disabled = true;
+      btn.textContent = "복호화 중...";
+      errEl.textContent = "";
+      input.classList.remove("error");
+      decryptData(ENCRYPTED, pw).then(function(plaintext) {
+        var entry = JSON.parse(plaintext);
+        renderEntry(entry);
+        sessionStorage.setItem("lab_pw", pw);
+      }).catch(function() {
+        input.classList.add("error");
+        errEl.textContent = "비밀번호가 올바르지 않습니다.";
+        btn.disabled = false;
+        btn.textContent = "열기";
+        input.value = "";
+        input.focus();
+      });
+    }
+
+    document.getElementById("pw-input").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") unlock();
+    });
+
+    var saved = sessionStorage.getItem("lab_pw");
+    if (saved) { document.getElementById("pw-input").value = saved; unlock(); }
+  </script>
+  <script>
+    (function() {
+      var toggle = document.querySelector(".nav-toggle");
+      var links = document.querySelector(".nav-links");
+      if (toggle && links) {
+        toggle.addEventListener("click", function() {
+          var isOpen = links.classList.toggle("open");
+          toggle.setAttribute("aria-expanded", isOpen);
+          toggle.textContent = isOpen ? "✕" : "☰";
+        });
+        links.querySelectorAll("a").forEach(function(a) {
+          a.addEventListener("click", function() {
+            links.classList.remove("open");
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.textContent = "☰";
+          });
+        });
+      }
+    })();
+  </script>
+  <script src="/scripts/theme.js"></script>
+</body>
+</html>
