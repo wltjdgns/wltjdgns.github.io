@@ -73,6 +73,8 @@ function getPropText(prop) {
 function getPropHtml(prop) {
   if (!prop) return '';
   const t = prop.type;
+  if (t === 'title') return richTextToHtml(prop.title);
+  if (t === 'rich_text') return richTextToHtml(prop.rich_text);
   if (t === 'select' && prop.select)
     return mkBadge(prop.select.name, prop.select.color || 'default', 'n-select');
   if (t === 'multi_select') {
@@ -83,6 +85,17 @@ function getPropHtml(prop) {
   }
   if (t === 'status' && prop.status)
     return mkBadge(prop.status.name, prop.status.color || 'default', 'n-status');
+  if (t === 'url' && prop.url)
+    return '<a href="' + esc(prop.url) + '" target="_blank" rel="noopener">' + esc(prop.url) + '</a>';
+  if (t === 'email' && prop.email)
+    return '<a href="mailto:' + esc(prop.email) + '">' + esc(prop.email) + '</a>';
+  if (t === 'files')
+    return (prop.files || []).map(f => {
+      const u = f.type === 'external' ? f.external.url : (f.file ? f.file.url : '');
+      if (!u) return '';
+      const name = f.name || u;
+      return '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(name) + '</a>';
+    }).filter(Boolean).join('<br>');
   return esc(getPropText(prop));
 }
 
@@ -490,7 +503,7 @@ function generateLabEntryPage(entryEncrypted) {
 '    .content .db-scroll-spacer { height: 1px; }\n' +
 '    .content .db-table-wrap { overflow-x: auto; }\n' +
 '    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }\n' +
-'    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }\n' +
+'    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; word-break: normal; overflow-wrap: anywhere; }\n' +
 '    .content .db-table td a { word-break: break-all; }\n' +
 '    .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }\n' +
 '    .content .db-table th:hover { background: var(--surface); }\n' +
