@@ -228,9 +228,11 @@ function blocksToHtml(blocks) {
         const dbTitle = (block.child_database && block.child_database.title) || 'Database';
         const schema = block._dbSchema || {};
         const rows = block._dbRows || [];
-        // Fixed column order
-        const FIXED_ORDER = ['Name', 'Data Type', 'domain', 'Static/Dynamic', 'Year', 'Conference', 'indoor/outdoor', 'ACCESS', '특이사항'];
-        const columns = FIXED_ORDER.filter(c => schema[c]);
+        // Dynamically build columns from schema: title column first, then all others
+        const allKeys = Object.keys(schema);
+        const titleCol = allKeys.find(k => schema[k] && schema[k].type === 'title');
+        const otherCols = allKeys.filter(k => k !== titleCol);
+        const columns = titleCol ? [titleCol, ...otherCols] : allKeys;
         html += '<div class="db-title">📊 ' + esc(dbTitle) + '</div>\n';
         if (columns.length && rows.length) {
           html += '<div class="db-table-wrap"><table class="db-table">\n<thead><tr>';
@@ -406,7 +408,7 @@ function generateLabEntryPage(entryEncrypted) {
 '  <style>\n' +
 '    * { margin: 0; padding: 0; box-sizing: border-box; }\n' +
 '    body { background: var(--bg); color: var(--text); font-family: \'Inter\', \'IBM Plex Sans KR\', sans-serif; line-height: 1.8; word-break: keep-all; transition: background-color 0.3s, color 0.3s; }\n' +
-'    .container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }\n' +
+'    .container { max-width: 1280px; margin: 0 auto; padding: 0 3rem; }\n' +
 '    nav { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: center; position: relative; }\n' +
 '    .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; text-decoration: none; color: var(--text); }\n' +
 '    .nav-right { display: flex; align-items: center; }\n' +
@@ -506,11 +508,12 @@ function generateLabEntryPage(entryEncrypted) {
 '    }\n' +
 '    @media (max-width: 480px) {\n' +
 '        h1.article-title { letter-spacing: -0.5px; }\n' +
+'        header { margin-bottom: 2rem; }\n' +
 '        .pw-form { flex-direction: column; align-items: stretch; }\n' +
 '        #pw-input { width: 100%; }\n' +
 '    }\n' +
 '    @media (min-width: 1600px) {\n' +
-'        .container { max-width: 1000px; padding: 0 4rem; }\n' +
+'        .container { max-width: 1400px; padding: 0 4rem; }\n' +
 '    }\n' +
 '    footer { padding: 4rem 0; border-top: 1px solid var(--border); color: var(--muted-dark); font-size: 0.8rem; margin-top: 4rem; }\n' +
 '  </style>\n' +
