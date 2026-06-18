@@ -40,10 +40,35 @@
       "Computer Vision",
       "Sensor Fusion"
     ],
-    "지금 하는 것": [
-      "(Game) 사과게임 고도화",
-      "(Report) 여러가지 써두기",
-      "(Research) 3D Sensor/Real-time Detection"
+    "Todo": [
+      {
+        "text": "DSEC dataset 다운 받아서 내부 파일 분석",
+        "checked": false
+      },
+      {
+        "text": "M3ED dataset 다운 받아서 내부 파일 분석",
+        "checked": false
+      },
+      {
+        "text": "DSEC를 발전시킨 dataset 싹 다 찾기",
+        "checked": false
+      },
+      {
+        "text": "M3ED를 발전시킨 dataset 싹 다 찾기",
+        "checked": false
+      },
+      {
+        "text": "DSEC를 dataset으로 쓴 논문들 list up & task 별로 분류",
+        "checked": false
+      },
+      {
+        "text": "M3ED를 dataset으로 쓴 논문들 list up & task 별로 분류",
+        "checked": false
+      },
+      {
+        "text": "분류된 논문들 중에 읽어볼만한 논문 찾기",
+        "checked": false
+      }
     ],
     "소개": [
       "여러가지 하고 싶은게 있으면 바로 해보는 편입니다."
@@ -53,5 +78,5 @@
       "B.E. EE, Kyungpook National University(2019~2024)"
     ]
   },
-  "updatedAt": "2026-06-18T07:47:22.384Z"
+  "updatedAt": "2026-06-18T09:26:50.100Z"
 }
