@@ -466,8 +466,9 @@ function generateLabEntryPage(entryEncrypted) {
 '    .content .db-scroll-top { overflow-x: auto; overflow-y: hidden; }\n' +
 '    .content .db-scroll-spacer { height: 1px; }\n' +
 '    .content .db-table-wrap { overflow-x: auto; }\n' +
-'    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }\n' +
+'    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: max-content; min-width: 100%; display: table; overflow-x: visible; }\n' +
 '    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }\n' +
+'    .content .db-table td a { word-break: break-all; }\n' +
 '    .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }\n' +
 '    .content .db-table th:hover { background: var(--surface); }\n' +
 '    .content .db-table th .sort-icon { font-size: 0.65rem; opacity: 0.4; margin-left: 0.2rem; }\n' +
@@ -632,13 +633,13 @@ function generateLabEntryPage(entryEncrypted) {
 '        var rowCount = container.querySelector(".db-row-count");\n' +
 '        if (!scrollTop || !tableWrap || !table) return;\n' +
 '        /* sync top scrollbar width */\n' +
-'        function syncWidth() { scrollSpacer.style.width = table.scrollWidth + "px"; }\n' +
-'        syncWidth();\n' +
+'        function syncWidth() { scrollSpacer.style.width = tableWrap.scrollWidth + "px"; }\n' +
+'        setTimeout(syncWidth, 0);\n' +
 '        var ro = window.ResizeObserver ? new ResizeObserver(syncWidth) : null;\n' +
 '        if (ro) ro.observe(table);\n' +
 '        var syncing = false;\n' +
-'        scrollTop.addEventListener("scroll", function() { if (!syncing) { syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; syncing = false; } });\n' +
-'        tableWrap.addEventListener("scroll", function() { if (!syncing) { syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; syncing = false; } });\n' +
+'        scrollTop.addEventListener("scroll", function() { if (syncing) return; syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });\n' +
+'        tableWrap.addEventListener("scroll", function() { if (syncing) return; syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; requestAnimationFrame(function() { syncing = false; }); });\n' +
 '        /* sort */\n' +
 '        var ths = table.querySelectorAll("thead th");\n' +
 '        var tbody = table.querySelector("tbody");\n' +
