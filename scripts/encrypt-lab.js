@@ -15,7 +15,7 @@ function notionRequest(endpoint, method = 'GET', body = null) {
       method,
       headers: {
         'Authorization': 'Bearer ' + TOKEN,
-        'Notion-Version': '2022-06-28',
+        'Notion-Version': '2025-09-03',
         'Content-Type': 'application/json'
       }
     };
@@ -214,11 +214,16 @@ function blocksToHtml(blocks) {
         const dbTitle = (block.child_database && block.child_database.title) || 'Database';
         const schema = block._dbSchema || {};
         const rows = block._dbRows || [];
-        // Dynamically build columns from schema: title column first, then all others
-        const allKeys = Object.keys(schema);
-        const titleCol = allKeys.find(k => schema[k] && schema[k].type === 'title');
-        const otherCols = allKeys.filter(k => k !== titleCol);
-        const columns = titleCol ? [titleCol, ...otherCols] : allKeys;
+        // Use view column order if available, otherwise fallback to schema order
+        let columns;
+        if (block._dbColumnOrder && block._dbColumnOrder.length > 0) {
+          columns = block._dbColumnOrder;
+        } else {
+          const allKeys = Object.keys(schema);
+          const titleCol = allKeys.find(k => schema[k] && schema[k].type === 'title');
+          const otherCols = allKeys.filter(k => k !== titleCol);
+          columns = titleCol ? [titleCol, ...otherCols] : allKeys;
+        }
         html += '<div class="db-title">📊 ' + esc(dbTitle) + '</div>\n';
         if (columns.length && rows.length) {
           html += '<div class="db-container">';
@@ -283,6 +288,24 @@ async function fetchBlocksRecursively(blockId) {
       // Fetch schema
       const dbResp = await notionRequest('databases/' + block.id);
       block._dbSchema = (dbResp.object === 'error') ? {} : (dbResp.properties || {});
+      // Fetch view for column order
+      block._dbColumnOrder = null;
+      try {
+        const viewsResp = await notionRequest('databases/' + block.id + '/views');
+        if (viewsResp.results && viewsResp.results.length > 0) {
+          const view = viewsResp.results[0];
+          const config = view.configuration || {};
+          const viewProps = config.properties || [];
+          const visibleIds = viewProps.filter(p => p.visible !== false).map(p => p.property_id);
+          if (visibleIds.length > 0) {
+            const idToName = {};
+            for (const [name, prop] of Object.entries(block._dbSchema)) {
+              idToName[prop.id] = name;
+            }
+            block._dbColumnOrder = visibleIds.map(id => idToName[id]).filter(Boolean);
+          }
+        }
+      } catch (e) { /* views not supported, fallback to schema order */ }
       // Fetch rows
       let rowCursor = null;
       block._dbRows = [];
