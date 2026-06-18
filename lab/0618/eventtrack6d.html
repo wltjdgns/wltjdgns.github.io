@@ -77,13 +77,45 @@
     .content .column { flex: 1; min-width: 0; }
     .content .math-block { overflow-x: auto; margin-bottom: 1.4rem; }
     .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
-    .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }
-    .content .db-table { border-collapse: collapse; font-size: 0.88rem; }
+    .content .db-container { margin-bottom: 1.4rem; }
+    .content .db-toolbar { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+    .content .db-filter-input { background: var(--card-bg); border: 1px solid var(--border-mid); border-radius: 6px; color: var(--text); font-family: inherit; font-size: 0.85rem; padding: 0.4rem 0.8rem; outline: none; transition: border-color 0.2s; width: 240px; }
+    .content .db-filter-input:focus { border-color: var(--accent); }
+    .content .db-row-count { font-size: 0.78rem; color: var(--gray); white-space: nowrap; }
+    .content .db-scroll-top { overflow-x: auto; overflow-y: hidden; }
+    .content .db-scroll-spacer { height: 1px; }
+    .content .db-table-wrap { overflow-x: auto; }
+    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
     .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
-    .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; }
+    .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
+    .content .db-table th:hover { background: var(--surface); }
+    .content .db-table th .sort-icon { font-size: 0.65rem; opacity: 0.4; margin-left: 0.2rem; }
+    .content .db-table th.sort-asc .sort-icon::after { content: "▲"; opacity: 1; }
+    .content .db-table th.sort-desc .sort-icon::after { content: "▼"; opacity: 1; }
     .content .db-table td { color: var(--content-text); }
     .content .db-table td:first-child { white-space: normal; }
+    .content .db-table tr.db-row-hidden { display: none; }
     .content .n-select, .content .n-status { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 0.78em; font-weight: 500; white-space: nowrap; line-height: 1.6; }
+    .n-color-default { background: #2d2d2d; color: #aaa; }
+    .n-color-gray { background: #3a3a3a; color: #9b9a97; }
+    .n-color-brown { background: #3d2b1f; color: #c4a882; }
+    .n-color-orange { background: #4a2500; color: #e8850a; }
+    .n-color-yellow { background: #3d3000; color: #dfab01; }
+    .n-color-green { background: #0d2e1e; color: #3dba8a; }
+    .n-color-blue { background: #0a2233; color: #4db8d9; }
+    .n-color-purple { background: #281a4a; color: #a882d9; }
+    .n-color-pink { background: #3d0d2a; color: #e05caa; }
+    .n-color-red { background: #3d1010; color: #e06060; }
+    [data-theme="light"] .n-color-default { background: #e3e2e0; color: #5a5a5a; }
+    [data-theme="light"] .n-color-gray { background: #e3e2e0; color: #6b6b6b; }
+    [data-theme="light"] .n-color-brown { background: #eee0da; color: #6b4c3b; }
+    [data-theme="light"] .n-color-orange { background: #fadec9; color: #a05a00; }
+    [data-theme="light"] .n-color-yellow { background: #fdecc8; color: #7a6200; }
+    [data-theme="light"] .n-color-green { background: #dbeddb; color: #1a6b4a; }
+    [data-theme="light"] .n-color-blue { background: #d3e5ef; color: #1a6b8a; }
+    [data-theme="light"] .n-color-purple { background: #e8deee; color: #6b3fa0; }
+    [data-theme="light"] .n-color-pink { background: #f5e0e9; color: #8b2a5e; }
+    [data-theme="light"] .n-color-red { background: #ffe2dd; color: #a03030; }
     .content table { display: block; overflow-x: auto; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
     .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; }
     .content th { background: var(--surface); font-weight: 600; color: var(--text); }
@@ -168,7 +200,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"bace1a8eca13f124a285ec988de09be093be3adf717db453d462bf0f130ce78e","iv":"4a60dc721e818a818948d1fa","data":"4ebf49e8ac5dca40ec298e9d235bcbb1046cac570476de645e2b1e3f46aa68e07535059ca726b76cc913dc97cdd8ff9b0462c6a53dfa5cdebf43c2461f85ee23943e14f31a1b02d37d7681243e45ee20c41397025dd0f4cd2ac2725de21482b30d30618f7c5f90634b975cfd4466ae9ff0de1e1d3c1dcb671a22334c04e6fa57de913ca67ab649c1c09659beec4f68c6ef640c50c8875481610c66e0c4e0b0716b983cf65bc1501b5b67dd81cae432f9f5961ba25a0813beeb2ff659dcf43a5fc6b6bfbf5dd5e9c00f44e88b3c2f81e14d4e84472c13bcd220c74f97caf85c2c0972c6a835d51810d30654a4d2f70d32f74da9099b071242858e1b3c149b555b54d056df739f2e8e8b4f9341d5bd0a41f09015adbef590be9d2fa3865500aefbd221cf4aebf0008415851d52e1f8de1311705d94b75be15662e4e8d0670b9666099127b16212955e9bc2f0da30fb99f3c0f85c000995def33e7d7cbf013591f832480f13c50ffc2f28d5f71ac1a1708b3d64b66ea85ceba4eb242706af145f64b6c4f55726673970bf32602da73a2da467c59d36282c322a549a62265f592566cf69acbf3998840781833d3216e8064006b75b7cef3cda1c3d83dfeeb744ce1bd888abdb63ea3ad7bf1868df6177172e3858bbfa2bdac30cdb707c2719d273bc648a21d88786143e12c18518a9d1d886bc9357dc1b35e5e78c03a0a93820857e6b339ba4a09b1326328914e213350563234fb0d18c40f6c781477dc55754c647d4845dd9098eb3464e6585b6f51b4b700a3734f310b42ae909ce31a888977b31b7b2afd80525cbec6871d17e808e2d10a2fe18f264d12f1e8cb2f1d1e6e1fe893e8fead79188016813110228417c33abcfa97d73d215d8bd4f3595853e11691a29f32409e34947a8a7455ee126972855f0cc3ed2db821bba1ab5e42b9ea90b47e3ace9e1a35fab85eda0842b28753a36ee6b371b289abc82bbf694bc4c13b1631d8494feac95b47bb04b7e787cd5e9b4703c1c36a33745243fc5ff1a53c4c2609c015d63c7c9c34c3b677e63779533ef11cd4eb43a9cf4f3b08a9b68bb230b30c478b3c126c77853263e91abf13c93766fdc542b1d7df6ea2f7cbafe58b7f14bb6b6997607ed0c68e4ebdc0915808cf909b5b21a388d842dac12224e91c47a91214bd71949a1c03bbe4917f9194865e870660d92e7da06c72d5a2e1cfd56f885b73d6dcafe752737391baf66028d7ee88897fede716f377198bbd1fe2596aedf2dc0cc9fa3589316765a7074b63e4ef696ebf065f2999423788fda349f8de5d7fc3d570fd85ece9656c223194a855bef2b82f98754b7f27d2e59d58bf7ccdef8d3b59da8cfc787780168b458390497eb4fedc66ffe032cd117045e4524d2e02cd73a9e645946fd7556ca0cda4916c77353cea75c500547ca6e91aab2c896923332d221fe5d0cdd919d6c00a804a2d9834ff7111a7ccfee3a741627e3f350ea43958e03abaa5f6a271c59d9a0cd11cbcc01a622b7aa9df66e34b1fb2594deca5e7156ec0dff55b929429a26c74a0ab5019e6aadfcac6c3c1363cce8aa1e115bdb4c5712fad9e08975f542503489dfcd2972da0ac38ab78fb72ea2ca595ea45d0aed21775e3765a2f5636dc536bdfb21ae3c3ea90363a583acd503dd3ceb7281405b06b1afae1eee400ce7ed99f60a4e2e144f3f504e3d5d792c71bb2652feaf66eb19f0d5187699d5bbca5756a2f1f87ab57c966b47cfc7fc70ed1b163dc6270963cc23f9a1d516180239f79618d9d984fad7ee28f465c0592f958ea2e9b4c2c3dffc10587ced0e08cd61a30dc0185d7536a243cccd920d5e10b3cc02487fbe93a7e979e0513cfef3319b8b2b039f28ddc4b0cffb5be782318125dfc690088e38967bc53450da14df2a8c8f0794144cfc13e415111c1010ebec04e32d1d5b415fbcbc12eaa7fbe9be716081106de72136ce6b422fb24bc53dc9956fa12d3f757c818482e98f2c59990ffc280213e25d23104bd40d93f265fd3817bf989fd1a659137d507973bc02d342299df3518b895dd9b2e41995c5ac44893d75ab1f05339faea628c3790638b6df9e1e5667f81b54d4910a0f2d2d4b9b53208c9e6f093f68221886ca5ad5eb599436015d8083e37913bb4a910310f4eb034865b39f0619dd49b86e0a4069a073e3b499d8ce321ae1c4e6754c8d0c80ce57099c110c8e0e177ddf8cb154dac0a3a503b052fd1ad57156fc13f73951a1664fd2cbab4c5b6d90e44bce5e6e11cdb445de4f07db8fd0b5115bdce7de9258cf042643ba6a941d5b8ec057339d53286368f7f4c6121162a9a0fc7b6ffd2f25d15f7e6e2cc177088ce67e5907bb8b61c0e823d5bc60e0bd7f019f212629219160e7edb8634bdc1e06f65927d52ae63f4fb0b60e6ee137d4fce98b10e05731befb1220d385abaeeb2fba49baefb441fe2f0e2e04560be9d75d24d59480de54f245c9efd4e1a2ea9f48a58d495efe3c84bafba26c91ad6efde0bb6e243837e581bbe5218a4a3b8251458a608034c46c7e462610a90c015b8b95237d59ac83c4837e895351939f8731ce3ae6821f1e0cc13d5426e8b2829c5f3cb4aaf7ed58a432bd9f9a9ebeec885b93e7c714b2f77ab2b642cfc685b9bdec50f6d3ee5b940915cef356a25c19271cf5ab93766a0eabc24b594b6e887410a18de10e9d4824a2a37e126d82a497c08d55d249d8796fa795ba8d7365019eec359192168346cbf63a7b5f8299f7f36b26c6fa4dae5e46bc6c0b6fe0fdc088c92bd0de9e1336c406f37ee003e288efce29a452a2e1b147392d87853d27656bb1e384f4122891051aadedb9b2577c298a2b7132cc06d4b4ff2ecde8139d73774dd9e1b71f78235653be1cb32ebde4d6d26425fc128447b480ef793e631a63988cd35b47ac9a30231d1fb758e5df8dfadbc4a35b973365b89615ef4f40fa57e834a2dbb463e3e507cecb3690c4470d8869225f1a9ab0510a29776e77e67853d2b6311b8eadf99b8cea0c7ce3a2806730ef196734134853f898a1a58564f0af4d50e803d2a899f20050cbfe44e7403762015ff04974f38530d0ed46c6b780cbc64f8b80a1beede5ef44d2930552c80691e093632b29210582ca23a7c88488a617b38c630de7a03b5ee5a1214280b30ca814830a02d477b70077a8413570c83531a659dbafd95b152407db8e0e1269eb42294899c7bb448578368cfb2dd3b345da9e29e1321c14c27972697988854fff050782eeed09caa9ad560ef2c66adccd5da60e1b85b5d2988585de968a430e1c02e2424598051bb3759b8dfb69ae0c418d45d63c05e8bff995dabdf10c06bf765ecaef71a553529742e03388ae0b4fa1b3a2a30b8b87b28379844a5ebc93be1a9ccdddb298868130d470b9c9c4c69b5087d77b52905a1daf317b6ea4801e49f5075a08dc2a831ba35cde854aff71a9d210261c72e596ef65b04050fccc6f08c7d73ab4cda23936385e58154970c94720523cd7e1cac2b03f2881132156edf660a060e4fb50caeb8f080cffd70e895d8b715e6ae5e4bc805cc66f2471b6b6f8f4330877b921354647b90c611ba2029189ff3fca577b5ad72dcccd0f2d2b6fda05802d2d68e7c3c59f7c62157806f12a6e7d773883e31423dc69be0ced2b9d92ae9f690b3205c01364ae8fb1fc2ecddc0e6a4e8b12","tag":"7373aa6580dd5fd7af178933886eb6fe"};
+    var ENCRYPTED = {"salt":"b228913919c23f6f8f1f2517f06121ee8bc7861606e115509306d953ad1146bd","iv":"1c2244e19464661e91cddce6","data":"a59948412066b1544022f2de7809a8799325455c0c9cfb9d17568a2b3e38c6303dc6d5a854db8c40259dc80734b7e21a2e6e162505f7ef0451f0df9e0d266f2239a42f77e580be096a7bbbf96ae6834e27c85e299f578c478a87ab41fb71e27d9f859f3722d43398ae7072ee3b1c4d6cb0db388ed98e65e602ce98c890db2747157c44d0cae1acfae4f4fcfa8aecaad72d956ecd130775979fac5a7b1a13132337c3566a2e102e8ab53003e6d95f5e8dd3ef0aa0ba2cfd2a83d446970a984a8484e2adc1f2bc1a7e88da42cae2fb8c2ec366feeaa8bd36c4633df34d352738aa3216ffac6df20b94d8e8c86e0098dfdd31173e093434f4be6098e28393716e5498d6857ce4b19fcfe12dd30921d3e4e46e081f8184ea2e8dedfe6a27e025e0b3b21c30e6dd036603fa64b970ab5a3d9420340b1fe9f718d20ef00cfe3c515f03511c3be61d512f0637168fee5608ec082f38e24cca8da3a4174c096be9a87e70f84440c71c4ac4df8cb7184d53e71b8456a8db9499dd7170a33e3ad7a01bce4e6b82337b3fee4ed581575dd88efd0957652e549ae452a890539f5c37a22b6e51178ab999417d68a0ff70d6d61722d975e498a318b67ef1872e710aa22282e362b0ddd666ac8737eb22cb1a92ec0acf201b7ea70390caf30c8eb71efa99787a6ce148ae4ade67abcdcb01a9af519971d1554cc678ca11f6979b181f4bef2a95409e0dc8c24122db0aa0962b0b5dfb04c0118f93df31976d1f2f182bfbbb2e9812789d4996e32eea5854164eb943fea4ddd5a62e8550be47c89a9582cdfbfcbc2fd0ceeafb61a8b2318a173b4c2600829617d67db42f10cad6eb3ee4937913fe09af6b980e068d91ea8f4cac14da1060fb44f21d863f22b9e2616ed218367f400fe5ff6004f652d6ef88ad5587fa4e11cce459d06b0072bf5caeaf85fccd5f7b3af313ee74c4b73e33a41a1ab561ea05615dc4ef135940053b6e1733fae15674fa59189e1dde2e65cc4c5a895fab60c468f9648ed5119141c2e068c5b84b0586c8fe37dd248fa72d7e5bc71136cf41ec35e0d7258a603cc055126431570395ac0318d5e28d2521b674eb28faad17858456f51e62c19c20a38aced857e259b2f82ceee2831e013ff4812e8819555e100b5cf72a1631ad6f5e72f4ebab4882da807d4b9256868b49091ec5c7a34368382d5b988630ad5c5936532c830cb977631a32984374460ffe1795a44c55a865ae7c9d352a4ef372c9dd0d529f4207001501093d0c1c59f7b7882db82920ab5a757317670b00b808af350560ba055c2ea31f6ecff6a8b93303b46222d02e93abec5aa1fb4c99e1896d40e5e306bc373610877eef5662521eb28d8f8280cb8936cb660b4fff4a19ccd743f5424dca99927730fa38d8d66d5ab4491829ceb4bc030e04a324fed197b44d189cfded072fbd55d17f301aae476e0df328e86aafb2b5e7a1f3e1b16761859ac27badccddde17da60c57e1b09aaa6ed5046c6ef2bc2676068d97b5b9a340b426da62ac140f70e120cabdf78d3838dcc6a5a0167f2088c3a4e3e8bcffd5af587a9a3c5e94e4b695e8791f04a89bb1bfe11c0567f86ad862386d55e759f07a8521e456beabd38c1e77ace58f6b15536f9dc02cadb6b11ba47c21c1be5b92f9895976e61df85628fc4abd6153273161eaaad55505e3512a603047b75789931b13e34345b1e4e5335374af14a6aa56bb157cc738f053a89decd6d378f5fa5af5fe280c677acb71731db8e88b2fe15edee41a27a634344da7054afee5322bc47ea9a6b95c7bc5dc23a760d08e8bb56081cf0ef7220ff306b0c07eb27138cd1cd4c4f76cb3e76e61054fd07c978aea6858f8c2504f1943bf8c9106c1786925aa8a26f03c24935856aefc4c5046ba5e05577ae997a9e057b5fd15375621fd19e1b9da0194ea72631bedcb151363a164f21bee4e682b83c173c379ebb808d595d7c943a14f24a9f2010e364d26d10962e031989095b0589e299a21c578dd11f42d4fbe4e7d4e4459f56bb2a4dacc9832847c46a5e08b8d19f48f91d0cd5ff46f3d6cb1fee14d738ce44c05580d6733d5a2974edf4c4d992e92823f771f5f27e7596d07742848ed2ae45de62409f20e10801074906a1e45358094295a8d5c777411cb47a655482d8558a4c30acc89003cbe2ef4a22131b875cc11563167d0686e6cac5c3ecbd63fd3d0c10e4a0641b19570d8cd6c95d178340ab18acc8c29ac8a7bed5b14b243a6a76bcbbac8b2d9b9f6478f26fe435de832c838adc2a9e6efc8c4616b5cfe223e6e45e24b599f6cf9cc574d3821419e9f981572428d709552b8dabbba50d10ce4170992292daa1b771338f4b73d6b531e21e0745c9c86a545c6132496c17753edeaf844fb73552214351ac91ad7267e383626bfcd80418ca840c42d8c733ba1556ab0ed281c52be0e281d3eb09a2fa8eb382032f42505ef65a9b6a1d1cf74e95de497f0b11ff15e2dfd3324d877ca17029b011640611a274269066153b8b9a7cc9a6b095016a7c6781e08ce62296ec7c10c0db7e780feb7bdb56c6a7aaee7acd5face51f57a6e9aa1e1bbd2851fefe09663b858435b9a5a8020d2b10166caad9eb6395488c197522b11c56e1d57fb6798adeaf05bbd2e44cb08a598feb597351689e465301662bab1817dcbf5ccb970c7bc002a0eba0917c5a8de4f535ebbb606c53808f2979275507f049c8ba85aed0962ec7a74cd40d7933b78740e72e0272628cd7851b4054e2f0b30d6dd9acd68edc9b56741c77a2cb6bc2665c45e728af9d214f775efa609bff3f20e8b719ba7b9273f2d36f54dda0c8ba9ccbaa9d6b5ff976ebe6af8503fbebf79a1ac4f72615e2edba3735d0c703060da869cfed17ba9e0376b98a88fda110266ffe05477f22ee060238b6ddff05fcf81337baa49061b3ad9908c355deb509945158b4c230b5d32e257919742b342c06e98c47cee4fae17402dcab2b571587486faeb9c07db13b4733ecfddf7dcb2655886fa05999e6e5a7a179f3b0304d8b628063483f31fff411353633c1763a6b1c9660fc2ed66c3fa10956ba59739c27e8bc24331320c04081760eb391a06e0246b330004e21513d94d4a1f2096466dccc851665d38c962a6d7128b3dc464fa83034a829504197f01d3b50d3d1590fa5bcc47fa1c4cad6b51f2584afebc3bfc3fccf5bd69a0c82cf3a0e1a695fae0686589fc0d9fffa41906932e2c585067cf25ee4187e4e9848367ce0c8f450731cefd0b07c8aa8bcc290084f99397c1a0df9abdfe80afc8b682c2493ee58565c83ed84af6f330396ad8a85a6855880baf777cc5b1f0e03ad88c1c5d91d4d57d5cfb451146a25cdf15a69c6b1597e853f8761c5854d29faaf3dcc2a805faad8deba86aeb922e43551e2e48855c22270e1af649084d9953eab1a3d33e5896358952867f30cfdf7691a88011ad135fd1f484dff10477827f7e4e173aa24bdbadb48db20155b011692a442c0d81fd3484ba4f20c19965340667d03dc0cf18199815c15cedeb120f968dad65d1d739012ddb70447979d7effea45650e1d07d39380117b67a2fb5ddff5ba64a3e00bc04650b67b5276458144735e6bdbded2117c2e2ecc35c9f51743ae6cb1c863b14b989eadef2b5766ab88516f50ec1a4dd0bd3c21d5d7fd6017731f3a74f077a3fc75a39a","tag":"2f19757fd8ac42cc75bbf8fa10c7dccf"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -209,6 +241,61 @@
       return parts[0] + ". " + parseInt(parts[1]) + ". " + parseInt(parts[2]);
     }
 
+    function initDbTables() {
+      document.querySelectorAll(".db-container").forEach(function(container) {
+        var scrollTop = container.querySelector(".db-scroll-top");
+        var scrollSpacer = container.querySelector(".db-scroll-spacer");
+        var tableWrap = container.querySelector(".db-table-wrap");
+        var table = container.querySelector(".db-table");
+        var filterInput = container.querySelector(".db-filter-input");
+        var rowCount = container.querySelector(".db-row-count");
+        if (!scrollTop || !tableWrap || !table) return;
+        /* sync top scrollbar width */
+        function syncWidth() { scrollSpacer.style.width = table.scrollWidth + "px"; }
+        syncWidth();
+        var ro = window.ResizeObserver ? new ResizeObserver(syncWidth) : null;
+        if (ro) ro.observe(table);
+        var syncing = false;
+        scrollTop.addEventListener("scroll", function() { if (!syncing) { syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; syncing = false; } });
+        tableWrap.addEventListener("scroll", function() { if (!syncing) { syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; syncing = false; } });
+        /* sort */
+        var ths = table.querySelectorAll("thead th");
+        var tbody = table.querySelector("tbody");
+        var totalRows = tbody ? tbody.querySelectorAll("tr").length : 0;
+        ths.forEach(function(th) {
+          th.addEventListener("click", function() {
+            var col = parseInt(th.getAttribute("data-col"));
+            var asc = !th.classList.contains("sort-asc");
+            ths.forEach(function(h) { h.classList.remove("sort-asc", "sort-desc"); });
+            th.classList.add(asc ? "sort-asc" : "sort-desc");
+            var rows = Array.from(tbody.querySelectorAll("tr"));
+            rows.sort(function(a, b) {
+              var at = (a.children[col] ? a.children[col].textContent : "").trim().toLowerCase();
+              var bt = (b.children[col] ? b.children[col].textContent : "").trim().toLowerCase();
+              var an = parseFloat(at), bn = parseFloat(bt);
+              if (!isNaN(an) && !isNaN(bn)) return asc ? an - bn : bn - an;
+              return asc ? at.localeCompare(bt) : bt.localeCompare(at);
+            });
+            rows.forEach(function(r) { tbody.appendChild(r); });
+          });
+        });
+        /* filter */
+        if (filterInput) {
+          filterInput.addEventListener("input", function() {
+            var q = filterInput.value.toLowerCase();
+            var visible = 0;
+            tbody.querySelectorAll("tr").forEach(function(row) {
+              var text = row.textContent.toLowerCase();
+              var match = !q || text.indexOf(q) !== -1;
+              row.classList.toggle("db-row-hidden", !match);
+              if (match) visible++;
+            });
+            if (rowCount) rowCount.textContent = (q ? visible + "/" : "") + totalRows + "개 항목";
+          });
+        }
+      });
+    }
+
     function renderEntry(entry) {
       document.getElementById("entry-date").textContent = formatDate(entry.date);
       document.getElementById("entry-tags").innerHTML = (entry.tags || []).map(function(t) { return '<span class="tag">#' + t + "</span>"; }).join("");
@@ -221,6 +308,7 @@
           delimiters: [{left:"\\[",right:"\\]",display:true},{left:"\\(",right:"\\)",display:false}]
         });
       }
+      initDbTables();
     }
 
     function unlock() {

@@ -77,13 +77,45 @@
     .content .column { flex: 1; min-width: 0; }
     .content .math-block { overflow-x: auto; margin-bottom: 1.4rem; }
     .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
-    .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }
-    .content .db-table { border-collapse: collapse; font-size: 0.88rem; }
+    .content .db-container { margin-bottom: 1.4rem; }
+    .content .db-toolbar { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+    .content .db-filter-input { background: var(--card-bg); border: 1px solid var(--border-mid); border-radius: 6px; color: var(--text); font-family: inherit; font-size: 0.85rem; padding: 0.4rem 0.8rem; outline: none; transition: border-color 0.2s; width: 240px; }
+    .content .db-filter-input:focus { border-color: var(--accent); }
+    .content .db-row-count { font-size: 0.78rem; color: var(--gray); white-space: nowrap; }
+    .content .db-scroll-top { overflow-x: auto; overflow-y: hidden; }
+    .content .db-scroll-spacer { height: 1px; }
+    .content .db-table-wrap { overflow-x: auto; }
+    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
     .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
-    .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; }
+    .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
+    .content .db-table th:hover { background: var(--surface); }
+    .content .db-table th .sort-icon { font-size: 0.65rem; opacity: 0.4; margin-left: 0.2rem; }
+    .content .db-table th.sort-asc .sort-icon::after { content: "▲"; opacity: 1; }
+    .content .db-table th.sort-desc .sort-icon::after { content: "▼"; opacity: 1; }
     .content .db-table td { color: var(--content-text); }
     .content .db-table td:first-child { white-space: normal; }
+    .content .db-table tr.db-row-hidden { display: none; }
     .content .n-select, .content .n-status { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 0.78em; font-weight: 500; white-space: nowrap; line-height: 1.6; }
+    .n-color-default { background: #2d2d2d; color: #aaa; }
+    .n-color-gray { background: #3a3a3a; color: #9b9a97; }
+    .n-color-brown { background: #3d2b1f; color: #c4a882; }
+    .n-color-orange { background: #4a2500; color: #e8850a; }
+    .n-color-yellow { background: #3d3000; color: #dfab01; }
+    .n-color-green { background: #0d2e1e; color: #3dba8a; }
+    .n-color-blue { background: #0a2233; color: #4db8d9; }
+    .n-color-purple { background: #281a4a; color: #a882d9; }
+    .n-color-pink { background: #3d0d2a; color: #e05caa; }
+    .n-color-red { background: #3d1010; color: #e06060; }
+    [data-theme="light"] .n-color-default { background: #e3e2e0; color: #5a5a5a; }
+    [data-theme="light"] .n-color-gray { background: #e3e2e0; color: #6b6b6b; }
+    [data-theme="light"] .n-color-brown { background: #eee0da; color: #6b4c3b; }
+    [data-theme="light"] .n-color-orange { background: #fadec9; color: #a05a00; }
+    [data-theme="light"] .n-color-yellow { background: #fdecc8; color: #7a6200; }
+    [data-theme="light"] .n-color-green { background: #dbeddb; color: #1a6b4a; }
+    [data-theme="light"] .n-color-blue { background: #d3e5ef; color: #1a6b8a; }
+    [data-theme="light"] .n-color-purple { background: #e8deee; color: #6b3fa0; }
+    [data-theme="light"] .n-color-pink { background: #f5e0e9; color: #8b2a5e; }
+    [data-theme="light"] .n-color-red { background: #ffe2dd; color: #a03030; }
     .content table { display: block; overflow-x: auto; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
     .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; }
     .content th { background: var(--surface); font-weight: 600; color: var(--text); }
@@ -168,7 +200,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"93751cb51aa2b5f67e0df60a96626e1fc81bde462c19ed5f3cee658d9c01a4a4","iv":"053b39fd705afffc5b933430","data":"e13e0153f7255ffd39d9104c70f5496c675195dcd5292233713e671fe8be4e4ce2253e192b749f08a34a54d9c4e8a835ce37b74b725a89381a77edd5543f28d64b008594cde036b93119d6f75310d3365c1cefd36d27f19e986def7b0b7130e83746789b4ab0157f9a1408c2a8f97d62ce22b9821a667424c8ca517871774b76f140c8069b5ec8ed4063c331c129f7fd7c29f10c958b2da32b3830bb33424ac4c9c20728f3fd888e673d911a9d1ea0c50d6aa6900774c19e098447f277b3d010fe0ac61c8a009f7344d13477ef8efd94cdf6052cfb35f083285c2cbf0699651c3abec7a8f05806313673525b6dc8393543a2c5d4a0afc59455ddd38fb979dd51de74ce57f39bf6b95602cc5d7fbb9b1bb83fce7eee374670f95acc4b88498389e77ec56fa15947734ba3944e6498b77b2115057f2e410e6e7f040cabb9d1e7aaa129f83e8462689816d1abe5962a7f4d2108a09df716ed92148b7e94731ebe81f9a81ee78a7fabbd40bd9932bf4afdc2914158602680e24914521fb95a972243d7854cd8ef4ebe4245a108a9a0709afd9d6183dd86b88c2d7b9cb40eb9239ca931a14ec2935a8b27df0ecc08e1d72390163057d0cbf428bae1d4b6f61a838dd7bea5b55b56af179308c5f306abf787e44a807159d59a561c97485c67e83ce40930904ec042ad89e1b5f9939a86029080b050cec315024f55ad450d779e691549c82291346326186692f16819bcbc9cc8f722c19307e34b967cabe51057e50f86e518417aed73eb782fe93f548bc126c8cb9e0e4e09a42e6e49521ed00d702c2128d49d89e5cd8e943aa585abb4886336c6da1b4e86e4082ebd5f2890fb244fddcb61a916a5c5a33d08d8066f11d0f41de523d9d3c55f6113055eeab2cb17bd28d4ce87c6f6c6e4e5d886ec31a5273db7ed43faba32de5fb8a4b0a3b7ee4d7e0a8f55f893","tag":"7b7ffbf3f7a36c7385e23c3c5e17f6db"};
+    var ENCRYPTED = {"salt":"5be6d3c7473fc9e091266b15571599fec5f7e2920f35ff8b09aced9b3039828d","iv":"77694c44117c73f7e1e9b6fb","data":"d2cd95e9cefb88312aa2683d30ce6dd3e7a89955fc0ca4a6c59f89c9f1b23f817d6b56f408d7b68e9b2d839a82b26aac8ac28c9ab642f796d61ec51e9cc5a5f685761608471e43105c585f10980d228ddce4513b05e80f705bafe089351f57320159f3d675fb98229df011b97dadf429dce49db636a87d09c5c38177d516ea3ecba297db067311466ba11ca3776c154bf96e6958412a4e79f67bbda8941b914a8d977f308d9b578ac36437797095a94cc30f57af833f5c9be54f8cdeacd07bd596d264dceb2e5de8484dd52e1712414218ca00df8168fb9ba1476ea6010258022cd7e86f1c210915c49e64df5de04fcc484c659ea9384d5160d9307503b670ba428f3c87ca1c671a2b6aaeff071f3307b79fda5f8c0aa42e73d3a1e10096801cf5bbb27d5d58b5c17fe32916d9ec3b10f2596a948b49b2c077d132b25d1597e9f6640b7eca4feb83154f7c1292f612e7c30c62aa52be00ab12f24126604390cf071c5d909440aee4a9661a340406c4f563f7dbf74f008fcacd533594b51ebd6779e7ef07442208f32af528996e1e67ba7bf3dee362136bde7f271b362356abe2fe0a99112631967e29cddb892c7039cdb861f7f0f74afaf4393950cf9c43a984a8986e5f8c73ef1a9e0299b9d21191085d6a39d2c351b02095e5f9baa42b8d92089df5f7ba4969f9b10c9d5ce7f8c95a1ad86ea424301b33a921070845305bee305258ba36abc9c9aec9fc102188f2623b938dd11f0d29dafe263b1794ea9639d8824c3145c7d6cecc16798c87f3a6c867e85a2a3deb4922bc979a4b80a3a50567729a77018f6abf5a259e09482209d8e48eef598613b25a52fc6f1493afbca5164424e44233b45ceef557d6928cd5cb9e12a2c9e577805a6c25978557f10b19c87e2fce97ac01258385579edddd8f648f54e421d4d60bc97ded929b9b76eab37766a80b","tag":"238709d86bcb1bce087ef053ff9b4d29"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -209,6 +241,61 @@
       return parts[0] + ". " + parseInt(parts[1]) + ". " + parseInt(parts[2]);
     }
 
+    function initDbTables() {
+      document.querySelectorAll(".db-container").forEach(function(container) {
+        var scrollTop = container.querySelector(".db-scroll-top");
+        var scrollSpacer = container.querySelector(".db-scroll-spacer");
+        var tableWrap = container.querySelector(".db-table-wrap");
+        var table = container.querySelector(".db-table");
+        var filterInput = container.querySelector(".db-filter-input");
+        var rowCount = container.querySelector(".db-row-count");
+        if (!scrollTop || !tableWrap || !table) return;
+        /* sync top scrollbar width */
+        function syncWidth() { scrollSpacer.style.width = table.scrollWidth + "px"; }
+        syncWidth();
+        var ro = window.ResizeObserver ? new ResizeObserver(syncWidth) : null;
+        if (ro) ro.observe(table);
+        var syncing = false;
+        scrollTop.addEventListener("scroll", function() { if (!syncing) { syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; syncing = false; } });
+        tableWrap.addEventListener("scroll", function() { if (!syncing) { syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; syncing = false; } });
+        /* sort */
+        var ths = table.querySelectorAll("thead th");
+        var tbody = table.querySelector("tbody");
+        var totalRows = tbody ? tbody.querySelectorAll("tr").length : 0;
+        ths.forEach(function(th) {
+          th.addEventListener("click", function() {
+            var col = parseInt(th.getAttribute("data-col"));
+            var asc = !th.classList.contains("sort-asc");
+            ths.forEach(function(h) { h.classList.remove("sort-asc", "sort-desc"); });
+            th.classList.add(asc ? "sort-asc" : "sort-desc");
+            var rows = Array.from(tbody.querySelectorAll("tr"));
+            rows.sort(function(a, b) {
+              var at = (a.children[col] ? a.children[col].textContent : "").trim().toLowerCase();
+              var bt = (b.children[col] ? b.children[col].textContent : "").trim().toLowerCase();
+              var an = parseFloat(at), bn = parseFloat(bt);
+              if (!isNaN(an) && !isNaN(bn)) return asc ? an - bn : bn - an;
+              return asc ? at.localeCompare(bt) : bt.localeCompare(at);
+            });
+            rows.forEach(function(r) { tbody.appendChild(r); });
+          });
+        });
+        /* filter */
+        if (filterInput) {
+          filterInput.addEventListener("input", function() {
+            var q = filterInput.value.toLowerCase();
+            var visible = 0;
+            tbody.querySelectorAll("tr").forEach(function(row) {
+              var text = row.textContent.toLowerCase();
+              var match = !q || text.indexOf(q) !== -1;
+              row.classList.toggle("db-row-hidden", !match);
+              if (match) visible++;
+            });
+            if (rowCount) rowCount.textContent = (q ? visible + "/" : "") + totalRows + "개 항목";
+          });
+        }
+      });
+    }
+
     function renderEntry(entry) {
       document.getElementById("entry-date").textContent = formatDate(entry.date);
       document.getElementById("entry-tags").innerHTML = (entry.tags || []).map(function(t) { return '<span class="tag">#' + t + "</span>"; }).join("");
@@ -221,6 +308,7 @@
           delimiters: [{left:"\\[",right:"\\]",display:true},{left:"\\(",right:"\\)",display:false}]
         });
       }
+      initDbTables();
     }
 
     function unlock() {

@@ -77,13 +77,45 @@
     .content .column { flex: 1; min-width: 0; }
     .content .math-block { overflow-x: auto; margin-bottom: 1.4rem; }
     .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
-    .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }
-    .content .db-table { border-collapse: collapse; font-size: 0.88rem; }
+    .content .db-container { margin-bottom: 1.4rem; }
+    .content .db-toolbar { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+    .content .db-filter-input { background: var(--card-bg); border: 1px solid var(--border-mid); border-radius: 6px; color: var(--text); font-family: inherit; font-size: 0.85rem; padding: 0.4rem 0.8rem; outline: none; transition: border-color 0.2s; width: 240px; }
+    .content .db-filter-input:focus { border-color: var(--accent); }
+    .content .db-row-count { font-size: 0.78rem; color: var(--gray); white-space: nowrap; }
+    .content .db-scroll-top { overflow-x: auto; overflow-y: hidden; }
+    .content .db-scroll-spacer { height: 1px; }
+    .content .db-table-wrap { overflow-x: auto; }
+    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
     .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
-    .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; }
+    .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
+    .content .db-table th:hover { background: var(--surface); }
+    .content .db-table th .sort-icon { font-size: 0.65rem; opacity: 0.4; margin-left: 0.2rem; }
+    .content .db-table th.sort-asc .sort-icon::after { content: "▲"; opacity: 1; }
+    .content .db-table th.sort-desc .sort-icon::after { content: "▼"; opacity: 1; }
     .content .db-table td { color: var(--content-text); }
     .content .db-table td:first-child { white-space: normal; }
+    .content .db-table tr.db-row-hidden { display: none; }
     .content .n-select, .content .n-status { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 0.78em; font-weight: 500; white-space: nowrap; line-height: 1.6; }
+    .n-color-default { background: #2d2d2d; color: #aaa; }
+    .n-color-gray { background: #3a3a3a; color: #9b9a97; }
+    .n-color-brown { background: #3d2b1f; color: #c4a882; }
+    .n-color-orange { background: #4a2500; color: #e8850a; }
+    .n-color-yellow { background: #3d3000; color: #dfab01; }
+    .n-color-green { background: #0d2e1e; color: #3dba8a; }
+    .n-color-blue { background: #0a2233; color: #4db8d9; }
+    .n-color-purple { background: #281a4a; color: #a882d9; }
+    .n-color-pink { background: #3d0d2a; color: #e05caa; }
+    .n-color-red { background: #3d1010; color: #e06060; }
+    [data-theme="light"] .n-color-default { background: #e3e2e0; color: #5a5a5a; }
+    [data-theme="light"] .n-color-gray { background: #e3e2e0; color: #6b6b6b; }
+    [data-theme="light"] .n-color-brown { background: #eee0da; color: #6b4c3b; }
+    [data-theme="light"] .n-color-orange { background: #fadec9; color: #a05a00; }
+    [data-theme="light"] .n-color-yellow { background: #fdecc8; color: #7a6200; }
+    [data-theme="light"] .n-color-green { background: #dbeddb; color: #1a6b4a; }
+    [data-theme="light"] .n-color-blue { background: #d3e5ef; color: #1a6b8a; }
+    [data-theme="light"] .n-color-purple { background: #e8deee; color: #6b3fa0; }
+    [data-theme="light"] .n-color-pink { background: #f5e0e9; color: #8b2a5e; }
+    [data-theme="light"] .n-color-red { background: #ffe2dd; color: #a03030; }
     .content table { display: block; overflow-x: auto; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
     .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; }
     .content th { background: var(--surface); font-weight: 600; color: var(--text); }
@@ -168,7 +200,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"746a6efc7d4fd8c3052bef9484f26cb9433aa3922d213308241f488fae52f0af","iv":"df69ec6c164c486c6217c086","data":"bb9b878f6ab5a9f2c3dfb26fa23eb05e6c54f6fcacc6939da46afb8ad5d03366567254ae4a23dce08a78cbdbebd0a7c4f0efbb860eb7e546013c8f5d489160ddc961bd8ae0c42ff0be0805cc6540def3b7812232c2cd4cde4b625c6fb56def08be933fd5f1b7b98f4a9d5f06a756205196e3b5d6194bea242177f92855053c7c61df8ebb33521ebcc7b0aa742cf591545b2386513f4e09d9ffddbedabbac25a7f45b6290797afa8bb3b0e199d143d9f1b318c18779511cba07f82884f40ebf720eb0a5ae95137b785785fe0cc70dc2ad25dead9149d22c1d27fb96eb3dc793eb83f488df39e5b20676271eca89b863055b0ac64c430e325c02c7e23b34c9716512ea60a8ba05b830d647f23c23dc2d8cf83ea8d45a4c0370372617a8cd87aba806c83b7d4ad2b4d8126d36bc64efb8b0bed88ebb9a279cc0d2bde5fc37fef41077573ebdccdb93f962aa694869309309ce974111dee665aebdd9a60596257e6f7d28951b5150e2daa87009f9dab3f4798d39c872f68c1f0add118ae04a21b047536f8ed7b1189f79cca4d3df74e3cdeeedc3017e167030cc03930b5204b925faf1b338166215cdebaa7e408424d22468194c7b7a3a4d6899fab5356ad5ebd3d39ce8715c1b86fc392b59c52b1de19bd4263520f6aa631ab6691b37f9739bc8023fd50eea43564301db3390799ecd57ffdce57d2d5e17326ec6093bae78354d7c3296d6","tag":"994d8431b82baa95937d8f8e9ea4dec9"};
+    var ENCRYPTED = {"salt":"bc4677ab3fbe21341ef9d3e739a273788aa70acc22c42aa2ccf4b9ea6a48f4e1","iv":"26eeafbb0a51f2e3ec62a70e","data":"609917c6094e2245c2290742329cd41260f2d86d32fe385c9db08e5a0b7399f682d90ed35c86d86c1ad5a126b5de79a4ea4864bbdbda0fd3cfa736feb2fa1d931639cb23229d4c89d09c17a35da99cf48239a6eada2bd4df970777c7e787e00504ba2d9868c5f08c214f49a4153ab4354bd13ff6871cf955001ee583eb95254a26371e4266eb57a34c17b52a253a1b278b5b5cf20984d138aabebf290afad2dc94750a00045d8776249e10222a5d8cf9caf5cfbf29fa8682595b99c05a85cc077ff2d79da0dec6a01810011a084dabbd1a885eebd1265a948afe1b100029b711d3e078576529918289b7e9091c6ddf9b54dc231cc123b838b33a68abcae06b363d20a1c1e9db6f7bf2605571eaa6d3854638132cc8fe8e70c171b5153d6aaae9627fe01261a4ec7b28a24ec245d94578e6d672bc4fab92f61a315e56a368e9f24c380532157ad7f8595e90edaf6ce450de2bc6d63c007c48c1d231a381271063c951637714b1ee2092608ff26a7d2441ad09ce92bf0e4d9309cae3687183293a829034bd6926c120260b23ea5a0f5c8412ef0b5780d8afec0c2766b147abc42190eda1cf418c70d23f694ec87573ca573ca738b20d5e664851c4f25b7d1beb44a4bb814f01aaf4950c21718cb43f73ac1d19aafc5669c1e4674d09218ee68dad8b38c30f1d4412754fe5ef62dcd1b5b67588f3f4b0b1a4a489cb29709c76bea0370991","tag":"22ea24a5717a2b6cb6db40191881b559"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -209,6 +241,61 @@
       return parts[0] + ". " + parseInt(parts[1]) + ". " + parseInt(parts[2]);
     }
 
+    function initDbTables() {
+      document.querySelectorAll(".db-container").forEach(function(container) {
+        var scrollTop = container.querySelector(".db-scroll-top");
+        var scrollSpacer = container.querySelector(".db-scroll-spacer");
+        var tableWrap = container.querySelector(".db-table-wrap");
+        var table = container.querySelector(".db-table");
+        var filterInput = container.querySelector(".db-filter-input");
+        var rowCount = container.querySelector(".db-row-count");
+        if (!scrollTop || !tableWrap || !table) return;
+        /* sync top scrollbar width */
+        function syncWidth() { scrollSpacer.style.width = table.scrollWidth + "px"; }
+        syncWidth();
+        var ro = window.ResizeObserver ? new ResizeObserver(syncWidth) : null;
+        if (ro) ro.observe(table);
+        var syncing = false;
+        scrollTop.addEventListener("scroll", function() { if (!syncing) { syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; syncing = false; } });
+        tableWrap.addEventListener("scroll", function() { if (!syncing) { syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; syncing = false; } });
+        /* sort */
+        var ths = table.querySelectorAll("thead th");
+        var tbody = table.querySelector("tbody");
+        var totalRows = tbody ? tbody.querySelectorAll("tr").length : 0;
+        ths.forEach(function(th) {
+          th.addEventListener("click", function() {
+            var col = parseInt(th.getAttribute("data-col"));
+            var asc = !th.classList.contains("sort-asc");
+            ths.forEach(function(h) { h.classList.remove("sort-asc", "sort-desc"); });
+            th.classList.add(asc ? "sort-asc" : "sort-desc");
+            var rows = Array.from(tbody.querySelectorAll("tr"));
+            rows.sort(function(a, b) {
+              var at = (a.children[col] ? a.children[col].textContent : "").trim().toLowerCase();
+              var bt = (b.children[col] ? b.children[col].textContent : "").trim().toLowerCase();
+              var an = parseFloat(at), bn = parseFloat(bt);
+              if (!isNaN(an) && !isNaN(bn)) return asc ? an - bn : bn - an;
+              return asc ? at.localeCompare(bt) : bt.localeCompare(at);
+            });
+            rows.forEach(function(r) { tbody.appendChild(r); });
+          });
+        });
+        /* filter */
+        if (filterInput) {
+          filterInput.addEventListener("input", function() {
+            var q = filterInput.value.toLowerCase();
+            var visible = 0;
+            tbody.querySelectorAll("tr").forEach(function(row) {
+              var text = row.textContent.toLowerCase();
+              var match = !q || text.indexOf(q) !== -1;
+              row.classList.toggle("db-row-hidden", !match);
+              if (match) visible++;
+            });
+            if (rowCount) rowCount.textContent = (q ? visible + "/" : "") + totalRows + "개 항목";
+          });
+        }
+      });
+    }
+
     function renderEntry(entry) {
       document.getElementById("entry-date").textContent = formatDate(entry.date);
       document.getElementById("entry-tags").innerHTML = (entry.tags || []).map(function(t) { return '<span class="tag">#' + t + "</span>"; }).join("");
@@ -221,6 +308,7 @@
           delimiters: [{left:"\\[",right:"\\]",display:true},{left:"\\(",right:"\\)",display:false}]
         });
       }
+      initDbTables();
     }
 
     function unlock() {

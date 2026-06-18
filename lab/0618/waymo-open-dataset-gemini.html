@@ -77,13 +77,45 @@
     .content .column { flex: 1; min-width: 0; }
     .content .math-block { overflow-x: auto; margin-bottom: 1.4rem; }
     .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
-    .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }
-    .content .db-table { border-collapse: collapse; font-size: 0.88rem; }
+    .content .db-container { margin-bottom: 1.4rem; }
+    .content .db-toolbar { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+    .content .db-filter-input { background: var(--card-bg); border: 1px solid var(--border-mid); border-radius: 6px; color: var(--text); font-family: inherit; font-size: 0.85rem; padding: 0.4rem 0.8rem; outline: none; transition: border-color 0.2s; width: 240px; }
+    .content .db-filter-input:focus { border-color: var(--accent); }
+    .content .db-row-count { font-size: 0.78rem; color: var(--gray); white-space: nowrap; }
+    .content .db-scroll-top { overflow-x: auto; overflow-y: hidden; }
+    .content .db-scroll-spacer { height: 1px; }
+    .content .db-table-wrap { overflow-x: auto; }
+    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
     .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }
-    .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; }
+    .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }
+    .content .db-table th:hover { background: var(--surface); }
+    .content .db-table th .sort-icon { font-size: 0.65rem; opacity: 0.4; margin-left: 0.2rem; }
+    .content .db-table th.sort-asc .sort-icon::after { content: "▲"; opacity: 1; }
+    .content .db-table th.sort-desc .sort-icon::after { content: "▼"; opacity: 1; }
     .content .db-table td { color: var(--content-text); }
     .content .db-table td:first-child { white-space: normal; }
+    .content .db-table tr.db-row-hidden { display: none; }
     .content .n-select, .content .n-status { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 0.78em; font-weight: 500; white-space: nowrap; line-height: 1.6; }
+    .n-color-default { background: #2d2d2d; color: #aaa; }
+    .n-color-gray { background: #3a3a3a; color: #9b9a97; }
+    .n-color-brown { background: #3d2b1f; color: #c4a882; }
+    .n-color-orange { background: #4a2500; color: #e8850a; }
+    .n-color-yellow { background: #3d3000; color: #dfab01; }
+    .n-color-green { background: #0d2e1e; color: #3dba8a; }
+    .n-color-blue { background: #0a2233; color: #4db8d9; }
+    .n-color-purple { background: #281a4a; color: #a882d9; }
+    .n-color-pink { background: #3d0d2a; color: #e05caa; }
+    .n-color-red { background: #3d1010; color: #e06060; }
+    [data-theme="light"] .n-color-default { background: #e3e2e0; color: #5a5a5a; }
+    [data-theme="light"] .n-color-gray { background: #e3e2e0; color: #6b6b6b; }
+    [data-theme="light"] .n-color-brown { background: #eee0da; color: #6b4c3b; }
+    [data-theme="light"] .n-color-orange { background: #fadec9; color: #a05a00; }
+    [data-theme="light"] .n-color-yellow { background: #fdecc8; color: #7a6200; }
+    [data-theme="light"] .n-color-green { background: #dbeddb; color: #1a6b4a; }
+    [data-theme="light"] .n-color-blue { background: #d3e5ef; color: #1a6b8a; }
+    [data-theme="light"] .n-color-purple { background: #e8deee; color: #6b3fa0; }
+    [data-theme="light"] .n-color-pink { background: #f5e0e9; color: #8b2a5e; }
+    [data-theme="light"] .n-color-red { background: #ffe2dd; color: #a03030; }
     .content table { display: block; overflow-x: auto; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }
     .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; }
     .content th { background: var(--surface); font-weight: 600; color: var(--text); }
@@ -168,7 +200,7 @@
   </div>
 
   <script>
-    var ENCRYPTED = {"salt":"96e55144ce4dbbc07e5592f413ae937c3d2acd14cc49f0d4e23da2766c5a92c9","iv":"f6a4348b1b0a1b1c7c2ac7ac","data":"69ca30045c5fb9194b17fd049bb60a9fb676b81108cec4d404886aa4ab2f01684def9d0fc8c430981d4973a72ac780014eafef353a62e31e0992437b22c869fdf73f59fc5c6e040b0171458a51c001b6e7a9b0df2098dd5310f9cd05444db51fd289f6b306db94676db4a0f23f499e8cea477e3752ff4a92b919b039cfd1b715e817c1e41202263bb56d6313c1f7ad59846bd0fb217a7532cda0a4a95653e16165303d9c9194b65e64e3ca053fca78f7fe27a2e41b0dc1499f0447f01a07c756a36fe9c452ebd5178f1d49eb14675a541c9cd92a2929a2b7ac1205502932188dd166988eaa39cbb6b14a6eca58dc088cd4986f3d3cb45c08b155c5a5b9e970ccf16b9bce01da27b5d7e83415269cbfbf59c556fb311f139ddadc3577e9b22618340026fe545009b905d3bb31e8fd9c806f738cd151c97307ed6f290246ba6fbe7f0a60432fac3441ee2331b06c163629df26620d68eaebfeda0aebed58ec5e7abb3f0be5d203a48d5c89528a1ab3f20c6fc1322c7e2762bcbde8bff98685dc63d5cf4c1d71e5d51099cbdb075b60f2e6102215dc104fec61f1329814b77b708ff7f624bf7fb4f8e1cffd297ceff31b1d44e8284348f92ba4777d2a836482a6817ed54c876c3d197dededcb4e3c8a967610c90f84e2637903b2806416c4aec0e2687db3645ef781a77f3ec627e14d8c7146eaef793a8416ba4603de8bcb515077ebdd0c7f7ceaed0e496593fe2806544a40553e494a57c8a138b8b1addaff2321d4d4498ca225885762f5aeadab93a2b0cbb7262fe673cfda09495a7175f05919bf5003bbb9e2a353422157f3623d93200b1404c079fc25551e33e3","tag":"6cc8d796b564f07a645a61cb84cbcdb1"};
+    var ENCRYPTED = {"salt":"3bd51db499a702295f60c4e17610c224cc5cfe59900c8374f59b073f626dbf4b","iv":"f07aff151c78268c5082429b","data":"2363f9db2a69c2c2652af2fc2c51442cff087bd314c88668447388248b82503d02ae548b7c28d8983c02db2201726967c7471d9a28b28aeb0d656807d1c4b4dd1210ff24ba47373908b05abae256bfd1d542456acb30beaef6a3ce31746fd1f97fc2cf08fd8131954ec16461d118d2ca625f37ace8cf04f4155c1c0ab7228252888d9dbe4fcc3ca76615b429141615662d2108499d55f8ec4582d19d04377bc78f38ac2ba56ed7180afd87b28ad0a706389b02eb001da93ed61f60ecbeb72e107da6f448f5782304bf04cef96fdd0791e01ead39b445ee95da0daa99208eb26588339c49285884d951553fccb55529155cec78144e1dbeb2503968e0e690e06d282f3daa221f11471ed6986559fbf36a7165d20838f395f5c010ac7959518cdb4d77d54db19f9cf46ba0b2996139b036307a1be97d1b7e3dc95202810e34d0555a9067b54a12a15f8998e188f8be1cbcdaf1b0571c413e7fd8dd747ed5734edfe1182bdbbd311a783d3d65f23e413abcab34dae9bf4b19455db5b133af487fdc55abbbbbcbad121fb3470925f6ea2b1df3e53820b3cba693228f0da9b08370c76b534925c12a45d16177f3a81ddd9000e40f57d93e5e97d4f99d382ddbb4519468646bf8d3745ac678d36f0ed0d7724a6572ea20738a21c513ff56b07ebc706fae747031427c6c72cf1e403a7037a8c745e9add854c4cf1ad56417c8b2504c655bae7650b5fc6b1b149935bf91cdd7c45e750650490acb18da556b5d2d4185058fdda2f856f4a6f2f3db95aa41738d8551096354bb59788c3ba6df24b47282bb837cddb2f3e4e183230e75a792f2f06c9056189d7f142cc609e6b3","tag":"c2c6224fcac8425148dccddf0d17ab63"};
 
     function hexToBytes(hex) {
       var arr = new Uint8Array(hex.length / 2);
@@ -209,6 +241,61 @@
       return parts[0] + ". " + parseInt(parts[1]) + ". " + parseInt(parts[2]);
     }
 
+    function initDbTables() {
+      document.querySelectorAll(".db-container").forEach(function(container) {
+        var scrollTop = container.querySelector(".db-scroll-top");
+        var scrollSpacer = container.querySelector(".db-scroll-spacer");
+        var tableWrap = container.querySelector(".db-table-wrap");
+        var table = container.querySelector(".db-table");
+        var filterInput = container.querySelector(".db-filter-input");
+        var rowCount = container.querySelector(".db-row-count");
+        if (!scrollTop || !tableWrap || !table) return;
+        /* sync top scrollbar width */
+        function syncWidth() { scrollSpacer.style.width = table.scrollWidth + "px"; }
+        syncWidth();
+        var ro = window.ResizeObserver ? new ResizeObserver(syncWidth) : null;
+        if (ro) ro.observe(table);
+        var syncing = false;
+        scrollTop.addEventListener("scroll", function() { if (!syncing) { syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; syncing = false; } });
+        tableWrap.addEventListener("scroll", function() { if (!syncing) { syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; syncing = false; } });
+        /* sort */
+        var ths = table.querySelectorAll("thead th");
+        var tbody = table.querySelector("tbody");
+        var totalRows = tbody ? tbody.querySelectorAll("tr").length : 0;
+        ths.forEach(function(th) {
+          th.addEventListener("click", function() {
+            var col = parseInt(th.getAttribute("data-col"));
+            var asc = !th.classList.contains("sort-asc");
+            ths.forEach(function(h) { h.classList.remove("sort-asc", "sort-desc"); });
+            th.classList.add(asc ? "sort-asc" : "sort-desc");
+            var rows = Array.from(tbody.querySelectorAll("tr"));
+            rows.sort(function(a, b) {
+              var at = (a.children[col] ? a.children[col].textContent : "").trim().toLowerCase();
+              var bt = (b.children[col] ? b.children[col].textContent : "").trim().toLowerCase();
+              var an = parseFloat(at), bn = parseFloat(bt);
+              if (!isNaN(an) && !isNaN(bn)) return asc ? an - bn : bn - an;
+              return asc ? at.localeCompare(bt) : bt.localeCompare(at);
+            });
+            rows.forEach(function(r) { tbody.appendChild(r); });
+          });
+        });
+        /* filter */
+        if (filterInput) {
+          filterInput.addEventListener("input", function() {
+            var q = filterInput.value.toLowerCase();
+            var visible = 0;
+            tbody.querySelectorAll("tr").forEach(function(row) {
+              var text = row.textContent.toLowerCase();
+              var match = !q || text.indexOf(q) !== -1;
+              row.classList.toggle("db-row-hidden", !match);
+              if (match) visible++;
+            });
+            if (rowCount) rowCount.textContent = (q ? visible + "/" : "") + totalRows + "개 항목";
+          });
+        }
+      });
+    }
+
     function renderEntry(entry) {
       document.getElementById("entry-date").textContent = formatDate(entry.date);
       document.getElementById("entry-tags").innerHTML = (entry.tags || []).map(function(t) { return '<span class="tag">#' + t + "</span>"; }).join("");
@@ -221,6 +308,7 @@
           delimiters: [{left:"\\[",right:"\\]",display:true},{left:"\\(",right:"\\)",display:false}]
         });
       }
+      initDbTables();
     }
 
     function unlock() {
