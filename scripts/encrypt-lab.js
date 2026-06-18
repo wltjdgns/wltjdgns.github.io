@@ -22,7 +22,10 @@ function notionRequest(endpoint, method = 'GET', body = null) {
     const req = https.request(options, res => {
       let data = '';
       res.on('data', chunk => data += chunk);
-      res.on('end', () => resolve(JSON.parse(data)));
+      res.on('end', () => {
+        if (res.statusCode >= 400) console.error('API error:', res.statusCode, options.path);
+        resolve(JSON.parse(data));
+      });
     });
     req.on('error', reject);
     if (body) req.write(JSON.stringify(body));
@@ -374,8 +377,9 @@ function collectDbRows(blocks, entrySlug) {
 async function fetchLabEntries() {
   if (!LAB_DB_ID) { console.error('NOTION_LAB_DB_ID 환경변수가 없습니다.'); return []; }
   const cleanId = LAB_DB_ID.trim().replace(/[^a-f0-9-]/gi, '');
-  console.log('Lab DB ID length:', cleanId.length, 'chars');
-  const response = await notionRequest('databases/' + cleanId + '/query', 'POST', {
+  const endpoint = 'databases/' + cleanId + '/query';
+  console.log('Lab DB ID length:', cleanId.length, 'endpoint:', endpoint);
+  const response = await notionRequest(endpoint, 'POST', {
     filter: { property: 'Published', checkbox: { equals: true } },
     sorts: [{ property: 'Date', direction: 'descending' }]
   });
