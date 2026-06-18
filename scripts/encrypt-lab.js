@@ -373,7 +373,9 @@ function collectDbRows(blocks, entrySlug) {
 
 async function fetchLabEntries() {
   if (!LAB_DB_ID) { console.error('NOTION_LAB_DB_ID 환경변수가 없습니다.'); return []; }
-  const response = await notionRequest('databases/' + LAB_DB_ID + '/query', 'POST', {
+  const cleanId = LAB_DB_ID.trim().replace(/[^a-f0-9-]/gi, '');
+  console.log('Lab DB ID length:', cleanId.length, 'chars');
+  const response = await notionRequest('databases/' + cleanId + '/query', 'POST', {
     filter: { property: 'Published', checkbox: { equals: true } },
     sorts: [{ property: 'Date', direction: 'descending' }]
   });
