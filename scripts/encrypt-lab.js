@@ -42,25 +42,11 @@ function slugify(str) {
     .replace(/^-|-$/g, '') || 'untitled';
 }
 
-// Notion color → [bg, fg] dark-theme palette
-const NOTION_COLORS = {
-  default: ['#2d2d2d', '#aaa'],
-  gray:    ['#3a3a3a', '#9b9a97'],
-  brown:   ['#3d2b1f', '#c4a882'],
-  orange:  ['#4a2500', '#e8850a'],
-  yellow:  ['#3d3000', '#dfab01'],
-  green:   ['#0d2e1e', '#3dba8a'],
-  blue:    ['#0a2233', '#4db8d9'],
-  purple:  ['#281a4a', '#a882d9'],
-  pink:    ['#3d0d2a', '#e05caa'],
-  red:     ['#3d1010', '#e06060']
-};
+const VALID_NOTION_COLORS = ['default','gray','brown','orange','yellow','green','blue','purple','pink','red'];
 
 function mkBadge(name, color, cls) {
-  const pair = NOTION_COLORS[color] || NOTION_COLORS.default;
-  return '<span class="' + cls + '" style="background:' + pair[0] + ';color:' + pair[1] +
-    ';border-radius:3px;padding:1px 6px;font-size:0.78em;font-weight:500;white-space:nowrap;display:inline-block;line-height:1.6">' +
-    esc(name) + '</span>';
+  const c = VALID_NOTION_COLORS.indexOf(color) !== -1 ? color : 'default';
+  return '<span class="' + cls + ' n-color-' + c + '">' + esc(name) + '</span>';
 }
 
 function getPropText(prop) {
@@ -235,8 +221,11 @@ function blocksToHtml(blocks) {
         const columns = titleCol ? [titleCol, ...otherCols] : allKeys;
         html += '<div class="db-title">📊 ' + esc(dbTitle) + '</div>\n';
         if (columns.length && rows.length) {
+          html += '<div class="db-container">';
+          html += '<div class="db-toolbar"><input type="text" class="db-filter-input" placeholder="🔍 필터..." autocomplete="off"><span class="db-row-count">' + rows.length + '개 항목</span></div>\n';
+          html += '<div class="db-scroll-top"><div class="db-scroll-spacer"></div></div>';
           html += '<div class="db-table-wrap"><table class="db-table">\n<thead><tr>';
-          columns.forEach(c => { html += '<th>' + esc(c) + '</th>'; });
+          columns.forEach((c, i) => { html += '<th data-col="' + i + '">' + esc(c) + ' <span class="sort-icon"></span></th>'; });
           html += '</tr></thead>\n<tbody>';
           rows.forEach(row => {
             html += '<tr>';
@@ -252,7 +241,7 @@ function blocksToHtml(blocks) {
             });
             html += '</tr>\n';
           });
-          html += '</tbody>\n</table></div>\n';
+          html += '</tbody>\n</table></div></div>\n';
         } else {
           html += '<p><em>데이터 없음</em></p>\n';
         }
@@ -469,13 +458,45 @@ function generateLabEntryPage(entryEncrypted) {
 '    .content .column { flex: 1; min-width: 0; }\n' +
 '    .content .math-block { overflow-x: auto; margin-bottom: 1.4rem; }\n' +
 '    .content .db-title { font-weight: 700; font-size: 1rem; color: var(--accent); margin: 2rem 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; }\n' +
-'    .content .db-table-wrap { overflow-x: auto; margin-bottom: 1.4rem; }\n' +
-'    .content .db-table { border-collapse: collapse; font-size: 0.88rem; }\n' +
+'    .content .db-container { margin-bottom: 1.4rem; }\n' +
+'    .content .db-toolbar { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.6rem; flex-wrap: wrap; }\n' +
+'    .content .db-filter-input { background: var(--card-bg); border: 1px solid var(--border-mid); border-radius: 6px; color: var(--text); font-family: inherit; font-size: 0.85rem; padding: 0.4rem 0.8rem; outline: none; transition: border-color 0.2s; width: 240px; }\n' +
+'    .content .db-filter-input:focus { border-color: var(--accent); }\n' +
+'    .content .db-row-count { font-size: 0.78rem; color: var(--gray); white-space: nowrap; }\n' +
+'    .content .db-scroll-top { overflow-x: auto; overflow-y: hidden; }\n' +
+'    .content .db-scroll-spacer { height: 1px; }\n' +
+'    .content .db-table-wrap { overflow-x: auto; }\n' +
+'    .content .db-table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }\n' +
 '    .content .db-table th, .content .db-table td { border: 1px solid var(--border-mid); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; white-space: normal; }\n' +
-'    .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; }\n' +
+'    .content .db-table th { background: var(--surface-mid); font-weight: 600; color: var(--muted-text); font-size: 0.78rem; letter-spacing: 0.03em; cursor: pointer; user-select: none; white-space: nowrap; }\n' +
+'    .content .db-table th:hover { background: var(--surface); }\n' +
+'    .content .db-table th .sort-icon { font-size: 0.65rem; opacity: 0.4; margin-left: 0.2rem; }\n' +
+'    .content .db-table th.sort-asc .sort-icon::after { content: "▲"; opacity: 1; }\n' +
+'    .content .db-table th.sort-desc .sort-icon::after { content: "▼"; opacity: 1; }\n' +
 '    .content .db-table td { color: var(--content-text); }\n' +
 '    .content .db-table td:first-child { white-space: normal; }\n' +
+'    .content .db-table tr.db-row-hidden { display: none; }\n' +
 '    .content .n-select, .content .n-status { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 0.78em; font-weight: 500; white-space: nowrap; line-height: 1.6; }\n' +
+'    .n-color-default { background: #2d2d2d; color: #aaa; }\n' +
+'    .n-color-gray { background: #3a3a3a; color: #9b9a97; }\n' +
+'    .n-color-brown { background: #3d2b1f; color: #c4a882; }\n' +
+'    .n-color-orange { background: #4a2500; color: #e8850a; }\n' +
+'    .n-color-yellow { background: #3d3000; color: #dfab01; }\n' +
+'    .n-color-green { background: #0d2e1e; color: #3dba8a; }\n' +
+'    .n-color-blue { background: #0a2233; color: #4db8d9; }\n' +
+'    .n-color-purple { background: #281a4a; color: #a882d9; }\n' +
+'    .n-color-pink { background: #3d0d2a; color: #e05caa; }\n' +
+'    .n-color-red { background: #3d1010; color: #e06060; }\n' +
+'    [data-theme="light"] .n-color-default { background: #e3e2e0; color: #5a5a5a; }\n' +
+'    [data-theme="light"] .n-color-gray { background: #e3e2e0; color: #6b6b6b; }\n' +
+'    [data-theme="light"] .n-color-brown { background: #eee0da; color: #6b4c3b; }\n' +
+'    [data-theme="light"] .n-color-orange { background: #fadec9; color: #a05a00; }\n' +
+'    [data-theme="light"] .n-color-yellow { background: #fdecc8; color: #7a6200; }\n' +
+'    [data-theme="light"] .n-color-green { background: #dbeddb; color: #1a6b4a; }\n' +
+'    [data-theme="light"] .n-color-blue { background: #d3e5ef; color: #1a6b8a; }\n' +
+'    [data-theme="light"] .n-color-purple { background: #e8deee; color: #6b3fa0; }\n' +
+'    [data-theme="light"] .n-color-pink { background: #f5e0e9; color: #8b2a5e; }\n' +
+'    [data-theme="light"] .n-color-red { background: #ffe2dd; color: #a03030; }\n' +
 '    .content table { display: block; overflow-x: auto; border-collapse: collapse; margin-bottom: 1.4rem; font-size: 0.9rem; }\n' +
 '    .content th, .content td { border: 1px solid var(--border-mid); padding: 0.6rem 0.8rem; text-align: left; }\n' +
 '    .content th { background: var(--surface); font-weight: 600; color: var(--text); }\n' +
@@ -601,6 +622,61 @@ function generateLabEntryPage(entryEncrypted) {
 '      return parts[0] + ". " + parseInt(parts[1]) + ". " + parseInt(parts[2]);\n' +
 '    }\n' +
 '\n' +
+'    function initDbTables() {\n' +
+'      document.querySelectorAll(".db-container").forEach(function(container) {\n' +
+'        var scrollTop = container.querySelector(".db-scroll-top");\n' +
+'        var scrollSpacer = container.querySelector(".db-scroll-spacer");\n' +
+'        var tableWrap = container.querySelector(".db-table-wrap");\n' +
+'        var table = container.querySelector(".db-table");\n' +
+'        var filterInput = container.querySelector(".db-filter-input");\n' +
+'        var rowCount = container.querySelector(".db-row-count");\n' +
+'        if (!scrollTop || !tableWrap || !table) return;\n' +
+'        /* sync top scrollbar width */\n' +
+'        function syncWidth() { scrollSpacer.style.width = table.scrollWidth + "px"; }\n' +
+'        syncWidth();\n' +
+'        var ro = window.ResizeObserver ? new ResizeObserver(syncWidth) : null;\n' +
+'        if (ro) ro.observe(table);\n' +
+'        var syncing = false;\n' +
+'        scrollTop.addEventListener("scroll", function() { if (!syncing) { syncing = true; tableWrap.scrollLeft = scrollTop.scrollLeft; syncing = false; } });\n' +
+'        tableWrap.addEventListener("scroll", function() { if (!syncing) { syncing = true; scrollTop.scrollLeft = tableWrap.scrollLeft; syncing = false; } });\n' +
+'        /* sort */\n' +
+'        var ths = table.querySelectorAll("thead th");\n' +
+'        var tbody = table.querySelector("tbody");\n' +
+'        var totalRows = tbody ? tbody.querySelectorAll("tr").length : 0;\n' +
+'        ths.forEach(function(th) {\n' +
+'          th.addEventListener("click", function() {\n' +
+'            var col = parseInt(th.getAttribute("data-col"));\n' +
+'            var asc = !th.classList.contains("sort-asc");\n' +
+'            ths.forEach(function(h) { h.classList.remove("sort-asc", "sort-desc"); });\n' +
+'            th.classList.add(asc ? "sort-asc" : "sort-desc");\n' +
+'            var rows = Array.from(tbody.querySelectorAll("tr"));\n' +
+'            rows.sort(function(a, b) {\n' +
+'              var at = (a.children[col] ? a.children[col].textContent : "").trim().toLowerCase();\n' +
+'              var bt = (b.children[col] ? b.children[col].textContent : "").trim().toLowerCase();\n' +
+'              var an = parseFloat(at), bn = parseFloat(bt);\n' +
+'              if (!isNaN(an) && !isNaN(bn)) return asc ? an - bn : bn - an;\n' +
+'              return asc ? at.localeCompare(bt) : bt.localeCompare(at);\n' +
+'            });\n' +
+'            rows.forEach(function(r) { tbody.appendChild(r); });\n' +
+'          });\n' +
+'        });\n' +
+'        /* filter */\n' +
+'        if (filterInput) {\n' +
+'          filterInput.addEventListener("input", function() {\n' +
+'            var q = filterInput.value.toLowerCase();\n' +
+'            var visible = 0;\n' +
+'            tbody.querySelectorAll("tr").forEach(function(row) {\n' +
+'              var text = row.textContent.toLowerCase();\n' +
+'              var match = !q || text.indexOf(q) !== -1;\n' +
+'              row.classList.toggle("db-row-hidden", !match);\n' +
+'              if (match) visible++;\n' +
+'            });\n' +
+'            if (rowCount) rowCount.textContent = (q ? visible + "/" : "") + totalRows + "개 항목";\n' +
+'          });\n' +
+'        }\n' +
+'      });\n' +
+'    }\n' +
+'\n' +
 '    function renderEntry(entry) {\n' +
 '      document.getElementById("entry-date").textContent = formatDate(entry.date);\n' +
 '      document.getElementById("entry-tags").innerHTML = (entry.tags || []).map(function(t) { return \'<span class="tag">#\' + t + "</span>"; }).join("");\n' +
@@ -613,6 +689,7 @@ function generateLabEntryPage(entryEncrypted) {
 '          delimiters: [{left:"\\\\[",right:"\\\\]",display:true},{left:"\\\\(",right:"\\\\)",display:false}]\n' +
 '        });\n' +
 '      }\n' +
+'      initDbTables();\n' +
 '    }\n' +
 '\n' +
 '    function unlock() {\n' +
