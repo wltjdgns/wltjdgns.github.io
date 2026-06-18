@@ -403,10 +403,15 @@ async function fetchBioBlocks() {
       currentKey = getText(block[type].rich_text);
       sections[currentKey] = [];
     } else if (currentKey) {
-      let text = '';
-      if (type === 'bulleted_list_item') text = getText(block.bulleted_list_item.rich_text);
-      else if (type === 'paragraph') text = getText(block.paragraph.rich_text);
-      if (text) sections[currentKey].push(text);
+      if (type === 'to_do') {
+        const text = getText(block.to_do.rich_text);
+        if (text) sections[currentKey].push({ text, checked: !!block.to_do.checked });
+      } else {
+        let text = '';
+        if (type === 'bulleted_list_item') text = getText(block.bulleted_list_item.rich_text);
+        else if (type === 'paragraph') text = getText(block.paragraph.rich_text);
+        if (text) sections[currentKey].push(text);
+      }
     }
   }
   return sections;

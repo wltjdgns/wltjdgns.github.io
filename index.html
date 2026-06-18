@@ -72,10 +72,19 @@
         .about-card-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 1rem; }
         .chip-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
         .chip { padding: 0.3rem 0.75rem; border-radius: 20px; font-size: 0.82rem; background: var(--surface); border: 1px solid var(--border-mid); color: var(--chip-text); }
-        .now-item { display: flex; flex-direction: column; gap: 0.3rem; padding: 0.6rem 0; border-bottom: 1px solid var(--border-subtle); }
-        .now-item:last-child { border-bottom: none; }
-        .now-item-label { font-size: 0.72rem; color: var(--gray); }
-        .now-item-value { font-size: 0.9rem; color: var(--text); font-weight: 300; }
+        /* ── Todo List ── */
+        .todo-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border-subtle); }
+        .todo-item:last-child { border-bottom: none; }
+        .todo-checkbox { font-size: 0.9rem; flex-shrink: 0; line-height: 1; }
+        .todo-text { font-size: 0.9rem; color: var(--text); font-weight: 300; }
+        .todo-item.done .todo-text { text-decoration: line-through; opacity: 0.45; }
+        .todo-item.done .todo-checkbox { opacity: 0.45; }
+        .todo-done-details { border: none; margin-top: 0.5rem; }
+        .todo-done-details summary { font-size: 0.78rem; color: var(--gray); cursor: pointer; padding: 0.4rem 0; list-style: none; display: flex; align-items: center; gap: 0.4rem; }
+        .todo-done-details summary::before { content: '▶'; font-size: 0.55rem; color: var(--gray); transition: transform 0.2s; }
+        .todo-done-details[open] summary::before { transform: rotate(90deg); }
+        .todo-done-details summary:hover { color: var(--text); }
+        .todo-done-content { padding-top: 0.3rem; }
         .edu-item { padding: 0.7rem 0; border-bottom: 1px solid var(--border-subtle); }
         .edu-item:last-child { border-bottom: none; }
         .edu-item-title { font-size: 0.9rem; color: var(--text); font-weight: 400; }
@@ -182,8 +191,8 @@
                     <div class="chip-group" id="chip-group"></div>
                 </div>
                 <div class="about-card">
-                    <p class="about-card-label">지금 하는 것</p>
-                    <div id="now-container"></div>
+                    <p class="about-card-label">Todo</p>
+                    <div id="todo-container"></div>
                 </div>
             </div>
             <div class="about-card" id="edu-card" style="margin-top:1rem;display:none;">
@@ -297,17 +306,25 @@
                     interests.map(i => `<span class="chip">${esc(i)}</span>`).join('');
             }
 
-            const nowItems = bio['지금 하는 것'] || [];
-            if (nowItems.length) {
-                document.getElementById('now-container').innerHTML = nowItems.map(item => {
-                    const match = item.match(/^\((.+?)\)\s*(.+)/);
-                    const label = match ? match[1] : '현재';
-                    const value = match ? match[2] : item;
-                    return `<div class="now-item">
-                        <span class="now-item-label">${esc(label)}</span>
-                        <span class="now-item-value">${esc(value)}</span>
-                    </div>`;
-                }).join('');
+            const todoItems = bio['Todo'] || [];
+            if (todoItems.length) {
+                const pending = todoItems.filter(i => !i.checked);
+                const done = todoItems.filter(i => i.checked);
+                let todoHtml = '';
+                todoHtml += pending.map(i => `<div class="todo-item">
+                    <span class="todo-checkbox">☐</span>
+                    <span class="todo-text">${esc(i.text)}</span>
+                </div>`).join('');
+                if (done.length) {
+                    todoHtml += `<details class="todo-done-details">
+                        <summary>완료 (${done.length})</summary>
+                        <div class="todo-done-content">${done.map(i => `<div class="todo-item done">
+                            <span class="todo-checkbox">☑</span>
+                            <span class="todo-text">${esc(i.text)}</span>
+                        </div>`).join('')}</div>
+                    </details>`;
+                }
+                document.getElementById('todo-container').innerHTML = todoHtml;
             }
 
             const edu = bio['학력'] || bio['Education'] || [];
