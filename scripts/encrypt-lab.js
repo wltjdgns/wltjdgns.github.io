@@ -7,7 +7,7 @@ const TOKEN = process.env.NOTION_TOKEN;
 const LAB_DB_ID = process.env.NOTION_LAB_DB_ID;
 const LAB_PASSWORD = process.env.LAB_PASSWORD;
 
-function notionRequest(endpoint, method = 'GET', body = null) {
+function notionRequest(endpoint, method = 'GET', body = null, retries = 3) {
   return new Promise((resolve, reject) => {
     const options = {
       hostname: 'api.notion.com',
@@ -22,7 +22,20 @@ function notionRequest(endpoint, method = 'GET', body = null) {
     const req = https.request(options, res => {
       let data = '';
       res.on('data', chunk => data += chunk);
-      res.on('end', () => resolve(JSON.parse(data)));
+      res.on('end', () => {
+        const status = res.statusCode;
+        if (status >= 500 && retries > 0) {
+          const delay = (4 - retries) * 3000;
+          console.warn(`  ⚠️  Notion API ${status}, ${delay/1000}초 후 재시도 (남은 횟수: ${retries})...`);
+          setTimeout(() => notionRequest(endpoint, method, body, retries - 1).then(resolve).catch(reject), delay);
+          return;
+        }
+        try {
+          resolve(JSON.parse(data));
+        } catch (e) {
+          reject(new Error(`Notion API HTTP ${status}: ${data.slice(0, 100)}`));
+        }
+      });
     });
     req.on('error', reject);
     if (body) req.write(JSON.stringify(body));
