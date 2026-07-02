@@ -35,7 +35,6 @@
   ],
   "bio": {
     "관심 분야": [
-      "Game Dev",
       "ML/DL",
       "Computer Vision",
       "Sensor Fusion"
@@ -66,7 +65,19 @@
         "checked": false
       },
       {
-        "text": "분류된 논문들 중에 읽어볼만한 논문 찾기",
+        "text": "EVWaymo paper reading",
+        "checked": false
+      },
+      {
+        "text": "FPS 조절해서 실제 sync data 확인해보기",
+        "checked": false
+      },
+      {
+        "text": "OSC 견적",
+        "checked": false
+      },
+      {
+        "text": "D1 옮기기",
         "checked": false
       }
     ],
@@ -78,5 +89,5 @@
       "B.E. EE, Kyungpook National University(2019~2024)"
     ]
   },
-  "updatedAt": "2026-07-02T02:09:34.399Z"
+  "updatedAt": "2026-07-02T06:29:40.580Z"
 }
