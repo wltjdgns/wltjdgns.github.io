@@ -438,11 +438,15 @@ function generateLabEntryPage(entryEncrypted) {
 '  <script>(function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);})();</script>\n' +
 '  <link rel="preconnect" href="https://fonts.googleapis.com">\n' +
 '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
-'  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&display=swap" rel="stylesheet">\n' +
+'  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">\n' +
 '  <link rel="stylesheet" href="/theme.css">\n' +
 '  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">\n' +
 '  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>\n' +
 '  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>\n' +
+'  <link id="hl-dark" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark.min.css">\n' +
+'  <link id="hl-light" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css" disabled>\n' +
+'  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>\n' +
+'  <script>(function(){function pick(){var t=document.documentElement.getAttribute("data-theme")||"dark";var d=document.getElementById("hl-dark"),l=document.getElementById("hl-light");if(d)d.disabled=(t!=="dark");if(l)l.disabled=(t==="dark");}new MutationObserver(pick).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});document.addEventListener("DOMContentLoaded",pick);})();</script>\n' +
 '  <style>\n' +
 '    * { margin: 0; padding: 0; box-sizing: border-box; }\n' +
 '    body { background: var(--bg); color: var(--text); font-family: \'Inter\', \'IBM Plex Sans KR\', sans-serif; line-height: 1.8; word-break: keep-all; transition: background-color 0.3s, color 0.3s; }\n' +
@@ -482,6 +486,7 @@ function generateLabEntryPage(entryEncrypted) {
 '    .content pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; overflow-x: auto; margin-bottom: 1.4rem; }\n' +
 '    .content code { font-family: \'JetBrains Mono\', \'Fira Code\', monospace; font-size: 0.88rem; color: var(--accent); }\n' +
 '    .content pre code { color: var(--text-soft); }\n' +
+'    .content pre code.hljs { background: transparent; padding: 0; }\n' +
 '    .content blockquote { border-left: 3px solid var(--blockquote-border); padding-left: 1.2rem; color: var(--muted); font-style: italic; margin-bottom: 1.4rem; }\n' +
 '    .content hr { border: none; border-top: 1px solid var(--border-subtle); margin: 2rem 0; }\n' +
 '    .content figure { margin-bottom: 1.4rem; }\n' +
@@ -739,6 +744,7 @@ function generateLabEntryPage(entryEncrypted) {
 '          delimiters: [{left:"\\\\[",right:"\\\\]",display:true},{left:"\\\\(",right:"\\\\)",display:false}]\n' +
 '        });\n' +
 '      }\n' +
+'      if (window.hljs) { document.querySelectorAll("#entry-body pre code").forEach(function(el){ hljs.highlightElement(el); }); }\n' +
 '      initDbTables();\n' +
 '    }\n' +
 '\n' +
