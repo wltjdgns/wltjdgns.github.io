@@ -183,11 +183,15 @@ function generateArticlePage(article, contentHtml) {
   <script>(function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t);})();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Sans+KR:wght@200;400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/theme.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'\\\\[',right:'\\\\]',display:true},{left:'\\\\(',right:'\\\\)',display:false}]})"></script>
+  <link id="hl-dark" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark.min.css">
+  <link id="hl-light" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css" disabled>
+  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js" onload="hljs.highlightAll()"></script>
+  <script>(function(){function pick(){var t=document.documentElement.getAttribute("data-theme")||"dark";var d=document.getElementById("hl-dark"),l=document.getElementById("hl-light");if(d)d.disabled=(t!=="dark");if(l)l.disabled=(t==="dark");}new MutationObserver(pick).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});document.addEventListener("DOMContentLoaded",pick);})();</script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: 'Inter', 'IBM Plex Sans KR', sans-serif; line-height: 1.8; word-break: keep-all; transition: background-color 0.3s, color 0.3s; }
@@ -213,6 +217,7 @@ function generateArticlePage(article, contentHtml) {
     .content pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; overflow-x: auto; margin-bottom: 1.4rem; }
     .content code { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 0.88rem; color: var(--accent); }
     .content pre code { color: var(--text-soft); }
+    .content pre code.hljs { background: transparent; padding: 0; }
     .content blockquote { border-left: 3px solid var(--blockquote-border); padding-left: 1.2rem; color: var(--muted); font-style: italic; margin-bottom: 1.4rem; }
     .content hr { border: none; border-top: 1px solid var(--border-subtle); margin: 2rem 0; }
     .content figure { margin-bottom: 1.4rem; }
